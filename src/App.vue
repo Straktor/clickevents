@@ -1,10 +1,6 @@
 <template>
   <v-app id="app">
-    <v-app-bar
-      color="#ec200c"
-      clipped-right
-      app
-    >
+    <v-app-bar color="#ec200c" clipped-right app>
       <v-img
         class="mx-2"
         :src="require('./assets/price_right_dollar_sign.png')"
@@ -13,18 +9,21 @@
         contain
       ></v-img>
 
-      <v-toolbar-title class="mainTitle">The <span>estimation</span> is right</v-toolbar-title>
+      <v-toolbar-title class="mainTitle"
+        >The <span>estimation</span> is right</v-toolbar-title
+      >
 
       <v-spacer></v-spacer>
 
-      <v-btn
-        icon
-        color="#fff"
-      >
+      <v-btn icon color="#fff">
         <v-icon>mdi-information</v-icon>
       </v-btn>
     </v-app-bar>
-    <router-view />
+    <v-main>
+      <v-container>
+        <router-view />
+      </v-container>
+    </v-main>
   </v-app>
 </template>
 
