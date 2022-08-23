@@ -1,12 +1,31 @@
 <template>
-  <div id="app">
-    Hello world
-    <nav>
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </nav>
+  <v-app id="app">
+    <v-app-bar
+      color="#ec200c"
+      clipped-right
+      app
+    >
+      <v-img
+        class="mx-2"
+        :src="require('./assets/price_right_dollar_sign.png')"
+        max-height="50"
+        max-width="35"
+        contain
+      ></v-img>
+
+      <v-toolbar-title class="mainTitle">The <span>estimation</span> is right</v-toolbar-title>
+
+      <v-spacer></v-spacer>
+
+      <v-btn
+        icon
+        color="#fff"
+      >
+        <v-icon>mdi-information</v-icon>
+      </v-btn>
+    </v-app-bar>
     <router-view />
-  </div>
+  </v-app>
 </template>
 
 <style lang="scss">
@@ -16,6 +35,30 @@
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+  background-image: url("assets/bluebg.png");
+  background-repeat: repeat;
+  min-height: 100vh;
+}
+
+.v-sheet.theme--light.v-toolbar.v-toolbar.v-app-bar {
+  color: white;
+}
+
+@font-face {
+  font-family: "pricedown";
+  src: url("assets/fonts/pricedown/pricedown_bl-webfont.woff2") format("woff2"),
+    url("assets/fonts/pricedown/pricedown_bl-webfont.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+.mainTitle {
+  font-family: pricedown;
+  font-size: 35px;
+
+  span {
+    color: #faf817;
+  }
 }
 
 nav {
