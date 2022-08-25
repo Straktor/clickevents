@@ -1,6 +1,10 @@
 <template>
   <v-app id="app">
-    <v-app-bar color="#ec200c" clipped-right app>
+    <v-app-bar
+      color="#ec200c"
+      clipped-right
+      app
+    >
       <v-img
         class="mx-2"
         :src="require('./assets/price_right_dollar_sign.png')"
@@ -9,13 +13,15 @@
         contain
       ></v-img>
 
-      <v-toolbar-title class="mainTitle"
-        >The <span>estimation</span> is right
+      <v-toolbar-title class="mainTitle">The <span>estimation</span> is right
       </v-toolbar-title>
 
       <v-spacer></v-spacer>
 
-      <v-btn icon color="#fff">
+      <v-btn
+        icon
+        color="#fff"
+      >
         <v-icon>mdi-information</v-icon>
       </v-btn>
     </v-app-bar>
@@ -33,7 +39,6 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
   background-image: url("assets/bluebg.png");
   background-repeat: repeat;
   min-height: 100vh;
@@ -56,20 +61,7 @@
   font-size: 35px;
 
   span {
-    color: #faf817;
-  }
-}
-
-nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
+    color: var(--v-cYellow-base);
   }
 }
 </style>

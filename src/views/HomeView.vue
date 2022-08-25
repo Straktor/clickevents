@@ -1,7 +1,11 @@
 <template>
   <v-row>
     <v-col>
-      <v-sheet min-height="90vh" rounded="lg" class="test2">
+      <v-sheet
+        min-height="90vh"
+        rounded="lg"
+        class="test2"
+      >
         <v-timeline dense>
           <v-timeline-item
             v-for="(item, i) in items"
@@ -10,12 +14,21 @@
             icon="mdi-star"
             fill-dot
           >
-            <v-card rounded="lg" dark :color="item.color">
+            <v-card
+              rounded="lg"
+              dark
+              :color="item.color"
+            >
               <v-card-title class="text-h6">
                 {{ item.type }}
               </v-card-title>
               <v-card-text class="white text--primary">
-                <div v-for="(c, i) in item.content" :key="i">-{{ c }}</div>
+                <div
+                  v-for="(c, i) in item.content"
+                  :key="i"
+                >
+                  -{{ c }}
+                </div>
                 <!-- v-if type is this then add component, mode for editing (true or false, if false then read only) -->
               </v-card-text>
             </v-card>
@@ -24,7 +37,11 @@
       </v-sheet>
     </v-col>
     <v-col cols="3">
-      <v-sheet rounded="lg" class="rightPanel" min-height="90vh">
+      <v-sheet
+        rounded="lg"
+        class="rightPanel"
+        min-height="90vh"
+      >
         <h2 class="rightPanel-title">Teams</h2>
         <!-- <v-list color="transparent">
                 <v-list-item
@@ -63,11 +80,11 @@
 export default {
   name: "HomeView",
   components: {},
-  data() {
+  data () {
     return {
       items: [
         {
-          color: "#2c773f",
+          color: "cGreen",
           type: "Estimation",
           content: [
             "Number of points",
@@ -78,12 +95,12 @@ export default {
           ],
         },
         {
-          color: "#dc2261",
+          color: "cPink",
           type: "Task completed",
           content: ["Task", "Number of points", "In production checkbox"],
         },
         {
-          color: "#f8a73f",
+          color: "cOrange",
           type: "Progress Report",
           content: [
             "Number of items completed",
@@ -92,12 +109,12 @@ export default {
           ],
         },
         {
-          color: "#ec200c",
+          color: "cRed",
           type: "Team Check-in",
           content: ["Format of check in", "Details (free form comments)"],
         },
         {
-          color: "#2c773f",
+          color: "cGreen",
           type: "New Stretch Goal",
           content: [
             "Task (jira number)",
@@ -106,7 +123,7 @@ export default {
           ],
         },
         {
-          color: "#dc2261",
+          color: "cPink",
           type: "Code Review Completed",
           content: [
             "Task",
@@ -115,7 +132,7 @@ export default {
           ],
         },
         {
-          color: "#f8a73f",
+          color: "cOrange",
           type: "Retrospective Meeting",
           content: [
             "Would more/less planning time be better",
@@ -132,16 +149,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.fakeclassforcolorpallet {
-  color: #ec200c;
-  color: #faf817;
-  color: #fbbf5d;
-  color: #dc2261;
-  color: #2c773f;
-  color: #628ecf;
-  color: #f8a73f;
-}
-
 .test2 {
   margin-top: 15px;
   background-color: transparent;
@@ -154,15 +161,14 @@ export default {
 
 .rightPanel {
   margin: 15px;
-  outline: 15px dotted #faf817;
+  outline: 15px dotted var(--v-cYellow-base);
   outline-offset: 5px;
-  background-color: #dc2261;
+  background-color: var(--v-cPink-base);
   font-family: pricedown;
 
   .rightPanel-title {
-    color: #faf817;
+    color: var(--v-cYellow-base);
     font-size: 35px;
   }
 }
-
 </style>
