@@ -36,13 +36,16 @@
         </v-timeline>
       </v-sheet>
     </v-col>
-    <v-col cols="3">
+    <v-col cols="4">
       <v-sheet
         rounded="lg"
-        class="rightPanel"
-        min-height="90vh"
+        class="rightPanel pa-2"
       >
         <h2 class="rightPanel-title">Teams</h2>
+        <TeamCard
+          teamName="TeamName"
+          text="Lorem Ipsium"
+        />
       </v-sheet>
     </v-col>
   </v-row>
@@ -50,10 +53,11 @@
 
 <script>
 // @ is an alias to /src
+import TeamCard from '@/components/TeamCard'
 
 export default {
   name: "HomeView",
-  components: {},
+  components: { TeamCard },
   data () {
     return {
       items: [
@@ -161,18 +165,13 @@ export default {
   top: 16px;
 }
 
-.v-card__title {
-  font-family: pricedown !important;
-  font-size: 25px !important;
-}
-
 .rightPanel {
   position: relative;
   margin: 15px;
   margin-top: 30px;
 
   outline-offset: 5px;
-  background-color: var(--v-cPink-base);
+  background-color: var(--v-cGreen-base);
   font-family: pricedown;
 
   &::after {
@@ -187,7 +186,7 @@ export default {
 
   .rightPanel-title {
     color: var(--v-cYellow-base);
-    font-size: 35px;
+    font-size: 50px;
   }
 }
 </style>
