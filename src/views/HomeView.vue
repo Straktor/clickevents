@@ -22,7 +22,7 @@
               <v-card-title class="text-h6">
                 {{ item.type }}
               </v-card-title>
-              <v-card-text class="white text--primary">
+              <v-card-text class="white text--primary pt-2">
                 <div
                   v-for="(c, i) in item.content"
                   :key="i"
@@ -131,10 +131,13 @@ export default {
 
 .v-timeline::before {
   height: calc(100% - 90px);
-  left: calc(48px - 2px);
   top: 42px;
   width: 4px;
   background-color: var(--v-cYellow-base);
+}
+
+.v-application--is-ltr .v-timeline--dense:not(.v-timeline--reverse)::before {
+  left: calc(48px - 2px);
 }
 
 .v-timeline::after {
