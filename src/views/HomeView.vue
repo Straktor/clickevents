@@ -43,32 +43,6 @@
         min-height="90vh"
       >
         <h2 class="rightPanel-title">Teams</h2>
-        <!-- <v-list color="transparent">
-                <v-list-item
-                  v-for="n in 5"
-                  :key="n"
-                  link
-                >
-                  <v-list-item-content>
-                    <v-list-item-title>
-                      List Item {{ n }}
-                    </v-list-item-title>
-                  </v-list-item-content>
-                </v-list-item>
-
-                <v-divider class="my-2"></v-divider>
-
-                <v-list-item
-                  link
-                  color="grey lighten-4"
-                >
-                  <v-list-item-content>
-                    <v-list-item-title>
-                      Refresh
-                    </v-list-item-title>
-                  </v-list-item-content>
-                </v-list-item>
-              </v-list> -->
       </v-sheet>
     </v-col>
   </v-row>
@@ -152,6 +126,36 @@ export default {
 .test2 {
   margin-top: 15px;
   background-color: transparent;
+  text-align: left;
+}
+
+.v-timeline::before {
+  height: calc(100% - 90px);
+  left: calc(48px - 2px);
+  top: 42px;
+  width: 4px;
+  background-color: var(--v-cYellow-base);
+}
+
+.v-timeline::after {
+  content: "";
+  position: absolute;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-right: 10px solid var(--v-cYellow-base);
+  transform: rotate(270deg);
+  top: calc(100% - 54px);
+  left: calc(48px - 4px);
+}
+
+.v-timeline-item__body > .v-card:not(.v-card--flat)::after,
+.v-timeline-item__body > .v-card:not(.v-card--flat):not(.v-card--link)::before {
+  top: 25px;
+}
+
+::v-deep .v-timeline-item__dot {
+  position: absolute;
+  top: 16px;
 }
 
 .v-card__title {
@@ -161,6 +165,7 @@ export default {
 
 .rightPanel {
   margin: 15px;
+  margin-top: 30px;
   outline: 15px dotted var(--v-cYellow-base);
   outline-offset: 5px;
   background-color: var(--v-cPink-base);

@@ -42,6 +42,7 @@
   background-image: url("assets/bluebg.png");
   background-repeat: repeat;
   min-height: 100vh;
+  font-family: "Silkscreen", cursive;
 }
 
 .v-sheet.theme--light.v-toolbar.v-toolbar.v-app-bar {
