@@ -165,25 +165,4 @@ export default {
   }
 }
 
-nav.rightDrawer {
-  border-left: 10px dotted #faf817 !important;
-  padding: 0;
-  color: #fff;
-  font-family: pricedown;
-  font-size: 25px;
-  background-color: transparent !important;
-
-  .rightDrawer-title {
-    padding: 0.5em;
-  }
-}
-
-::v-deep .v-navigation-drawer__content {
-  background-color: #dc2261;
-  margin-left: 0.1em;
-}
-
-::v-deep .v-navigation-drawer__border {
-  background-color: transparent !important;
-}
 </style>
