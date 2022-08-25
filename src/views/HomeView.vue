@@ -148,7 +148,7 @@ export default {
   border-right: 10px solid var(--v-cYellow-base);
   transform: rotate(270deg);
   top: calc(100% - 54px);
-  left: calc(48px - 4px);
+  left: calc(48px - 5px);
 }
 
 .v-timeline-item__body > .v-card:not(.v-card--flat)::after,
