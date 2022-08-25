@@ -167,12 +167,23 @@ export default {
 }
 
 .rightPanel {
+  position: relative;
   margin: 15px;
   margin-top: 30px;
-  outline: 15px dotted var(--v-cYellow-base);
+
   outline-offset: 5px;
   background-color: var(--v-cPink-base);
   font-family: pricedown;
+
+  &::after {
+    content: "";
+    position: absolute;
+    top: -20px;
+    left: -20px;
+    bottom: -20px;
+    right: -20px;
+    border: 15px var(--v-cYellow-base) dotted;
+  }
 
   .rightPanel-title {
     color: var(--v-cYellow-base);
