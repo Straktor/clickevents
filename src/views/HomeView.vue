@@ -4,7 +4,7 @@
       <v-sheet
         min-height="90vh"
         rounded="lg"
-        class="test2"
+        class="timelineContainer"
       >
         <v-timeline dense>
           <v-timeline-item
@@ -45,6 +45,7 @@
           v-for="(t, i) in teams"
           :key="i"
           :team="t"
+          :variant="i + 1"
           class="rightPanel--card ma-3 mt-0"
           :class="selectedTeam?.name === t.name ? 'selectedTeam' : ''"
           @click.native="selectTeam(t)"
@@ -183,7 +184,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.test2 {
+.timelineContainer {
   margin-top: 15px;
   background-color: transparent;
   text-align: left;

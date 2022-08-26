@@ -13,13 +13,13 @@
       </div>
       <div class="scoreCard">
         <img src="../assets/price_is_right_tag.png" />
-        <span>{{ team.points }}</span>
+        <span :class="`scoreCard--text-${variant}`">{{ team.points }}</span>
       </div>
     </v-card-title>
     <v-card-text class="teamCard--content">
       <span class="teamName">{{ team.name }}</span><br>
       {{ team.members.join(', ') }}<br><br>
-      # of items completed {{ team.numItems }}/{{ team.numItemsCompleted }}<br>
+      # of items completed {{ team.numItemsCompleted }}/{{ team.numItems }}<br>
       # of points completed {{ team.pointsCompleted }}/{{ team.points }}<br>
       # of code reviews completed {{ team.CRCompleted }}<br>
 
@@ -47,6 +47,10 @@ export default {
       type: Object,
       default: () => new Team({})
     },
+    variant: {
+      type: Number,
+      default: () => 1
+    }
   },
   data: () => {
     return {
@@ -105,8 +109,23 @@ export default {
         top: 50%;
         left: 55%;
         transform: translate(-50%, -50%);
-        font-family: "vtks animal 2";
-        font-size: 50px;
+        font-family: "Stylish Marker";
+        font-size: 75px;
+
+        &.scoreCard--text-1 {
+          font-family: "vtks animal 2";
+          font-size: 50px;
+        }
+
+        &.scoreCard--text-2 {
+          font-family: "Bristol";
+          font-size: 70px;
+        }
+
+        &.scoreCard--text-3 {
+          font-family: "VTKS  mural";
+          font-size: 65px;
+        }
       }
     }
   }
