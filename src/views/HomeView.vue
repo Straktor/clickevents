@@ -148,7 +148,7 @@ export default {
 .rightPanel {
   position: relative;
   margin: 15px;
-  margin-top: 30px;
+  margin-top: 39px;
 
   outline-offset: 5px;
   background-color: var(--v-cGreen-base);
