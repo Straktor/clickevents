@@ -1,11 +1,7 @@
 <template>
   <v-row>
     <v-col>
-      <v-sheet
-        min-height="90vh"
-        rounded="lg"
-        class="test2"
-      >
+      <v-sheet min-height="90vh" rounded="lg" class="test2">
         <v-timeline dense>
           <v-timeline-item
             v-for="(item, i) in items"
@@ -14,21 +10,41 @@
             icon="mdi-star"
             fill-dot
           >
-            <v-card
-              rounded="lg"
-              dark
-              :color="item.color"
-            >
+            <v-card rounded="lg" dark :color="item.color">
               <v-card-title class="text-h6">
                 {{ item.type }}
               </v-card-title>
               <v-card-text class="white text--primary pt-2">
-                <div
+                <div v-if="item.type == 'Estimation'">
+                  <v-row>
+                    <v-col cols="6">
+                      <p>Number of points</p>
+                      <input v-model="message" placeholder="50" />
+                    </v-col>
+                    <v-col cols="6">
+                      <p>List of tasks</p>
+                      <textarea v-model="message" placeholder="AUTO-1001, AUTO-1002" filled></textarea>
+                    </v-col>
+                    <v-col cols="6">
+                      <p>Risks</p>
+                      <textarea v-model="message" placeholder="We have a team member on call" filled></textarea>
+                    </v-col>
+                    <v-col cols="6">
+                      <p>Confidence level</p>
+                      <input v-model="message" placeholder="4" filled/>
+                    </v-col>
+                    <v-col cols="6">
+                      <p>Comments</p>
+                      <textarea v-model="message" placeholder="Testing" filled></textarea>
+                    </v-col>
+                  </v-row>
+                </div>
+                <!-- <div
                   v-for="(c, i) in item.content"
                   :key="i"
                 >
                   -{{ c }}
-                </div>
+                </div> -->
                 <!-- v-if type is this then add component, mode for editing (true or false, if false then read only) -->
               </v-card-text>
             </v-card>
@@ -37,15 +53,9 @@
       </v-sheet>
     </v-col>
     <v-col cols="4">
-      <v-sheet
-        rounded="lg"
-        class="rightPanel pa-2"
-      >
+      <v-sheet rounded="lg" class="rightPanel pa-2">
         <h2 class="rightPanel-title">Teams</h2>
-        <TeamCard
-          teamName="TeamName"
-          text="Lorem Ipsium"
-        />
+        <TeamCard teamName="TeamName" text="Lorem Ipsium" />
       </v-sheet>
     </v-col>
   </v-row>
@@ -53,12 +63,12 @@
 
 <script>
 // @ is an alias to /src
-import TeamCard from '@/components/TeamCard'
+import TeamCard from "@/components/TeamCard";
 
 export default {
   name: "HomeView",
   components: { TeamCard },
-  data () {
+  data() {
     return {
       items: [
         {
