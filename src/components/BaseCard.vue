@@ -37,19 +37,4 @@ export default {
   font-size: 25px;
   font-family: pricedown;
 }
-
-.v-card__text {
-  .row {
-    padding-bottom: 1em;
-
-    .col {
-      padding-top: 1em;
-      padding-bottom: 0;
-
-      p {
-        margin: 0;
-      }
-    }
-  }
-}
 </style>

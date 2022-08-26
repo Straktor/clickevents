@@ -9,8 +9,13 @@
       :item="itemType"
     />
 
+    <TaskCard
+      v-if="itemType.label === 'Task completed'"
+      :item="itemType"
+    />
+
     <v-card
-      v-if="itemType.label !== 'Estimation'"
+      v-if="!['Estimation', 'Task completed'].includes(itemType.label)"
       rounded="lg"
       dark
       :color="itemType.color"
@@ -33,11 +38,13 @@
 
 <script>
 import EstimationCard from '@/components/EstimationCard'
+import TaskCard from '@/components/TaskCard'
 
 export default {
   name: 'TimelineItem',
   components: {
-    EstimationCard
+    EstimationCard,
+    TaskCard
   },
   props: {
     item: {

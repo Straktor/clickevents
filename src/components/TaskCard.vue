@@ -1,59 +1,37 @@
 <template>
   <BaseCard :item="item">
     <v-row>
-      <v-col cols="6">
+      <v-col cols="4">
         <p>Number of points</p>
         <v-text-field
           v-model="message"
-          placeholder="50"
+          placeholder="5"
           outlined
           hide-details
           dense
         />
       </v-col>
 
-      <v-col cols="6">
-        <p>Confidence level</p>
+      <v-col cols="4">
+        <p>Task</p>
         <v-text-field
           v-model="message"
-          placeholder="4"
+          placeholder="AUTO-1001"
           outlined
           hide-details
           dense
         />
       </v-col>
-      <v-col cols="6">
-        <p>List of tasks</p>
-        <v-textarea
+      <v-col cols="4">
+        <p>In Production</p>
+        <v-checkbox
           v-model="message"
           placeholder="AUTO-1001, AUTO-1002"
           outlined
           hide-details
           dense
           rows="2"
-        ></v-textarea>
-      </v-col>
-      <v-col cols="6">
-        <p>Risks</p>
-        <v-textarea
-          v-model="message"
-          placeholder="We have a team member on call"
-          outlined
-          hide-details
-          dense
-          rows="2"
-        ></v-textarea>
-      </v-col>
-      <v-col cols="12">
-        <p>Comments</p>
-        <v-textarea
-          v-model="message"
-          placeholder="Testing"
-          outlined
-          hide-details
-          dense
-          rows="2"
-        ></v-textarea>
+        ></v-checkbox>
       </v-col>
     </v-row>
   </BaseCard>
