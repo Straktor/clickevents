@@ -5,7 +5,7 @@
     :color="item.color"
   >
     <v-card-title>
-      {{ item.type }}
+      {{ item.label }}
     </v-card-title>
     <v-card-text class="white text--primary pt-2">
       <v-row>

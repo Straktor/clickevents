@@ -5,12 +5,12 @@
     fill-dot
   >
     <EstimationCard
-      v-if="item.type === 'Estimation'"
-      :item="item"
+      v-if="itemType.label === 'Estimation'"
+      :item="itemType"
     />
 
     <v-card
-      v-if="item.type !== 'Estimation'"
+      v-if="itemType.label !== 'Estimation'"
       rounded="lg"
       dark
       :color="itemType.color"
@@ -52,7 +52,7 @@ export default {
         estimation: {
           label: "Estimation",
           color: "cGreen",
-          icon: "mdi-plus",
+          icon: "mdi-account-hard-hat",
           content: [
             "Number of points",
             "List of tasks",
@@ -64,7 +64,7 @@ export default {
         "task completed": {
           label: "Task completed",
           color: "cPink",
-          icon: "mdi-plus",
+          icon: "mdi-check-bold",
           content: [
             "Task",
             "Number of points",
@@ -74,7 +74,7 @@ export default {
         "progress report": {
           label: "Progress Report",
           color: "cOrange",
-          icon: "mdi-plus",
+          icon: "mdi-chart-areaspline",
           content: [
             "Number of items completed",
             "Confidence check",
@@ -84,7 +84,7 @@ export default {
         "team check-in": {
           label: "Team Check-in",
           color: "cRed",
-          icon: "mdi-plus",
+          icon: "mdi-human-queue",
           content: [
             "Format of check in",
             "Details (free form comments)"
@@ -93,7 +93,7 @@ export default {
         "new stretch goal": {
           label: "New Stretch Goal",
           color: "cGreen",
-          icon: "mdi-plus",
+          icon: "mdi-rocket-launch",
           content: [
             "Task (jira number)",
             "Number of points added",
@@ -103,7 +103,7 @@ export default {
         "code review completed": {
           label: "Code Review Completed",
           color: "cPink",
-          icon: "mdi-plus",
+          icon: "mdi-file-chart-check",
           content: [
             "Task",
             "Team Code Review Completed For",
@@ -113,7 +113,7 @@ export default {
         "retrospective meeting": {
           label: "Retrospective Meeting",
           color: "cOrange",
-          icon: "mdi-plus",
+          icon: "mdi-heart-multiple",
           content: [
             "Would more/less planning time be better",
             "What could the team have done to increase velocity",
