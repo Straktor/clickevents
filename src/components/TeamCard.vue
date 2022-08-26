@@ -25,11 +25,13 @@
 
       <v-progress-linear
         height="25"
-        v-model="test"
+        :value="team.percentageCompleted"
         color="cBlue darken-2"
         class="mt-2"
       >
-        <strong class="white--text">33%</strong>
+        <strong class="white--text">
+          {{ team.percentageCompleted }}%
+        </strong>
       </v-progress-linear>
     </v-card-text>
   </v-card>
@@ -48,7 +50,6 @@ export default {
   },
   data: () => {
     return {
-      test: 33
     }
   },
 }

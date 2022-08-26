@@ -7,6 +7,7 @@ class Team {
     this.numItemsCompleted = t.numItemsCompleted;
     this.CRCompleted = t.CRCompleted;
     this.pointsCompleted = t.pointsCompleted;
+    this.percentageCompleted = t.percentageCompleted;
   }
 }
 

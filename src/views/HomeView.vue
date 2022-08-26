@@ -72,7 +72,8 @@ export default {
           numItems: 5,
           numItemsCompleted: 3,
           CRCompleted: 2,
-          pointsCompleted: 11
+          pointsCompleted: 11,
+          percentageCompleted: 33
         }),
         new Team({
           name: 'Team 2',
@@ -81,8 +82,8 @@ export default {
           numItems: 10,
           numItemsCompleted: 4,
           CRCompleted: 1,
-          pointsCompleted: 21
-
+          pointsCompleted: 21,
+          percentageCompleted: 42
         }),
         new Team({
           name: 'Team 3',
@@ -91,8 +92,8 @@ export default {
           numItems: 6,
           numItemsCompleted: 4,
           CRCompleted: 5,
-          pointsCompleted: 22
-
+          pointsCompleted: 22,
+          percentageCompleted: 80
         }),
         new Team({
           name: 'Team 4',
@@ -101,8 +102,8 @@ export default {
           numItems: 7,
           numItemsCompleted: 3,
           CRCompleted: 1,
-          pointsCompleted: 4
-
+          pointsCompleted: 4,
+          percentageCompleted: 55
         })
       ],
       items: [
@@ -170,6 +171,11 @@ export default {
   },
   methods: {
     selectTeam (team) {
+      if (this.selectedTeam?.name === team.name) {
+        this.selectedTeam = undefined
+        return
+      }
+
       this.selectedTeam = team
     }
   }
