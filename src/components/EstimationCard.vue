@@ -1,52 +1,67 @@
 <template>
   <v-card
     rounded="lg"
-    dark
     :color="item.color"
+    class="white--text"
   >
     <v-card-title>
       {{ item.label }}
     </v-card-title>
-    <v-card-text class="white text--primary pt-2">
+    <v-card-text class="white pt-2">
       <v-row>
         <v-col cols="6">
           <p>Number of points</p>
-          <input
+          <v-text-field
             v-model="message"
             placeholder="50"
+            outlined
+            hide-details
+            dense
+          />
+        </v-col>
+
+        <v-col cols="6">
+          <p>Confidence level</p>
+          <v-text-field
+            v-model="message"
+            placeholder="4"
+            outlined
+            hide-details
+            dense
           />
         </v-col>
         <v-col cols="6">
           <p>List of tasks</p>
-          <textarea
+          <v-textarea
             v-model="message"
             placeholder="AUTO-1001, AUTO-1002"
-            filled
-          ></textarea>
+            outlined
+            hide-details
+            dense
+            rows="2"
+          ></v-textarea>
         </v-col>
         <v-col cols="6">
           <p>Risks</p>
-          <textarea
+          <v-textarea
             v-model="message"
             placeholder="We have a team member on call"
-            filled
-          ></textarea>
-        </v-col>
-        <v-col cols="6">
-          <p>Confidence level</p>
-          <input
-            v-model="message"
-            placeholder="4"
-            filled
-          />
+            outlined
+            hide-details
+            dense
+            rows="2"
+          ></v-textarea>
         </v-col>
         <v-col cols="12">
           <p>Comments</p>
-          <textarea
+          <v-textarea
             v-model="message"
             placeholder="Testing"
-            filled
-          ></textarea>
+            outlined
+            hide-details
+            dense
+            rows="2"
+          ></v-textarea>
         </v-col>
       </v-row>
     </v-card-text>
@@ -76,5 +91,20 @@ export default {
 .v-card__title {
   font-size: 25px;
   font-family: pricedown;
+}
+
+.v-card__text {
+  .row {
+    padding-bottom: 1em;
+
+    .col {
+      padding-top: 1em;
+      padding-bottom: 0;
+
+      p {
+        margin: 0;
+      }
+    }
+  }
 }
 </style>
