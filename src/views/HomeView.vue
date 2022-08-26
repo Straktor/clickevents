@@ -1,7 +1,11 @@
 <template>
   <v-row>
     <v-col>
-      <v-sheet min-height="90vh" rounded="lg" class="test2">
+      <v-sheet
+        min-height="90vh"
+        rounded="lg"
+        class="timelineContainer"
+      >
         <v-timeline dense>
           <v-timeline-item
             v-for="(item, i) in items"
@@ -10,8 +14,12 @@
             icon="mdi-star"
             fill-dot
           >
-            <v-card rounded="lg" dark :color="item.color">
-              <v-card-title class="text-h6">
+            <v-card
+              rounded="lg"
+              dark
+              :color="item.color"
+            >
+              <v-card-title>
                 {{ item.type }}
               </v-card-title>
               <v-card-text class="white text--primary pt-2">
@@ -19,23 +27,42 @@
                   <v-row>
                     <v-col cols="6">
                       <p>Number of points</p>
-                      <input v-model="message" placeholder="50" />
+                      <input
+                        v-model="message"
+                        placeholder="50"
+                      />
                     </v-col>
                     <v-col cols="6">
                       <p>List of tasks</p>
-                      <textarea v-model="message" placeholder="AUTO-1001, AUTO-1002" filled></textarea>
+                      <textarea
+                        v-model="message"
+                        placeholder="AUTO-1001, AUTO-1002"
+                        filled
+                      ></textarea>
                     </v-col>
                     <v-col cols="6">
                       <p>Risks</p>
-                      <textarea v-model="message" placeholder="We have a team member on call" filled></textarea>
+                      <textarea
+                        v-model="message"
+                        placeholder="We have a team member on call"
+                        filled
+                      ></textarea>
                     </v-col>
                     <v-col cols="6">
                       <p>Confidence level</p>
-                      <input v-model="message" placeholder="4" filled/>
+                      <input
+                        v-model="message"
+                        placeholder="4"
+                        filled
+                      />
                     </v-col>
                     <v-col cols="6">
                       <p>Comments</p>
-                      <textarea v-model="message" placeholder="Testing" filled></textarea>
+                      <textarea
+                        v-model="message"
+                        placeholder="Testing"
+                        filled
+                      ></textarea>
                     </v-col>
                   </v-row>
                 </div>
@@ -53,23 +80,77 @@
       </v-sheet>
     </v-col>
     <v-col cols="4">
-      <v-sheet rounded="lg" class="rightPanel pa-2">
+      <v-sheet
+        rounded="lg"
+        class="rightPanel pa-2"
+      >
         <h2 class="rightPanel-title">Teams</h2>
-        <TeamCard teamName="TeamName" text="Lorem Ipsium" />
+        <TeamCard
+          v-for="(t, i) in teams"
+          :key="i"
+          :team="t"
+          :variant="i + 1"
+          class="rightPanel--card ma-3 mt-0"
+          :class="selectedTeam?.name === t.name ? 'selectedTeam' : ''"
+          @click.native="selectTeam(t)"
+        />
       </v-sheet>
     </v-col>
   </v-row>
 </template>
 
 <script>
-// @ is an alias to /src
-import TeamCard from "@/components/TeamCard";
+import TeamCard from '@/components/TeamCard'
+import { Team } from '@/models/teamsModel.js'
 
 export default {
   name: "HomeView",
   components: { TeamCard },
-  data() {
+  data () {
     return {
+      selectedTeam: undefined,
+      teams: [
+        new Team({
+          name: 'Team 1',
+          points: 27,
+          members: ['Liam', 'Olivia', 'Noah', 'Emma', 'Oliver', 'Charlotte'],
+          numItems: 5,
+          numItemsCompleted: 3,
+          CRCompleted: 2,
+          pointsCompleted: 11,
+          percentageCompleted: 33
+        }),
+        new Team({
+          name: 'Team 2',
+          points: 85,
+          members: ['Elijah', 'Amelia', 'James', 'Ava', 'William', 'Sophia'],
+          numItems: 10,
+          numItemsCompleted: 4,
+          CRCompleted: 1,
+          pointsCompleted: 21,
+          percentageCompleted: 42
+        }),
+        new Team({
+          name: 'Team 3',
+          points: 13,
+          members: ['Benjamin', 'Isabella', 'Lucas', 'Mia', 'Henry'],
+          numItems: 6,
+          numItemsCompleted: 4,
+          CRCompleted: 5,
+          pointsCompleted: 22,
+          percentageCompleted: 80
+        }),
+        new Team({
+          name: 'Team 4',
+          points: 10,
+          members: ['Evelyn', 'Theodore', 'Harper'],
+          numItems: 7,
+          numItemsCompleted: 3,
+          CRCompleted: 1,
+          pointsCompleted: 4,
+          percentageCompleted: 55
+        })
+      ],
       items: [
         {
           color: "cGreen",
@@ -133,11 +214,21 @@ export default {
       ],
     };
   },
+  methods: {
+    selectTeam (team) {
+      if (this.selectedTeam?.name === team.name) {
+        this.selectedTeam = undefined
+        return
+      }
+
+      this.selectedTeam = team
+    }
+  }
 };
 </script>
 
 <style lang="scss" scoped>
-.test2 {
+.timelineContainer {
   margin-top: 15px;
   background-color: transparent;
   text-align: left;
@@ -175,6 +266,11 @@ export default {
   top: 16px;
 }
 
+.v-card__title {
+  font-size: 25px;
+  font-family: pricedown;
+}
+
 .rightPanel {
   position: relative;
   margin: 15px;
@@ -197,6 +293,16 @@ export default {
   .rightPanel-title {
     color: var(--v-cYellow-base);
     font-size: 50px;
+    text-decoration: underline;
+  }
+
+  .rightPanel--card {
+    cursor: pointer;
+    z-index: 2;
+  }
+
+  .selectedTeam {
+    outline: 5px solid var(--v-cYellow-base);
   }
 }
 </style>

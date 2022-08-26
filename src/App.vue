@@ -26,7 +26,7 @@
       </v-btn>
     </v-app-bar>
     <v-main>
-      <v-container fluid>
+      <v-container :fluid="!$vuetify.breakpoint.xlOnly">
         <router-view />
       </v-container>
     </v-main>
@@ -34,6 +34,50 @@
 </template>
 
 <style lang="scss">
+@font-face {
+  font-family: "pricedown";
+  src: url("assets/fonts/pricedown/pricedown_bl-webfont.woff2") format("woff2"),
+    url("assets/fonts/pricedown/pricedown_bl-webfont.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "vtks animal 2";
+  src: url("assets/fonts/vtksanimal2/vtksanimal2.woff2") format("woff2"),
+    url("assets/fonts/vtksanimal2/vtksanimal2.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Bristol";
+  src: url("assets/fonts/Bristol/Bristol.woff2") format("woff2"),
+    url("assets/fonts/Bristol/Bristol.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "VTKS  mural";
+  src: url("assets/fonts/VTKSmural/VTKSmural.woff2") format("woff2"),
+    url("assets/fonts/VTKSmural/VTKSmural.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Stylish Marker";
+  src: url("assets/fonts/StylishMarker/StylishMarker.woff2") format("woff2"),
+    url("assets/fonts/StylishMarker/StylishMarker.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -47,14 +91,6 @@
 
 .v-sheet.theme--light.v-toolbar.v-toolbar.v-app-bar {
   color: white;
-}
-
-@font-face {
-  font-family: "pricedown";
-  src: url("assets/fonts/pricedown/pricedown_bl-webfont.woff2") format("woff2"),
-    url("assets/fonts/pricedown/pricedown_bl-webfont.woff") format("woff");
-  font-weight: normal;
-  font-style: normal;
 }
 
 .mainTitle {
