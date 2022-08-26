@@ -14,35 +14,29 @@
       :item="itemType"
     />
 
-    <v-card
+    <BaseCard
       v-if="!['Estimation', 'Task completed'].includes(itemType.label)"
-      rounded="lg"
-      dark
-      :color="itemType.color"
+      :item="itemType"
     >
-      <v-card-title>
-        {{ itemType.label }}
-      </v-card-title>
-      <v-card-text class="white text--primary pt-2">
-
-        <div
-          v-for="(c, i) in itemType.content"
-          :key="i"
-        >
-          -{{ c }}
-        </div>
-      </v-card-text>
-    </v-card>
+      <div
+        v-for="(c, i) in itemType.content"
+        :key="i"
+      >
+        -{{ c }}
+      </div>
+    </BaseCard>
   </v-timeline-item>
 </template>
 
 <script>
 import EstimationCard from '@/components/EstimationCard'
 import TaskCard from '@/components/TaskCard'
+import BaseCard from '@/components/BaseCard'
 
 export default {
   name: 'TimelineItem',
   components: {
+    BaseCard,
     EstimationCard,
     TaskCard
   },
