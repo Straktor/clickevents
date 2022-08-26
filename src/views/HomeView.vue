@@ -2,80 +2,15 @@
   <v-row>
     <v-col>
       <v-sheet
-        min-height="90vh"
         rounded="lg"
         class="timelineContainer"
       >
         <v-timeline dense>
-          <v-timeline-item
+          <TimelineItem
             v-for="(item, i) in items"
             :key="i"
-            :color="item.color"
-            icon="mdi-star"
-            fill-dot
-          >
-            <v-card
-              rounded="lg"
-              dark
-              :color="item.color"
-            >
-              <v-card-title>
-                {{ item.type }}
-              </v-card-title>
-              <v-card-text class="white text--primary pt-2">
-                <div v-if="item.type == 'Estimation'">
-                  <v-row>
-                    <v-col cols="6">
-                      <p>Number of points</p>
-                      <input
-                        v-model="message"
-                        placeholder="50"
-                      />
-                    </v-col>
-                    <v-col cols="6">
-                      <p>List of tasks</p>
-                      <textarea
-                        v-model="message"
-                        placeholder="AUTO-1001, AUTO-1002"
-                        filled
-                      ></textarea>
-                    </v-col>
-                    <v-col cols="6">
-                      <p>Risks</p>
-                      <textarea
-                        v-model="message"
-                        placeholder="We have a team member on call"
-                        filled
-                      ></textarea>
-                    </v-col>
-                    <v-col cols="6">
-                      <p>Confidence level</p>
-                      <input
-                        v-model="message"
-                        placeholder="4"
-                        filled
-                      />
-                    </v-col>
-                    <v-col cols="6">
-                      <p>Comments</p>
-                      <textarea
-                        v-model="message"
-                        placeholder="Testing"
-                        filled
-                      ></textarea>
-                    </v-col>
-                  </v-row>
-                </div>
-                <!-- <div
-                  v-for="(c, i) in item.content"
-                  :key="i"
-                >
-                  -{{ c }}
-                </div> -->
-                <!-- v-if type is this then add component, mode for editing (true or false, if false then read only) -->
-              </v-card-text>
-            </v-card>
-          </v-timeline-item>
+            :item="item"
+          />
         </v-timeline>
       </v-sheet>
     </v-col>
@@ -101,11 +36,12 @@
 
 <script>
 import TeamCard from '@/components/TeamCard'
+import TimelineItem from '@/components/TimelineItem'
 import { Team } from '@/models/teamsModel.js'
 
 export default {
   name: "HomeView",
-  components: { TeamCard },
+  components: { TeamCard, TimelineItem },
   data () {
     return {
       selectedTeam: undefined,
@@ -152,65 +88,13 @@ export default {
         })
       ],
       items: [
-        {
-          color: "cGreen",
-          type: "Estimation",
-          content: [
-            "Number of points",
-            "List of tasks",
-            "Risks",
-            "Confidence level",
-            "Comments",
-          ],
-        },
-        {
-          color: "cPink",
-          type: "Task completed",
-          content: ["Task", "Number of points", "In production checkbox"],
-        },
-        {
-          color: "cOrange",
-          type: "Progress Report",
-          content: [
-            "Number of items completed",
-            "Confidence check",
-            "Percentage completed (Progress bar)",
-          ],
-        },
-        {
-          color: "cRed",
-          type: "Team Check-in",
-          content: ["Format of check in", "Details (free form comments)"],
-        },
-        {
-          color: "cGreen",
-          type: "New Stretch Goal",
-          content: [
-            "Task (jira number)",
-            "Number of points added",
-            "Confidence check",
-          ],
-        },
-        {
-          color: "cPink",
-          type: "Code Review Completed",
-          content: [
-            "Task",
-            "Team Code Review Completed For",
-            "Link to CR in gitlab",
-          ],
-        },
-        {
-          color: "cOrange",
-          type: "Retrospective Meeting",
-          content: [
-            "Would more/less planning time be better",
-            "What could the team have done to increase velocity",
-            "What would you change if you did it again?",
-            "How did you handle WIPs? (Limit the number of them, each person has a WIP task, etc.)",
-            "What are the other key takeaways",
-          ],
-        },
+        "Estimation",
+        "Task completed",
+        "Progress Report",
+        "Team Check-in",
+        "New Stretch Goal",
+        "Code Review Completed",
+        "Retrospective Meeting",
       ],
     };
   },
@@ -241,10 +125,6 @@ export default {
   background-color: var(--v-cYellow-base);
 }
 
-.v-application--is-ltr .v-timeline--dense:not(.v-timeline--reverse)::before {
-  left: calc(48px - 2px);
-}
-
 .v-timeline::after {
   content: "";
   position: absolute;
@@ -256,14 +136,8 @@ export default {
   left: calc(48px - 5px);
 }
 
-.v-timeline-item__body > .v-card:not(.v-card--flat)::after,
-.v-timeline-item__body > .v-card:not(.v-card--flat):not(.v-card--link)::before {
-  top: 25px;
-}
-
-::v-deep .v-timeline-item__dot {
-  position: absolute;
-  top: 16px;
+.v-application--is-ltr .v-timeline--dense:not(.v-timeline--reverse)::before {
+  left: calc(48px - 2px);
 }
 
 .v-card__title {
