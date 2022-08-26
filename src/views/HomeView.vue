@@ -19,7 +19,7 @@
               dark
               :color="item.color"
             >
-              <v-card-title class="text-h6">
+              <v-card-title>
                 {{ item.type }}
               </v-card-title>
               <v-card-text class="white text--primary pt-2">
@@ -29,7 +29,6 @@
                 >
                   -{{ c }}
                 </div>
-                <!-- v-if type is this then add component, mode for editing (true or false, if false then read only) -->
               </v-card-text>
             </v-card>
           </v-timeline-item>
@@ -43,8 +42,12 @@
       >
         <h2 class="rightPanel-title">Teams</h2>
         <TeamCard
-          teamName="TeamName"
-          text="Lorem Ipsium"
+          v-for="(t, i) in teams"
+          :key="i"
+          :team="t"
+          class="rightPanel--card ma-3 mt-0"
+          :class="selectedTeam?.name === t.name ? 'selectedTeam' : ''"
+          @click.native="selectTeam(t)"
         />
       </v-sheet>
     </v-col>
@@ -52,14 +55,56 @@
 </template>
 
 <script>
-// @ is an alias to /src
 import TeamCard from '@/components/TeamCard'
+import { Team } from '@/models/teamsModel.js'
 
 export default {
   name: "HomeView",
   components: { TeamCard },
   data () {
     return {
+      selectedTeam: undefined,
+      teams: [
+        new Team({
+          name: 'Team 1',
+          points: 27,
+          members: ['Liam', 'Olivia', 'Noah', 'Emma', 'Oliver', 'Charlotte'],
+          numItems: 5,
+          numItemsCompleted: 3,
+          CRCompleted: 2,
+          pointsCompleted: 11
+        }),
+        new Team({
+          name: 'Team 2',
+          points: 85,
+          members: ['Elijah', 'Amelia', 'James', 'Ava', 'William', 'Sophia'],
+          numItems: 10,
+          numItemsCompleted: 4,
+          CRCompleted: 1,
+          pointsCompleted: 21
+
+        }),
+        new Team({
+          name: 'Team 3',
+          points: 13,
+          members: ['Benjamin', 'Isabella', 'Lucas', 'Mia', 'Henry'],
+          numItems: 6,
+          numItemsCompleted: 4,
+          CRCompleted: 5,
+          pointsCompleted: 22
+
+        }),
+        new Team({
+          name: 'Team 4',
+          points: 10,
+          members: ['Evelyn', 'Theodore', 'Harper'],
+          numItems: 7,
+          numItemsCompleted: 3,
+          CRCompleted: 1,
+          pointsCompleted: 4
+
+        })
+      ],
       items: [
         {
           color: "cGreen",
@@ -123,6 +168,11 @@ export default {
       ],
     };
   },
+  methods: {
+    selectTeam (team) {
+      this.selectedTeam = team
+    }
+  }
 };
 </script>
 
@@ -165,6 +215,11 @@ export default {
   top: 16px;
 }
 
+.v-card__title {
+  font-size: 25px;
+  font-family: pricedown;
+}
+
 .rightPanel {
   position: relative;
   margin: 15px;
@@ -187,6 +242,16 @@ export default {
   .rightPanel-title {
     color: var(--v-cYellow-base);
     font-size: 50px;
+    text-decoration: underline;
+  }
+
+  .rightPanel--card {
+    cursor: pointer;
+    z-index: 2;
+  }
+
+  .selectedTeam {
+    outline: 5px solid var(--v-cYellow-base);
   }
 }
 </style>

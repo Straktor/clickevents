@@ -2,32 +2,54 @@
   <v-card
     rounded="lg"
     color="cPink"
-    class="ma-3"
+    class="teamCard"
   >
-    <v-card-title>
-      {{ teamName }}
+    <v-card-title class="teamCard--title pb-0">
+      <div class="teamInfo">
+        <img
+          :src="`https://avatars.dicebear.com/api/bottts/${team.name}.svg`"
+          class="pa-1 mx-2"
+        />
+      </div>
+      <div class="scoreCard">
+        <img src="../assets/price_is_right_tag.png" />
+        <span>{{ team.points }}</span>
+      </div>
     </v-card-title>
-    <v-card-text class="pt-2">
-      {{ text }}
+    <v-card-text class="teamCard--content">
+      <span class="teamName">{{ team.name }}</span><br>
+      {{ team.members.join(', ') }}<br><br>
+      # of items completed {{ team.numItems }}/{{ team.numItemsCompleted }}<br>
+      # of points completed {{ team.pointsCompleted }}/{{ team.points }}<br>
+      # of code reviews completed {{ team.CRCompleted }}<br>
+
+      <v-progress-linear
+        height="25"
+        v-model="test"
+        color="cBlue darken-2"
+        class="mt-2"
+      >
+        <strong class="white--text">33%</strong>
+      </v-progress-linear>
     </v-card-text>
   </v-card>
 </template>
 
 <script>
+import { Team } from '@/models/teamsModel.js'
+
 export default {
   name: 'TeamCard',
   props: {
-    teamName: {
-      type: String,
-      default: () => ''
-    },
-    text: {
-      type: String,
-      default: () => ''
+    team: {
+      type: Object,
+      default: () => new Team({})
     },
   },
   data: () => {
-    return {}
+    return {
+      test: 33
+    }
   },
 }
 </script>
@@ -36,7 +58,6 @@ export default {
 <style lang="scss" scoped>
 .v-card {
   color: white;
-  font-family: pricedown;
 
   .v-card__text {
     color: white;
@@ -44,6 +65,61 @@ export default {
 
   .v-card__title {
     font-size: 25px;
+    font-family: pricedown;
+  }
+}
+
+.teamCard {
+  .teamCard--title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    & > .teamInfo {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      & > img {
+        margin-left: auto;
+        margin-right: auto;
+        border-radius: 50%;
+        width: 3.5em;
+        background-image: url("../assets/bluebg.png");
+        border: 3px solid var(--v-cYellow-base);
+      }
+    }
+
+    & > .scoreCard {
+      position: relative;
+      text-align: center;
+      color: black;
+
+      & > img {
+        width: 6.5em;
+      }
+
+      & > span {
+        position: absolute;
+        top: 50%;
+        left: 55%;
+        transform: translate(-50%, -50%);
+        font-family: "vtks animal 2";
+        font-size: 50px;
+      }
+    }
+  }
+
+  .teamCard--content {
+    text-align: left;
+    font-family: "Silkscreen", cursive;
+    font-weight: bold;
+  }
+
+  .teamName {
+    font-size: 35px;
+    font-family: pricedown;
+    font-weight: normal;
   }
 }
 </style>
