@@ -14,8 +14,13 @@
       :item="itemType"
     />
 
+    <ProgressReportCard
+      v-if="itemType.label === 'Progress Report'"
+      :item="itemType"
+    />
+
     <BaseCard
-      v-if="!['Estimation', 'Task completed'].includes(itemType.label)"
+      v-if="!['Estimation', 'Task completed', 'Progress Report'].includes(itemType.label)"
       :item="itemType"
     >
       <div
@@ -31,12 +36,14 @@
 <script>
 import EstimationCard from '@/components/EstimationCard'
 import TaskCard from '@/components/TaskCard'
+import ProgressReportCard from '@/components/ProgressReportCard'
 import BaseCard from '@/components/BaseCard'
 
 export default {
   name: 'TimelineItem',
   components: {
     BaseCard,
+    ProgressReportCard,
     EstimationCard,
     TaskCard
   },
