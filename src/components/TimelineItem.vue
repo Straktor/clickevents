@@ -19,17 +19,25 @@
       :item="itemType"
     />
 
-    <BaseCard
-      v-if="!['Estimation', 'Task completed', 'Progress Report'].includes(itemType.label)"
+    <CheckInCard
+      v-if="itemType.label === 'Team Check-in'"
       :item="itemType"
-    >
-      <div
-        v-for="(c, i) in itemType.content"
-        :key="i"
-      >
-        -{{ c }}
-      </div>
-    </BaseCard>
+    />
+
+    <NewStretchGoalCard
+      v-if="itemType.label === 'New Stretch Goal'"
+      :item="itemType"
+    />
+
+     <CodeReviewCard
+      v-if="itemType.label === 'Code Review Completed'"
+      :item="itemType"
+    />
+
+      <RetroCard
+      v-if="itemType.label === 'Retrospective Meeting'"
+      :item="itemType"
+    />
   </v-timeline-item>
 </template>
 
@@ -37,16 +45,23 @@
 import EstimationCard from '@/components/EstimationCard'
 import TaskCard from '@/components/TaskCard'
 import ProgressReportCard from '@/components/ProgressReportCard'
-import BaseCard from '@/components/BaseCard'
+import CheckInCard from '@/components/CheckInCard'
+import NewStretchGoalCard from '@/components/NewStretchGoalCard.vue'
+import CodeReviewCard from '@/components/CodeReviewCard.vue'
+import RetroCard from '@/components/RetroCard.vue'
 
 export default {
   name: 'TimelineItem',
   components: {
-    BaseCard,
+
     ProgressReportCard,
     EstimationCard,
-    TaskCard
-  },
+    TaskCard,
+    CheckInCard,
+    NewStretchGoalCard,
+    CodeReviewCard,
+    RetroCard
+},
   props: {
     item: {
       type: String,
@@ -61,74 +76,36 @@ export default {
           label: "Estimation",
           color: "cGreen",
           icon: "mdi-account-hard-hat",
-          content: [
-            "Number of points",
-            "List of tasks",
-            "Risks",
-            "Confidence level",
-            "Comments",
-          ]
         },
         "task completed": {
           label: "Task completed",
           color: "cPink",
           icon: "mdi-check-bold",
-          content: [
-            "Task",
-            "Number of points",
-            "In production checkbox"
-          ]
         },
         "progress report": {
           label: "Progress Report",
           color: "cOrange",
           icon: "mdi-chart-areaspline",
-          content: [
-            "Number of items completed",
-            "Confidence check",
-            "Percentage completed (Progress bar)",
-          ],
         },
         "team check-in": {
           label: "Team Check-in",
           color: "cRed",
           icon: "mdi-human-queue",
-          content: [
-            "Format of check in",
-            "Details (free form comments)"
-          ],
         },
         "new stretch goal": {
           label: "New Stretch Goal",
           color: "cGreen",
           icon: "mdi-rocket-launch",
-          content: [
-            "Task (jira number)",
-            "Number of points added",
-            "Confidence check",
-          ],
         },
         "code review completed": {
           label: "Code Review Completed",
           color: "cPink",
           icon: "mdi-file-chart-check",
-          content: [
-            "Task",
-            "Team Code Review Completed For",
-            "Link to CR in gitlab",
-          ],
         },
         "retrospective meeting": {
           label: "Retrospective Meeting",
           color: "cOrange",
           icon: "mdi-heart-multiple",
-          content: [
-            "Would more/less planning time be better",
-            "What could the team have done to increase velocity",
-            "What would you change if you did it again?",
-            "How did you handle WIPs? (Limit the number of them, each person has a WIP task, etc.)",
-            "What are the other key takeaways",
-          ],
         }
       }
     }

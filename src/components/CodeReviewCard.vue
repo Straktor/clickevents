@@ -1,37 +1,26 @@
 <template>
   <BaseCard :item="item">
     <v-row>
-      <v-col cols="4">
-        <p># of points</p>
-        <v-text-field
-          v-model="message"
-          placeholder="5"
-          outlined
-          hide-details
-          dense
-        />
-      </v-col>
-
-      <v-col cols="4">
+      <v-col cols="6">
         <p>Task</p>
         <v-text-field
           v-model="message"
-          placeholder="AUTO-1001"
-          outlined
-          hide-details
-          dense
-        />
-      </v-col>
-      <v-col cols="4">
-        <p>In Production</p>
-        <v-checkbox
-          v-model="message"
-          placeholder="AUTO-1001, AUTO-1002"
+          placeholder="AUTO-1003"
           outlined
           hide-details
           dense
           rows="2"
-        ></v-checkbox>
+        ></v-text-field>
+      </v-col>
+      <v-col cols="6">
+        <p>Team completed for</p>
+        <v-text-field
+          v-model="message"
+          placeholder="Team 2"
+          outlined
+          hide-details
+          dense
+        />
       </v-col>
     </v-row>
   </BaseCard>
@@ -41,7 +30,7 @@
 import BaseCard from '@/components/BaseCard'
 
 export default {
-  name: 'TaskCard',
+  name: 'CodeReviewCard',
   components: {
     BaseCard
   },
