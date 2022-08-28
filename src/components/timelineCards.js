@@ -65,7 +65,7 @@ let taskCard = TimelineCard.create({
       size: "s",
     }),
     Field.create({
-      label: "List of tasks",
+      label: "In production",
       type: VCheckbox,
       size: "s",
     }),
