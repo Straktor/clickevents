@@ -2,16 +2,38 @@
   <v-row>
     <v-col>
       <v-sheet
+        v-if="!selectedTeam"
+        rounded="lg"
+        class="aboutContainer pb-4"
+      >
+        <h1 class="mainTitle ma-0 pa-0">Welcome to the event</h1>
+        <div class="aboutContent">
+          <div class="mainText">Please select a team </div>
+          <v-icon
+            dark
+            right
+          >
+            mdi-arrow-right-bold
+          </v-icon>
+        </div>
+      </v-sheet>
+      <v-sheet
+        v-if="selectedTeam"
         rounded="lg"
         class="timelineContainer"
       >
-        <v-timeline dense>
+        <h1 class="mainTitle ma-0 pa-0 ml-8">Planning of {{ $route.params?.name}}</h1>
+        <v-timeline
+          dense
+          class="pt-0"
+        >
           <TimelineItem
             v-for="(item, i) in items"
             :key="i"
             :item="item"
           />
         </v-timeline>
+
       </v-sheet>
     </v-col>
     <v-col cols="4">
@@ -60,6 +82,15 @@ export default {
   computed: {
     teams () {
       return Team.query().withAllRecursive().all()
+    }
+  },
+  watch: {
+    '$route': {
+      handler (nv) {
+        if (!(nv?.params?.name)) {
+          this.selectedTeam = undefined
+        }
+      },
     }
   },
   mounted () {
@@ -169,6 +200,7 @@ export default {
         ],
       },
       {
+        id: 4,
         name: 'Team 4',
         points: 10,
         numItems: 7,
@@ -194,15 +226,32 @@ export default {
     ]
 
     Team.insert({ data: teams })
+
+    // Set selected Team
+    this.selectTeam(this.getTeamFromName(this.$route.params?.name))
   },
   methods: {
+    getTeamFromName (teamName) {
+      return this.teams.find(t => t.name === teamName)
+    },
     selectTeam (team) {
-      if (this.selectedTeam?.name === team.name) {
-        this.selectedTeam = undefined
+      if (!team || this.selectedTeam?.name === team.name) {
+        if (this.$route?.name !== 'home') {
+          this.$router.push({ name: "home" })
+        }
         return
       }
 
       this.selectedTeam = team
+
+      if (this.$route.params?.name !== this.selectedTeam.name) {
+        this.$router.push({
+          name: "planning",
+          params: {
+            name: this.selectedTeam.name
+          }
+        })
+      }
     }
   }
 };
@@ -210,9 +259,15 @@ export default {
 
 <style lang="scss" scoped>
 .timelineContainer {
-  margin-top: 15px;
   background-color: transparent;
   text-align: left;
+
+  h1.mainTitle {
+    font-size: 50px;
+    color: var(--v-cYellow-base);
+    text-align: center;
+    font-family: pricedown;
+  }
 }
 
 .v-timeline::before {
@@ -237,6 +292,31 @@ export default {
   left: calc(48px - 2px);
 }
 
+.aboutContainer {
+  text-align: center;
+  background-color: var(--v-cOrange-base);
+
+  h1.mainTitle {
+    font-size: 50px;
+    color: var(--v-cYellow-base);
+    text-align: center;
+    font-family: pricedown;
+  }
+
+  .aboutContent {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+
+    div.mainText {
+      font-size: 20px;
+      color: white;
+      font-weight: bold;
+    }
+  }
+}
+
 .v-card__title {
   font-size: 25px;
   font-family: pricedown;
@@ -245,7 +325,7 @@ export default {
 .rightPanel {
   position: relative;
   margin: 15px;
-  margin-top: 39px;
+  margin-top: 20px;
 
   outline-offset: 5px;
   background-color: var(--v-cGreen-base);
