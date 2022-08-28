@@ -6,17 +6,6 @@ import router from "./router";
 
 Vue.config.productionTip = false;
 
-// Import all components from ./components/BaseComponents
-
-const files = require.context("./components/BaseComponents", true, /\.vue$/i);
-
-files.keys().map((key) => {
-  Vue.component(
-    files(key).default.name ?? key.split("/").pop().split(".")[0],
-    files(key).default
-  );
-});
-
 new Vue({
   vuetify,
   store,

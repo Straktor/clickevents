@@ -1,44 +1,55 @@
 <template>
   <v-timeline-item
-    :color="itemType.color"
-    :icon="itemType.icon"
+    :color="card.color"
+    :icon="card.icon"
     fill-dot
   >
     <BaseCard
-      :color="itemType.color"
-      :title="itemType.label"
+      :color="card.color"
+      :title="card.label"
       :readOnly.sync="readOnly"
     >
-      <component
-        :is="getCard(itemType.label)"
-        :item="itemType"
-        :editMode="!readOnly"
-      />
+      <v-row>
+        <v-col
+          v-for="(f, i) in card.fields"
+          :key="i"
+          :cols="getColSize(f?.size)"
+        >
+          <p>{{ f.label }}</p>
+          <component
+            :is="f.type"
+            :placeholder="f.placeholder"
+            outlined
+            dense
+            hide-details
+            rows="2"
+            :disabled="readOnly"
+          />
+        </v-col>
+      </v-row>
     </BaseCard>
   </v-timeline-item>
 </template>
 
 <script>
+import {
+  defaultCard,
+  retroCard,
+  codeReviewCard,
+  stretchGoalCard,
+  checkInCard,
+  progessCard,
+  estimationCard,
+  taskCard,
+} from "./timelineCards.js";
+
 import BaseCard from '@/components/BaseCard'
-import EstimationCard from '@/components/TimelineCards/EstimationCard'
-import TaskCard from '@/components/TimelineCards/TaskCard'
-import ProgressReportCard from '@/components/TimelineCards/ProgressReportCard'
-import CheckInCard from '@/components/TimelineCards/CheckInCard'
-import NewStretchGoalCard from '@/components/TimelineCards/NewStretchGoalCard.vue'
-import CodeReviewCard from '@/components/TimelineCards/CodeReviewCard.vue'
-import RetroCard from '@/components/TimelineCards/RetroCard.vue'
 
 export default {
   name: 'TimelineItem',
   components: {
     BaseCard,
-    ProgressReportCard,
-    EstimationCard,
-    TaskCard,
-    CheckInCard,
-    NewStretchGoalCard,
-    CodeReviewCard,
-    RetroCard
+
   },
   props: {
     item: {
@@ -49,70 +60,28 @@ export default {
   data: () => {
     return {
       readOnly: true,
-      itemTypes: {
-        estimation: {
-          label: "Estimation",
-          color: "cGreen",
-          icon: "mdi-account-hard-hat",
-        },
-        "task completed": {
-          label: "Task completed",
-          color: "cPink",
-          icon: "mdi-check-bold",
-        },
-        "progress report": {
-          label: "Progress Report",
-          color: "cOrange",
-          icon: "mdi-chart-areaspline",
-        },
-        "team check-in": {
-          label: "Team Check-in",
-          color: "cRed",
-          icon: "mdi-human-queue",
-        },
-        "new stretch goal": {
-          label: "New Stretch Goal",
-          color: "cGreen",
-          icon: "mdi-rocket-launch",
-        },
-        "code review completed": {
-          label: "Code Review Completed",
-          color: "cPink",
-          icon: "mdi-file-chart-check",
-        },
-        "retrospective meeting": {
-          label: "Retrospective Meeting",
-          color: "cOrange",
-          icon: "mdi-heart-multiple",
-        }
-      }
     }
   },
   computed: {
-    itemType () {
-      if (!this.item || !(this.item.toLowerCase() in this.itemTypes))
-        // Default item type
-        return {
-          name: 'Item Type Not Found',
-          color: 'black',
-          icon: 'mdi-plus',
-          content: []
-        }
+    card () {
+      if (this.item === 'Estimation') return estimationCard
+      else if (this.item === 'Task completed') return taskCard
+      else if (this.item === 'Progress Report') return progessCard
+      else if (this.item === 'Team Check-in') return checkInCard
+      else if (this.item === 'New Stretch Goal') return stretchGoalCard
+      else if (this.item === 'Code Review Completed') return codeReviewCard
+      else if (this.item === 'Retrospective Meeting') return retroCard
 
-      return this.itemTypes[this.item.toLowerCase()]
-    }
+      return defaultCard
+    },
   },
   methods: {
-    getCard (item) {
-      if (item === 'Estimation') return EstimationCard
-      else if (item === 'Task completed') return TaskCard
-      else if (item === 'Progress Report') return ProgressReportCard
-      else if (item === 'Team Check-in') return CheckInCard
-      else if (item === 'New Stretch Goal') return NewStretchGoalCard
-      else if (item === 'Code Review Completed') return CodeReviewCard
-      else if (item === 'Retrospective Meeting') return RetroCard
+    getColSize (size) {
+      if (size === "lg") return 12
+      else if (size === "m") return 6
+      else if (size === "s") return 4
 
-      throw `Unknown card ${item}`
+      return 6
     }
   }
 }
@@ -133,5 +102,18 @@ export default {
 ::v-deep .v-timeline-item__dot {
   position: absolute;
   top: 16px;
+}
+
+.row {
+  padding-bottom: 1em;
+
+  .col {
+    padding-top: 1em;
+    padding-bottom: 0;
+
+    p {
+      margin: 0;
+    }
+  }
 }
 </style>
