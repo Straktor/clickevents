@@ -25,8 +25,15 @@
 
       <v-btn
         icon
-        color="#fff"
+        color="cYellow"
         @click="routeAbout()"
+      >
+        <v-icon>mdi-egg-easter</v-icon>
+      </v-btn>
+      <v-btn
+        icon
+        color="cYellow"
+        @click="routeEgg()"
       >
         <v-icon>mdi-information</v-icon>
       </v-btn>
@@ -53,6 +60,13 @@ export default {
       if (this.$route?.name !== 'about') {
         this.$router.push({
           name: "about",
+        })
+      }
+    },
+    routeEgg () {
+      if (this.$route?.name !== 'egg') {
+        this.$router.push({
+          name: "egg",
         })
       }
     }
