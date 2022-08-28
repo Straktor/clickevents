@@ -26,6 +26,7 @@
       <v-btn
         icon
         color="#fff"
+        @click="routeAbout()"
       >
         <v-icon>mdi-information</v-icon>
       </v-btn>
@@ -45,6 +46,13 @@ export default {
       if (this.$route?.name !== 'home') {
         this.$router.push({
           name: "home",
+        })
+      }
+    },
+    routeAbout () {
+      if (this.$route?.name !== 'about') {
+        this.$router.push({
+          name: "about",
         })
       }
     }
