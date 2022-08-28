@@ -8,6 +8,8 @@
       :color="card.color"
       :title="card.label"
       :readOnly.sync="readOnly"
+      @cancel="updateValues()"
+      @submit="saveChanges()"
     >
       <v-row>
         <v-col
@@ -18,12 +20,14 @@
           <p>{{ f.label }}</p>
           <component
             :is="f.type"
+            v-model="localValues[f.label]"
             :placeholder="f.placeholder"
             outlined
             dense
             hide-details
             rows="2"
             :disabled="readOnly"
+            class="white"
           />
         </v-col>
       </v-row>
@@ -53,35 +57,62 @@ export default {
   },
   props: {
     item: {
-      type: String,
-      default: () => ''
+      type: Object,
+      default: () => { }
     }
   },
   data: () => {
     return {
       readOnly: true,
+      localValues: {},
+    }
+  },
+  watch: {
+    item: {
+      handler () {
+        if (this.readOnly) this.updateValues()
+      },
+      deep: true,
+      immediate: true,
     }
   },
   computed: {
     card () {
-      if (this.item === 'Estimation') return estimationCard
-      else if (this.item === 'Task completed') return taskCard
-      else if (this.item === 'Progress Report') return progessCard
-      else if (this.item === 'Team Check-in') return checkInCard
-      else if (this.item === 'New Stretch Goal') return stretchGoalCard
-      else if (this.item === 'Code Review Completed') return codeReviewCard
-      else if (this.item === 'Retrospective Meeting') return retroCard
-
+      switch (this.item?.type) {
+        case 'Estimation': return estimationCard
+        case 'Task completed': return taskCard
+        case 'Progress Report': return progessCard
+        case 'Team Check-in': return checkInCard
+        case 'New Stretch Goal': return stretchGoalCard
+        case 'Code Review Completed': return codeReviewCard
+        case 'Retrospective Meeting': return retroCard
+      }
       return defaultCard
     },
   },
   methods: {
+    updateValues () {
+      this.localValues = JSON.parse(JSON.stringify(this.item.values))
+    },
+    saveChanges () {
+      // TODO: update values
+    },
     getColSize (size) {
-      if (size === "lg") return 12
-      else if (size === "m") return 6
-      else if (size === "s") return 4
 
-      return 6
+      switch (this.$vuetify.breakpoint.name) {
+        case 'xs':
+        case 'sm':
+          break;
+        case 'md':
+          if (size === "s") return 6
+          else break;
+        case 'lg':
+        case 'xl':
+          if (size === "s") return 4
+          else if (size === "m") return 6
+      }
+
+      return 12
     }
   }
 }

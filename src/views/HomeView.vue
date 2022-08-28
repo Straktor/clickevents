@@ -88,13 +88,13 @@ export default {
         })
       ],
       items: [
-        "Estimation",
-        "Task completed",
-        "Progress Report",
-        "Team Check-in",
-        "New Stretch Goal",
-        "Code Review Completed",
-        "Retrospective Meeting",
+        { type: "Estimation", values: { '# of points': 'This works!' } },
+        { type: "Task completed", values: {} },
+        { type: "Progress Report", values: {} },
+        { type: "Team Check-in", values: {} },
+        { type: "New Stretch Goal", values: {} },
+        { type: "Code Review Completed", values: {} },
+        { type: "Retrospective Meeting", values: {} },
       ],
     };
   },

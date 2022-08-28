@@ -21,35 +21,40 @@
         :color="color"
         dark
         elevation="0"
-        @click="toggleReadOnly()"
+        @click="editIconClicked()"
       >
-        <v-icon>mdi-pencil</v-icon>
+        <v-icon>{{ readOnly ? 'mdi-pencil' : 'mdi-close-circle' }}</v-icon>
       </v-btn>
     </v-card-title>
-    <v-card-text class="white pt-2">
+    <v-card-text
+      class="pt-2"
+      :class="readOnly ? 'white' : `${color} lighten-5`"
+    >
       <slot />
     </v-card-text>
-    <v-card-actions
-      v-if="!readOnly"
-      class="px-4"
-      :class="color"
-    >
-      <v-spacer />
-      <v-btn
-        class="white--text pa-4"
-        plain
-        @click="cancel()"
+    <v-expand-transition>
+      <v-card-actions
+        v-if="!readOnly"
+        class="px-4"
+        :class="color"
       >
-        Cancel
-      </v-btn>
-      <v-btn
-        class="white--text pa-4"
-        outlined
-        @click="submit()"
-      >
-        Submit
-      </v-btn>
-    </v-card-actions>
+        <v-spacer />
+        <v-btn
+          class="white--text pa-4"
+          plain
+          @click="cancel()"
+        >
+          Cancel
+        </v-btn>
+        <v-btn
+          class="white--text pa-4"
+          outlined
+          @click="submit()"
+        >
+          Submit
+        </v-btn>
+      </v-card-actions>
+    </v-expand-transition>
   </v-card>
 </template>
 
@@ -80,14 +85,17 @@ export default {
     setReadOnly (v) {
       this.$emit('update:readOnly', v)
     },
-    toggleReadOnly () {
-      this.setReadOnly(!this.readOnly)
+    editIconClicked () {
+      if (this.readOnly) this.setReadOnly(false)
+      else this.cancel()
     },
     cancel () {
       this.setReadOnly(true)
+      this.$emit('cancel')
     },
     submit () {
       this.setReadOnly(true)
+      this.$emit('submit')
     },
   }
 }
@@ -103,5 +111,10 @@ export default {
     font-size: 0.7em;
     padding-left: 4px;
   }
+}
+
+.v-card__text {
+  transition-property: background-color;
+  transition-duration: 1s;
 }
 </style>
