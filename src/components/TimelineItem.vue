@@ -4,51 +4,21 @@
     :icon="itemType.icon"
     fill-dot
   >
-    <EstimationCard
-      v-if="itemType.label === 'Estimation'"
-      :item="itemType"
-    />
-
-    <TaskCard
-      v-if="itemType.label === 'Task completed'"
-      :item="itemType"
-    />
-
-    <ProgressReportCard
-      v-if="itemType.label === 'Progress Report'"
-      :item="itemType"
-    />
-
-    <CheckInCard
-      v-if="itemType.label === 'Team Check-in'"
-      :item="itemType"
-    />
-
-    <NewStretchGoalCard
-      v-if="itemType.label === 'New Stretch Goal'"
-      :item="itemType"
-    />
-
-     <CodeReviewCard
-      v-if="itemType.label === 'Code Review Completed'"
-      :item="itemType"
-    />
-
-      <RetroCard
-      v-if="itemType.label === 'Retrospective Meeting'"
+    <component
+      :is="getCard(itemType.label)"
       :item="itemType"
     />
   </v-timeline-item>
 </template>
 
 <script>
-import EstimationCard from '@/components/EstimationCard'
-import TaskCard from '@/components/TaskCard'
-import ProgressReportCard from '@/components/ProgressReportCard'
-import CheckInCard from '@/components/CheckInCard'
-import NewStretchGoalCard from '@/components/NewStretchGoalCard.vue'
-import CodeReviewCard from '@/components/CodeReviewCard.vue'
-import RetroCard from '@/components/RetroCard.vue'
+import EstimationCard from '@/components/TimelineCards/EstimationCard'
+import TaskCard from '@/components/TimelineCards/TaskCard'
+import ProgressReportCard from '@/components/TimelineCards/ProgressReportCard'
+import CheckInCard from '@/components/TimelineCards/CheckInCard'
+import NewStretchGoalCard from '@/components/TimelineCards/NewStretchGoalCard.vue'
+import CodeReviewCard from '@/components/TimelineCards/CodeReviewCard.vue'
+import RetroCard from '@/components/TimelineCards/RetroCard.vue'
 
 export default {
   name: 'TimelineItem',
@@ -61,7 +31,7 @@ export default {
     NewStretchGoalCard,
     CodeReviewCard,
     RetroCard
-},
+  },
   props: {
     item: {
       type: String,
@@ -125,6 +95,17 @@ export default {
     }
   },
   methods: {
+    getCard (item) {
+      if (item === 'Estimation') return EstimationCard
+      else if (item === 'Task completed') return TaskCard
+      else if (item === 'Progress Report') return ProgressReportCard
+      else if (item === 'Team Check-in') return CheckInCard
+      else if (item === 'New Stretch Goal') return NewStretchGoalCard
+      else if (item === 'Code Review Completed') return CodeReviewCard
+      else if (item === 'Retrospective Meeting') return RetroCard
+
+      throw `Unknown card ${item}`
+    }
   }
 }
 </script>
