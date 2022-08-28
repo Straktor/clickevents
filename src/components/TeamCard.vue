@@ -18,7 +18,7 @@
     </v-card-title>
     <v-card-text class="teamCard--content">
       <span class="teamName">{{ team.name }}</span><br>
-      {{ team.members.join(', ') }}<br><br>
+      {{ team.members.map(m => m.name).join(', ') }}<br><br>
       # of items completed {{ team.numItemsCompleted }}/{{ team.numItems }}<br>
       # of points completed {{ team.pointsCompleted }}/{{ team.points }}<br>
       # of code reviews completed {{ team.CRCompleted }}<br>

@@ -37,7 +37,8 @@
 <script>
 import TeamCard from '@/components/TeamCard'
 import TimelineItem from '@/components/TimelineItem'
-import { Team } from '@/models/teamsModel.js'
+
+import { Team } from '@/models/teamModel'
 
 export default {
   name: "HomeView",
@@ -45,48 +46,6 @@ export default {
   data () {
     return {
       selectedTeam: undefined,
-      teams: [
-        new Team({
-          name: 'Team 1',
-          points: 27,
-          members: ['Liam', 'Olivia', 'Noah', 'Emma', 'Oliver', 'Charlotte'],
-          numItems: 5,
-          numItemsCompleted: 3,
-          CRCompleted: 2,
-          pointsCompleted: 11,
-          percentageCompleted: 33
-        }),
-        new Team({
-          name: 'Team 2',
-          points: 85,
-          members: ['Elijah', 'Amelia', 'James', 'Ava', 'William', 'Sophia'],
-          numItems: 10,
-          numItemsCompleted: 4,
-          CRCompleted: 1,
-          pointsCompleted: 21,
-          percentageCompleted: 42
-        }),
-        new Team({
-          name: 'Team 3',
-          points: 13,
-          members: ['Benjamin', 'Isabella', 'Lucas', 'Mia', 'Henry'],
-          numItems: 6,
-          numItemsCompleted: 4,
-          CRCompleted: 5,
-          pointsCompleted: 22,
-          percentageCompleted: 80
-        }),
-        new Team({
-          name: 'Team 4',
-          points: 10,
-          members: ['Evelyn', 'Theodore', 'Harper'],
-          numItems: 7,
-          numItemsCompleted: 3,
-          CRCompleted: 1,
-          pointsCompleted: 4,
-          percentageCompleted: 55
-        })
-      ],
       items: [
         { type: "Estimation", values: { '# of points': 'This works!' } },
         { type: "Task completed", values: {} },
@@ -97,6 +56,144 @@ export default {
         { type: "Retrospective Meeting", values: {} },
       ],
     };
+  },
+  computed: {
+    teams () {
+      return Team.query().withAllRecursive().all()
+    }
+  },
+  mounted () {
+    let teams = [
+      {
+        id: 1,
+        name: 'Team 1',
+        points: 27,
+        numItems: 5,
+        numItemsCompleted: 3,
+        CRCompleted: 2,
+        pointsCompleted: 11,
+        percentageCompleted: 33,
+        members: [
+          {
+            id: 1,
+            name: 'Liam'
+          },
+          {
+            id: 2,
+            name: 'Olivia'
+          },
+          {
+            id: 3,
+            name: 'Noah'
+          },
+          {
+            id: 4,
+            name: 'Emma'
+          },
+          {
+            id: 5,
+            name: 'Oliver'
+          },
+          {
+            id: 6,
+            name: 'Charlotte'
+          },
+        ]
+      },
+      {
+        id: 2,
+        name: 'Team 2',
+        points: 85,
+        numItems: 10,
+        numItemsCompleted: 4,
+        CRCompleted: 1,
+        pointsCompleted: 21,
+        percentageCompleted: 42,
+        members: [
+          {
+            id: 7,
+            name: 'Elijah'
+          },
+          {
+            id: 8,
+            name: 'Amelia'
+          },
+          {
+            id: 9,
+            name: 'James'
+          },
+          {
+            id: 10,
+            name: 'William'
+          },
+          {
+            id: 11,
+            name: 'Sophia'
+          },
+          {
+            id: 12,
+            name: 'Ava'
+          },
+        ],
+      },
+      {
+        id: 3,
+        name: 'Team 3',
+        points: 13,
+        numItems: 6,
+        numItemsCompleted: 4,
+        CRCompleted: 5,
+        pointsCompleted: 22,
+        percentageCompleted: 80,
+        members: [
+          {
+            id: 13,
+            name: 'Benjamin'
+          },
+          {
+            id: 14,
+            name: 'Isabella'
+          },
+          {
+            id: 15,
+            name: 'Lucas'
+          },
+          {
+            id: 16,
+            name: 'Mia'
+          },
+          {
+            id: 17,
+            name: 'Henry'
+          },
+        ],
+      },
+      {
+        name: 'Team 4',
+        points: 10,
+        numItems: 7,
+        numItemsCompleted: 3,
+        CRCompleted: 1,
+        pointsCompleted: 4,
+        percentageCompleted: 55,
+        members: [
+          {
+            id: 17,
+            name: 'Evelyn'
+          },
+          {
+            id: 18,
+            name: 'Theodore'
+          },
+          {
+            id: 19,
+            name: 'Harper'
+          },
+        ],
+      }
+    ]
+
+    Team.insert({ data: teams })
   },
   methods: {
     selectTeam (team) {
