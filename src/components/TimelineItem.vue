@@ -4,14 +4,21 @@
     :icon="itemType.icon"
     fill-dot
   >
-    <component
-      :is="getCard(itemType.label)"
-      :item="itemType"
-    />
+    <BaseCard
+      :color="itemType.color"
+      :title="itemType.label"
+      :readOnly.sync="readOnly"
+    >
+      <component
+        :is="getCard(itemType.label)"
+        :item="itemType"
+      />
+    </BaseCard>
   </v-timeline-item>
 </template>
 
 <script>
+import BaseCard from '@/components/BaseCard'
 import EstimationCard from '@/components/TimelineCards/EstimationCard'
 import TaskCard from '@/components/TimelineCards/TaskCard'
 import ProgressReportCard from '@/components/TimelineCards/ProgressReportCard'
@@ -23,7 +30,7 @@ import RetroCard from '@/components/TimelineCards/RetroCard.vue'
 export default {
   name: 'TimelineItem',
   components: {
-
+    BaseCard,
     ProgressReportCard,
     EstimationCard,
     TaskCard,
@@ -36,11 +43,11 @@ export default {
     item: {
       type: String,
       default: () => ''
-    },
+    }
   },
   data: () => {
     return {
-      message: '',
+      readOnly: false,
       itemTypes: {
         estimation: {
           label: "Estimation",

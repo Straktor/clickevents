@@ -1,11 +1,11 @@
 <template>
   <v-card
     rounded="lg"
-    :color="item.color"
+    :color="color"
     class="white--text"
   >
     <v-card-title class="pr-2">
-      {{ item.label }}
+      {{ title }}
       -
       <!--
         TODO: Get date from Props
@@ -18,7 +18,7 @@
 
       <v-btn
         small
-        :color="item.color"
+        :color="color"
         dark
         elevation="0"
         @click="toggleReadOnly()"
@@ -32,7 +32,7 @@
     <v-card-actions
       v-if="!readOnly"
       class="px-4"
-      :class="item.color"
+      :class="color"
     >
       <v-spacer />
       <v-btn
@@ -58,28 +58,36 @@
 export default {
   name: 'BaseCard',
   props: {
-    item: {
-      type: Object,
-      default: () => { }
+    readOnly: {
+      type: Boolean,
+      default: false
+    },
+    color: {
+      type: String,
+      default: ''
+    },
+    title: {
+      type: String,
+      default: ''
     },
   },
   data: () => {
     return {
       message: '',
-      readOnly: true
     }
   },
   methods: {
+    setReadOnly (v) {
+      this.$emit('update:readOnly', v)
+    },
     toggleReadOnly () {
-      // TODO: Change readonly to a prop
-      //this.$emit('readOnly', !this.readOnly)
-      this.readOnly = !this.readOnly
+      this.setReadOnly(!this.readOnly)
     },
     cancel () {
-      this.readOnly = true
+      this.setReadOnly(true)
     },
     submit () {
-      this.readOnly = true
+      this.setReadOnly(true)
     },
   }
 }

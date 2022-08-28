@@ -1,39 +1,35 @@
 <template>
-  <BaseCard :item="item">
-    <v-row>
-      <v-col cols="12">
-        <p>Format of check in</p>
-        <v-text-field
-          v-model="message"
-          placeholder="Huddle, call, message, etc."
-          outlined
-          hide-details
-          dense
-        />
-      </v-col>
+  <v-row>
+    <v-col cols="12">
+      <p>Format of check in</p>
+      <v-text-field
+        v-model="message"
+        placeholder="Huddle, call, message, etc."
+        outlined
+        hide-details
+        dense
+      />
+    </v-col>
 
-      <v-col cols="12">
-        <p>Details</p>
-        <v-textarea
-          v-model="message"
-          placeholder="Daily @ 9am"
-          outlined
-          hide-details
-          dense
-          rows="2"
-        />
-      </v-col>
-    </v-row>
-  </BaseCard>
+    <v-col cols="12">
+      <p>Details</p>
+      <v-textarea
+        v-model="message"
+        placeholder="Daily @ 9am"
+        outlined
+        hide-details
+        dense
+        rows="2"
+      />
+    </v-col>
+  </v-row>
 </template>
 
 <script>
-import BaseCard from '@/components/BaseCard'
 
 export default {
   name: 'CheckInCard',
   components: {
-    BaseCard
   },
   props: {
     item: {

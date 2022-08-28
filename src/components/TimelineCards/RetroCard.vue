@@ -1,34 +1,32 @@
 <template>
-  <BaseCard :item="item">
-    <v-row>
-      <v-col v-for="(q, i) in questions"
-        :key="i" 
-        cols="12">
-        <p>{{q}}</p>
-        <v-textarea
-          v-model="message"
-          outlined
-          hide-details
-          dense
-          rows="2"
-        ></v-textarea>
-      </v-col>
-    </v-row>
-  </BaseCard>
+  <v-row>
+    <v-col
+      v-for="(q, i) in questions"
+      :key="i"
+      cols="12"
+    >
+      <p>{{q}}</p>
+      <v-textarea
+        v-model="message"
+        outlined
+        hide-details
+        dense
+        rows="2"
+      ></v-textarea>
+    </v-col>
+  </v-row>
 </template>
 
 <script>
-import BaseCard from "@/components/BaseCard";
 
 export default {
   name: "RetroCard",
   components: {
-    BaseCard,
   },
   props: {
     item: {
       type: Object,
-      default: () => {},
+      default: () => { },
     },
   },
   data: () => {
