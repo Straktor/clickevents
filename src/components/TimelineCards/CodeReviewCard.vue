@@ -2,23 +2,16 @@
   <v-row>
     <v-col cols="6">
       <p>Task</p>
-      <v-text-field
+      <base-text-field
         v-model="message"
         placeholder="AUTO-1003"
-        outlined
-        hide-details
-        dense
-        rows="2"
-      ></v-text-field>
+      />
     </v-col>
     <v-col cols="6">
       <p>Team completed for</p>
-      <v-text-field
+      <base-text-field
         v-model="message"
         placeholder="Team 2"
-        outlined
-        hide-details
-        dense
       />
     </v-col>
   </v-row>

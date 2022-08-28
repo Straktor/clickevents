@@ -6,13 +6,7 @@
       cols="12"
     >
       <p>{{q}}</p>
-      <v-textarea
-        v-model="message"
-        outlined
-        hide-details
-        dense
-        rows="2"
-      ></v-textarea>
+      <base-text-area v-model="message" />
     </v-col>
   </v-row>
 </template>

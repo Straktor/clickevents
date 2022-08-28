@@ -2,23 +2,17 @@
   <v-row>
     <v-col cols="4">
       <p># of points</p>
-      <v-text-field
+      <base-text-field
         v-model="message"
         placeholder="5"
-        outlined
-        hide-details
-        dense
       />
     </v-col>
 
     <v-col cols="4">
       <p>Task</p>
-      <v-text-field
+      <base-text-field
         v-model="message"
         placeholder="AUTO-1001"
-        outlined
-        hide-details
-        dense
       />
     </v-col>
     <v-col cols="4">

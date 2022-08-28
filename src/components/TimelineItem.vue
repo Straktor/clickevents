@@ -12,6 +12,7 @@
       <component
         :is="getCard(itemType.label)"
         :item="itemType"
+        :editMode="!readOnly"
       />
     </BaseCard>
   </v-timeline-item>
@@ -47,7 +48,7 @@ export default {
   },
   data: () => {
     return {
-      readOnly: false,
+      readOnly: true,
       itemTypes: {
         estimation: {
           label: "Estimation",

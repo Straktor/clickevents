@@ -2,24 +2,17 @@
   <v-row>
     <v-col cols="12">
       <p>Format of check in</p>
-      <v-text-field
+      <base-text-field
         v-model="message"
         placeholder="Huddle, call, message, etc."
-        outlined
-        hide-details
-        dense
       />
     </v-col>
 
     <v-col cols="12">
       <p>Details</p>
-      <v-textarea
+      <base-text-area
         v-model="message"
         placeholder="Daily @ 9am"
-        outlined
-        hide-details
-        dense
-        rows="2"
       />
     </v-col>
   </v-row>
