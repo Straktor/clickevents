@@ -1,108 +1,80 @@
 <template>
-  <div class="egg">
-    <h1>This is a list of easter eggs ideas</h1>
-
-    <div>
-      <div
-        class="egg__item"
-        v-for="(e, i) in eggs"
-        :key="i"
-      >
-        <h2>
-          -{{ e.name }}
-        </h2>
-        <p>{{ e.idea }} - <span>tags: {{ e.tags }}</span></p>
+  <div class="about">
+    <h1>About the estimation is right</h1>
+    <div class="row about">
+      <div class="col-lg-7 col-12">
+        <v-card rounded="lg" class="aboutContainer pb-4">
+          <h1 class="mainTitle ma-0 pa-0">Stucture of the Day</h1>
+          <v-row>
+            <v-col cols="3">
+              <v-img class="col-lg-5 col-12" src="@/assets/break.jpg" max-height="100"
+                max-width="100"/>
+            </v-col>
+            <v-col cols="9">
+              <div class="day__text" v-for="(t, i) in day_events" :key="i">{{ t }}</div>        
+            </v-col>
+          </v-row>
+        </v-card>
       </div>
     </div>
+
+    <div class="row about">
+      <div class="col-lg-7 col-12 order-lg-4 order-3">
+        <v-card rounded="lg" class="aboutContainer pb-4">
+          <h1 class="mainTitle ma-0 pa-0">Taking Breaks</h1>
+          <v-row>
+            <v-col cols="9">
+              <div class="about__text">
+                It's important to take breaks through the day still so be sure
+                to take two 15 minute breaks and a 1 hour lunch break at one
+                point each day!
+              </div>
+            </v-col>
+            <v-col cols="3">
+              <v-img
+                class="col-lg-5 col-12"
+                src="@/assets/break.jpg"
+                max-height="100"
+                max-width="100"
+              />
+            </v-col>
+          </v-row>
+        </v-card>
+      </div>
+    </div>
+
+    <h2 v-for="(t, i) in todos" :key="i">TODO: {{ t }}</h2>
   </div>
 </template>
 
 <script>
 export default {
-  data () {
+  data() {
     return {
-      eggs: [
-        {
-          name: 'In plain sight',
-          idea: 'component with display none',
-          tags: 'css'
-        },
-        {
-          name: 'The explorer',
-          idea: 'Background image has the flag on it (on a different theme)',
-          tags: 'exploring'
-        },
-        {
-          name: 'Useless loading',
-          idea: 'Force the download of a useless asset which contains the flag',
-          tags: 'network'
-        },
-        {
-          name: 'The obvious one',
-          idea: 'Flag in the source file easly found by searching key works like "easter egg" or "flag" or "secrect"',
-          tags: 'javascript'
-        },
-        {
-          name: 'Encoded',
-          idea: 'Flag encoded in the source code in Base64',
-          tags: 'javascript'
-        },
-        {
-          name: 'Hacker!',
-          idea: 'The post call to "verify flag" will a param that can be modify (from false to true) if modify this flag will be maked as captured',
-          tags: 'network'
-        },
-        {
-          name: 'Thanks for reading',
-          idea: 'flag in the about page',
-          tags: 'exploring'
-        },
-        {
-          name: 'On the wire',
-          idea: 'One response from the cloud function should have "too much" info which will contain the flag',
-          tags: 'network'
-        },
-        {
-          name: 'Smart Planning',
-          idea: 'Hidden on the miro board',
-          tags: 'exploring'
-        },
-        {
-          name: "The PO's favorite",
-          idea: 'Hidden in a task description',
-          tags: 'exploring'
-        },
-        {
-          name: "Smart People",
-          idea: 'Useless questions that can be searched ex: 10001th prime number or Who is Bell CEO?',
-          tags: 'random'
-        }
-      ]
+      todos: [
+        "Dropdown component",
+        "ProgessBar component",
+        "New Entry in Timeline component",
+        "Rules page",
+        'Team page for an "example"',
+        'Show only teams "events"',
+        "Easter eggs page",
+        "Add firestore",
+        "Add live updates",
+        "Firebase Auth",
+        "Add cloud functions",
+      ],
+      day_events: [
+        "9:00am: Kick off call",
+        "9:15am: Teams break out into planning",
+        "12:00pm: Cut off point to submit team estimation"
+      ],
     };
-  }
-}
+  },
+};
 </script>
 
-<style lang="scss" scoped>
-.egg {
-  div {
-    border-radius: 1em;
-    background-color: var(--v-cGreen-base);
-    color: white;
-
-    margin-left: 3em;
-    margin-right: 3em;
-    padding: 0.5em;
-    text-align: left;
-
-    .egg__item {
-      span {
-        color: var(--v-cYellow-base);
-      }
-    }
-  }
-}
-
+<style scoped>
 h1 {
   font-size: 50px;
   font-family: pricedown;
@@ -114,6 +86,21 @@ h2 {
 }
 
 h2 {
-  font-size: 15px;
+  margin-left: 5em;
+  margin-right: 5em;
+  font-size: 25px;
+  text-align: left;
+  background-color: darkgray;
+}
+
+.aboutContainer {
+  text-align: center;
+  background-color: var(--v-cOrange-base);
+}
+h1.mainTitle {
+  font-size: 35px;
+  color: var(--v-cGreen-base);
+  text-align: center;
+  font-family: pricedown;
 }
 </style>
