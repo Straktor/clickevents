@@ -26,14 +26,14 @@
       <v-btn
         icon
         color="cYellow"
-        @click="routeAbout()"
+        @click="routeEgg()"
       >
         <v-icon>mdi-egg-easter</v-icon>
       </v-btn>
       <v-btn
         icon
         color="cYellow"
-        @click="routeEgg()"
+        @click="routeAbout()"
       >
         <v-icon>mdi-information</v-icon>
       </v-btn>
