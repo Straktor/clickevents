@@ -1,6 +1,6 @@
 <template>
   <div class="about">
-    <h1>About the estimation is right</h1>
+    <h1>How does the day work?</h1>
     <div class="row about">
       <div class="col-lg-7 col-12">
         <v-card rounded="lg" class="aboutContainer pb-4">
@@ -63,6 +63,8 @@ export default {
         "Add live updates",
         "Firebase Auth",
         "Add cloud functions",
+        "Slack integration", 
+        "Work out points for winners"
       ],
       day_events: [
         "9:00am: Kick off call",

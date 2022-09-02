@@ -45,6 +45,7 @@ import {
   progessCard,
   estimationCard,
   taskCard,
+  appreciationCard,
 } from "./timelineCards.js";
 
 import BaseCard from '@/components/BaseCard'
@@ -86,6 +87,7 @@ export default {
         case 'New Stretch Goal': return stretchGoalCard
         case 'Code Review Completed': return codeReviewCard
         case 'Retrospective Meeting': return retroCard
+        case 'Appreciation Points': return appreciationCard
       }
       return defaultCard
     },

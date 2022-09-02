@@ -1,22 +1,7 @@
 <template>
   <v-row>
     <v-col>
-      <v-sheet
-        v-if="!selectedTeam"
-        rounded="lg"
-        class="aboutContainer pb-4"
-      >
-        <h1 class="mainTitle ma-0 pa-0">Welcome to the event</h1>
-        <div class="aboutContent">
-          <div class="mainText">Please select a team </div>
-          <v-icon
-            dark
-            right
-          >
-            mdi-arrow-right-bold
-          </v-icon>
-        </div>
-      </v-sheet>
+      <RulesCard v-if="!selectedTeam"></RulesCard>
       <v-sheet
         v-if="selectedTeam"
         rounded="lg"
@@ -61,15 +46,17 @@ import TeamCard from '@/components/TeamCard'
 import TimelineItem from '@/components/TimelineItem'
 
 import { Team } from '@/models/teamModel'
+import RulesCard from '@/components/RulesCard.vue';
 
 export default {
   name: "HomeView",
-  components: { TeamCard, TimelineItem },
+  components: { TeamCard, TimelineItem, RulesCard },
   data () {
     return {
       selectedTeam: undefined,
       items: [
         { type: "Estimation", values: { '# of points': 'This works!' } },
+        { type: "Appreciation Points", values: {}},
         { type: "Task completed", values: {} },
         { type: "Progress Report", values: {} },
         { type: "Team Check-in", values: {} },
@@ -290,31 +277,6 @@ export default {
 
 .v-application--is-ltr .v-timeline--dense:not(.v-timeline--reverse)::before {
   left: calc(48px - 2px);
-}
-
-.aboutContainer {
-  text-align: center;
-  background-color: var(--v-cOrange-base);
-
-  h1.mainTitle {
-    font-size: 50px;
-    color: var(--v-cYellow-base);
-    text-align: center;
-    font-family: pricedown;
-  }
-
-  .aboutContent {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    align-content: center;
-
-    div.mainText {
-      font-size: 20px;
-      color: white;
-      font-weight: bold;
-    }
-  }
 }
 
 .v-card__title {

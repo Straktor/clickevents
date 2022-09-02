@@ -72,6 +72,25 @@ let taskCard = TimelineCard.create({
   ],
 });
 
+let appreciationCard = TimelineCard.create({
+  label: "Appreciation Points Given",
+  color: "cPink",
+  icon: "mdi-star-face",
+  fields: [
+    Field.create({
+      label: "# of points",
+      placeholder: "5",
+      size: "s",
+    }),
+    Field.create({
+      label: "Reason for points",
+      type: VTextarea,
+      placeholder: "Points for fixing the bug in production!",
+      size: "lg",
+    }),
+  ],
+});
+
 let progessCard = TimelineCard.create({
   label: "Progress Report",
   color: "cOrange",
@@ -177,6 +196,7 @@ let retroCard = TimelineCard.create({
 
 export {
   defaultCard,
+  appreciationCard,
   retroCard,
   codeReviewCard,
   stretchGoalCard,
