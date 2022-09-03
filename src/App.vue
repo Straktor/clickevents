@@ -11,16 +11,29 @@
         max-height="50"
         max-width="35"
         contain
-      ></v-img>
+        @click.native="routeHome()"
+      />
 
-      <v-toolbar-title class="mainTitle">The <span>estimation</span> is right
+      <v-toolbar-title
+        class="mainTitle__navBar"
+        @click="routeHome()"
+      >
+        The <span>estimation</span> is right
       </v-toolbar-title>
 
-      <v-spacer></v-spacer>
+      <v-spacer />
 
       <v-btn
         icon
-        color="#fff"
+        color="cYellow"
+        @click="routeEgg()"
+      >
+        <v-icon>mdi-egg-easter</v-icon>
+      </v-btn>
+      <v-btn
+        icon
+        color="cYellow"
+        @click="routeAbout()"
       >
         <v-icon>mdi-information</v-icon>
       </v-btn>
@@ -32,6 +45,34 @@
     </v-main>
   </v-app>
 </template>
+
+<script>
+export default {
+  methods: {
+    routeHome () {
+      if (this.$route?.name !== 'home') {
+        this.$router.push({
+          name: "home",
+        })
+      }
+    },
+    routeAbout () {
+      if (this.$route?.name !== 'about') {
+        this.$router.push({
+          name: "about",
+        })
+      }
+    },
+    routeEgg () {
+      if (this.$route?.name !== 'egg') {
+        this.$router.push({
+          name: "egg",
+        })
+      }
+    }
+  }
+}
+</script>
 
 <style lang="scss">
 @font-face {
@@ -93,12 +134,21 @@
   color: white;
 }
 
-.mainTitle {
-  font-family: pricedown;
-  font-size: 35px;
+.v-toolbar__content {
+  .v-image {
+    cursor: pointer;
+  }
 
-  span {
-    color: var(--v-cYellow-base);
+  .v-toolbar__title {
+    &.mainTitle__navBar {
+      font-family: pricedown;
+      font-size: 35px;
+      cursor: pointer;
+
+      span {
+        color: var(--v-cYellow-base);
+      }
+    }
   }
 }
 </style>

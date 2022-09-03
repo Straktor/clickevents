@@ -1,37 +1,22 @@
 <template>
   <v-row>
     <v-col>
+      <RulesCard v-if="!selectedTeam"></RulesCard>
       <v-sheet
-        min-height="90vh"
+        v-if="selectedTeam"
         rounded="lg"
         class="timelineContainer"
       >
-        <v-timeline dense>
-          <v-timeline-item
+        <h1 class="mainTitle ma-0 pa-0 ml-8">Planning of {{ $route.params?.name}}</h1>
+        <v-timeline
+          dense
+          class="pt-0"
+        >
+          <TimelineItem
             v-for="(item, i) in items"
             :key="i"
-            :color="item.color"
-            icon="mdi-star"
-            fill-dot
-          >
-            <v-card
-              rounded="lg"
-              dark
-              :color="item.color"
-            >
-              <v-card-title>
-                {{ item.type }}
-              </v-card-title>
-              <v-card-text class="white text--primary pt-2">
-                <div
-                  v-for="(c, i) in item.content"
-                  :key="i"
-                >
-                  -{{ c }}
-                </div>
-              </v-card-text>
-            </v-card>
-          </v-timeline-item>
+            :item="item"
+          />
         </v-timeline>
       </v-sheet>
     </v-col>
@@ -57,127 +42,203 @@
 
 <script>
 import TeamCard from '@/components/TeamCard'
-import { Team } from '@/models/teamsModel.js'
+import TimelineItem from '@/components/TimelineItem'
+
+import { Team } from '@/models/teamModel'
+import RulesCard from '@/components/RulesCard.vue';
 
 export default {
   name: "HomeView",
-  components: { TeamCard },
+  components: { TeamCard, TimelineItem, RulesCard },
   data () {
     return {
       selectedTeam: undefined,
-      teams: [
-        new Team({
-          name: 'Team 1',
-          points: 27,
-          members: ['Liam', 'Olivia', 'Noah', 'Emma', 'Oliver', 'Charlotte'],
-          numItems: 5,
-          numItemsCompleted: 3,
-          CRCompleted: 2,
-          pointsCompleted: 11,
-          percentageCompleted: 33
-        }),
-        new Team({
-          name: 'Team 2',
-          points: 85,
-          members: ['Elijah', 'Amelia', 'James', 'Ava', 'William', 'Sophia'],
-          numItems: 10,
-          numItemsCompleted: 4,
-          CRCompleted: 1,
-          pointsCompleted: 21,
-          percentageCompleted: 42
-        }),
-        new Team({
-          name: 'Team 3',
-          points: 13,
-          members: ['Benjamin', 'Isabella', 'Lucas', 'Mia', 'Henry'],
-          numItems: 6,
-          numItemsCompleted: 4,
-          CRCompleted: 5,
-          pointsCompleted: 22,
-          percentageCompleted: 80
-        }),
-        new Team({
-          name: 'Team 4',
-          points: 10,
-          members: ['Evelyn', 'Theodore', 'Harper'],
-          numItems: 7,
-          numItemsCompleted: 3,
-          CRCompleted: 1,
-          pointsCompleted: 4,
-          percentageCompleted: 55
-        })
-      ],
       items: [
-        {
-          color: "cGreen",
-          type: "Estimation",
-          content: [
-            "Number of points",
-            "List of tasks",
-            "Risks",
-            "Confidence level",
-            "Comments",
-          ],
-        },
-        {
-          color: "cPink",
-          type: "Task completed",
-          content: ["Task", "Number of points", "In production checkbox"],
-        },
-        {
-          color: "cOrange",
-          type: "Progress Report",
-          content: [
-            "Number of items completed",
-            "Confidence check",
-            "Percentage completed (Progress bar)",
-          ],
-        },
-        {
-          color: "cRed",
-          type: "Team Check-in",
-          content: ["Format of check in", "Details (free form comments)"],
-        },
-        {
-          color: "cGreen",
-          type: "New Stretch Goal",
-          content: [
-            "Task (jira number)",
-            "Number of points added",
-            "Confidence check",
-          ],
-        },
-        {
-          color: "cPink",
-          type: "Code Review Completed",
-          content: [
-            "Task",
-            "Team Code Review Completed For",
-            "Link to CR in gitlab",
-          ],
-        },
-        {
-          color: "cOrange",
-          type: "Retrospective Meeting",
-          content: [
-            "Would more/less planning time be better",
-            "What could the team have done to increase velocity",
-            "What would you change if you did it again?",
-            "How did you handle WIPs? (Limit the number of them, each person has a WIP task, etc.)",
-            "What are the other key takeaways",
-          ],
-        },
+        { type: "Add a new entry", values: {} },
+        { type: "Estimation", values: { '# of points': 'This works!', 'Confidence level': 3 } },
+        { type: "Appreciation Points", values: {} },
+        { type: "Task completed", values: {} },
+        { type: "Progress Report", values: {} },
+        { type: "Team Check-in", values: {} },
+        { type: "New Stretch Goal", values: {} },
+        { type: "Code Review Completed", values: {} },
+        { type: "Retrospective Meeting", values: {} },
       ],
     };
   },
+  computed: {
+    teams () {
+      return Team.query().withAllRecursive().all()
+    }
+  },
+  watch: {
+    '$route': {
+      handler (nv) {
+        if (!(nv?.params?.name)) {
+          this.selectedTeam = undefined
+        }
+      },
+    }
+  },
+  mounted () {
+    let teams = [
+      {
+        id: 1,
+        name: 'Team 1',
+        points: 27,
+        numItems: 5,
+        numItemsCompleted: 3,
+        CRCompleted: 2,
+        pointsCompleted: 11,
+        percentageCompleted: 33,
+        members: [
+          {
+            id: 1,
+            name: 'Liam'
+          },
+          {
+            id: 2,
+            name: 'Olivia'
+          },
+          {
+            id: 3,
+            name: 'Noah'
+          },
+          {
+            id: 4,
+            name: 'Emma'
+          },
+          {
+            id: 5,
+            name: 'Oliver'
+          },
+          {
+            id: 6,
+            name: 'Charlotte'
+          },
+        ]
+      },
+      {
+        id: 2,
+        name: 'Team 2',
+        points: 85,
+        numItems: 10,
+        numItemsCompleted: 4,
+        CRCompleted: 1,
+        pointsCompleted: 21,
+        percentageCompleted: 42,
+        members: [
+          {
+            id: 7,
+            name: 'Elijah'
+          },
+          {
+            id: 8,
+            name: 'Amelia'
+          },
+          {
+            id: 9,
+            name: 'James'
+          },
+          {
+            id: 10,
+            name: 'William'
+          },
+          {
+            id: 11,
+            name: 'Sophia'
+          },
+          {
+            id: 12,
+            name: 'Ava'
+          },
+        ],
+      },
+      {
+        id: 3,
+        name: 'Team 3',
+        points: 13,
+        numItems: 6,
+        numItemsCompleted: 4,
+        CRCompleted: 5,
+        pointsCompleted: 22,
+        percentageCompleted: 80,
+        members: [
+          {
+            id: 13,
+            name: 'Benjamin'
+          },
+          {
+            id: 14,
+            name: 'Isabella'
+          },
+          {
+            id: 15,
+            name: 'Lucas'
+          },
+          {
+            id: 16,
+            name: 'Mia'
+          },
+          {
+            id: 17,
+            name: 'Henry'
+          },
+        ],
+      },
+      {
+        id: 4,
+        name: 'Team 4',
+        points: 10,
+        numItems: 7,
+        numItemsCompleted: 3,
+        CRCompleted: 1,
+        pointsCompleted: 4,
+        percentageCompleted: 55,
+        members: [
+          {
+            id: 17,
+            name: 'Evelyn'
+          },
+          {
+            id: 18,
+            name: 'Theodore'
+          },
+          {
+            id: 19,
+            name: 'Harper'
+          },
+        ],
+      }
+    ]
+
+    Team.insert({ data: teams })
+
+    // Set selected Team
+    this.selectTeam(this.getTeamFromName(this.$route.params?.name))
+  },
   methods: {
+    getTeamFromName (teamName) {
+      return this.teams.find(t => t.name === teamName)
+    },
     selectTeam (team) {
-      if (this.selectedTeam?.name === team.name) {
-        this.selectedTeam = undefined
+      if (!team || this.selectedTeam?.name === team.name) {
+        if (this.$route?.name !== 'home') {
+          this.$router.push({ name: "home" })
+        }
         return
       }
 
       this.selectedTeam = team
+
+      if (this.$route.params?.name !== this.selectedTeam.name) {
+        this.$router.push({
+          name: "planning",
+          params: {
+            name: this.selectedTeam.name
+          }
+        })
+      }
     }
   }
 };
@@ -185,9 +246,15 @@ export default {
 
 <style lang="scss" scoped>
 .timelineContainer {
-  margin-top: 15px;
   background-color: transparent;
   text-align: left;
+
+  h1.mainTitle {
+    font-size: 50px;
+    color: var(--v-cYellow-base);
+    text-align: center;
+    font-family: pricedown;
+  }
 }
 
 .v-timeline::before {
@@ -195,10 +262,6 @@ export default {
   top: 42px;
   width: 4px;
   background-color: var(--v-cYellow-base);
-}
-
-.v-application--is-ltr .v-timeline--dense:not(.v-timeline--reverse)::before {
-  left: calc(48px - 2px);
 }
 
 .v-timeline::after {
@@ -212,14 +275,8 @@ export default {
   left: calc(48px - 5px);
 }
 
-.v-timeline-item__body > .v-card:not(.v-card--flat)::after,
-.v-timeline-item__body > .v-card:not(.v-card--flat):not(.v-card--link)::before {
-  top: 25px;
-}
-
-::v-deep .v-timeline-item__dot {
-  position: absolute;
-  top: 16px;
+.v-application--is-ltr .v-timeline--dense:not(.v-timeline--reverse)::before {
+  left: calc(48px - 2px);
 }
 
 .v-card__title {
@@ -230,7 +287,7 @@ export default {
 .rightPanel {
   position: relative;
   margin: 15px;
-  margin-top: 30px;
+  margin-top: 20px;
 
   outline-offset: 5px;
   background-color: var(--v-cGreen-base);
@@ -260,5 +317,23 @@ export default {
   .selectedTeam {
     outline: 5px solid var(--v-cYellow-base);
   }
+}
+
+.testing12 {
+  color: var(--v-cYellow-base);
+
+  div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  background-color: var(--v-cBlue-darken1);
+
+  border-radius: 0.5em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 </style>
