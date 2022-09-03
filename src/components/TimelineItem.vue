@@ -18,17 +18,55 @@
           :cols="getColSize(f?.size)"
         >
           <p>{{ f.label }}</p>
+
           <component
+            v-if="!(isProgressField(f) && !readOnly)"
             :is="f.type"
-            v-model="localValues[f.label]"
+            :value="localValues[f.label]"
             :placeholder="f.placeholder"
             outlined
             dense
             hide-details
-            rows="2"
             :disabled="readOnly"
-            class="white"
-          />
+            :class="getColorClass(f)"
+            v-bind="getComponentProperties(f)"
+            @input="e => localValues[f.label] = e"
+          >
+            <strong
+              v-if="isProgressField(f)"
+              class="white--text"
+            >
+              {{ localValues[f.label] ? Math.ceil(localValues[f.label]) : 0 }}%
+            </strong>
+            <template
+              v-if="isRatingField(f)"
+              v-slot:item="props"
+            >
+              <v-icon
+                :color="props.isFilled ? 'cBlue' : 'grey lighten-1'"
+                large
+                @click="props.click"
+              >
+                {{ props.isFilled ? 'mdi-star-circle' : 'mdi-star-circle-outline' }}
+              </v-icon>
+            </template>
+          </component>
+          <!--
+            Second v-progress-linear to handle
+            weird behaviours when v-model is set
+          -->
+          <v-progress-linear
+            v-if="isProgressField(f) && !readOnly"
+            v-model="localValues[f.label]"
+            height="25"
+          >
+            <strong
+              v-if="isProgressField(f)"
+              class="white--text"
+            >
+              {{ localValues[f.label] ? Math.ceil(localValues[f.label]) : 0 }}%
+            </strong>
+          </v-progress-linear>
         </v-col>
       </v-row>
     </BaseCard>
@@ -36,6 +74,14 @@
 </template>
 
 <script>
+import {
+  VTextarea,
+  VCombobox,
+  VProgressLinear,
+  VRating,
+  VCheckbox,
+} from "vuetify/lib";
+
 import {
   defaultCard,
   retroCard,
@@ -98,6 +144,27 @@ export default {
     },
     saveChanges () {
       // TODO: update values
+    },
+    getComponentProperties (field) {
+      switch (field?.type) {
+        case VCombobox: return { items: field.items }
+        case VProgressLinear: return { height: "25" }
+        case VTextarea: return { rows: 2 }
+        case VRating: return { readonly: this.readOnly }
+      }
+    },
+    getColorClass (field) {
+      if ([VProgressLinear, VCheckbox, VRating].includes(field?.type)) {
+        return ''
+      }
+
+      return 'white'
+    },
+    isRatingField (field) {
+      return !!(VRating === field?.type)
+    },
+    isProgressField (field) {
+      return !!(VProgressLinear === field?.type)
     },
     getColSize (size) {
 

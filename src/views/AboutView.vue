@@ -3,15 +3,26 @@
     <h1>How does the day work?</h1>
     <div class="row about">
       <div class="col-lg-7 col-12">
-        <v-card rounded="lg" class="aboutContainer pb-4">
+        <v-card
+          rounded="lg"
+          class="aboutContainer pb-4"
+        >
           <h1 class="mainTitle ma-0 pa-0">Stucture of the Day</h1>
           <v-row>
             <v-col cols="3">
-              <v-img class="col-lg-5 col-12" src="@/assets/break.jpg" max-height="100"
-                max-width="100"/>
+              <v-img
+                class="col-lg-5 col-12"
+                src="@/assets/break.jpg"
+                max-height="100"
+                max-width="100"
+              />
             </v-col>
             <v-col cols="9">
-              <div class="day__text" v-for="(t, i) in day_events" :key="i">{{ t }}</div>        
+              <div
+                class="day__text"
+                v-for="(t, i) in day_events"
+                :key="i"
+              >{{ t }}</div>
             </v-col>
           </v-row>
         </v-card>
@@ -20,7 +31,10 @@
 
     <div class="row about">
       <div class="col-lg-7 col-12 order-lg-4 order-3">
-        <v-card rounded="lg" class="aboutContainer pb-4">
+        <v-card
+          rounded="lg"
+          class="aboutContainer pb-4"
+        >
           <h1 class="mainTitle ma-0 pa-0">Taking Breaks</h1>
           <v-row>
             <v-col cols="9">
@@ -43,17 +57,18 @@
       </div>
     </div>
 
-    <h2 v-for="(t, i) in todos" :key="i">TODO: {{ t }}</h2>
+    <h2
+      v-for="(t, i) in todos"
+      :key="i"
+    >TODO: {{ t }}</h2>
   </div>
 </template>
 
 <script>
 export default {
-  data() {
+  data () {
     return {
       todos: [
-        "Dropdown component",
-        "ProgessBar component",
         "New Entry in Timeline component",
         "Rules page",
         'Team page for an "example"',
@@ -63,7 +78,7 @@ export default {
         "Add live updates",
         "Firebase Auth",
         "Add cloud functions",
-        "Slack integration", 
+        "Slack integration",
         "Work out points for winners"
       ],
       day_events: [

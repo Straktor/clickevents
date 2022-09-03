@@ -17,8 +17,30 @@
             :key="i"
             :item="item"
           />
+          <v-timeline-item
+            color="cRed"
+            icon="mdi-alert-decagram"
+            fill-dot
+          >
+            <div class="testing12">
+              <div class="pa-3">
+                Add a new entry
+                <v-btn
+                  class="ma-2"
+                  color="cPink"
+                  fab
+                >
+                  <v-icon
+                    large
+                    color="cYellow lighten-3"
+                  >
+                    mdi-plus-thick
+                  </v-icon>
+                </v-btn>
+              </div>
+            </div>
+          </v-timeline-item>
         </v-timeline>
-
       </v-sheet>
     </v-col>
     <v-col cols="4">
@@ -55,8 +77,8 @@ export default {
     return {
       selectedTeam: undefined,
       items: [
-        { type: "Estimation", values: { '# of points': 'This works!' } },
-        { type: "Appreciation Points", values: {}},
+        { type: "Estimation", values: { '# of points': 'This works!', 'Confidence level': 3 } },
+        { type: "Appreciation Points", values: {} },
         { type: "Task completed", values: {} },
         { type: "Progress Report", values: {} },
         { type: "Team Check-in", values: {} },
@@ -317,5 +339,23 @@ export default {
   .selectedTeam {
     outline: 5px solid var(--v-cYellow-base);
   }
+}
+
+.testing12 {
+  color: var(--v-cYellow-base);
+
+  div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  background-color: var(--v-cBlue-darken1);
+
+  border-radius: 0.5em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 </style>

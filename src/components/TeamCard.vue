@@ -38,14 +38,12 @@
 </template>
 
 <script>
-import { Team } from '@/models/teamsModel.js'
-
 export default {
   name: 'TeamCard',
   props: {
     team: {
       type: Object,
-      default: () => new Team({})
+      default: () => { }
     },
     variant: {
       type: Number,

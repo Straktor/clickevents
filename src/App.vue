@@ -21,7 +21,7 @@
         The <span>estimation</span> is right
       </v-toolbar-title>
 
-      <v-spacer></v-spacer>
+      <v-spacer />
 
       <v-btn
         icon
