@@ -69,7 +69,6 @@ export default {
   data () {
     return {
       todos: [
-        "New Entry in Timeline component",
         "Rules page",
         'Team page for an "example"',
         'Show only teams "events"',

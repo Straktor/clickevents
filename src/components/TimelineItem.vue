@@ -8,80 +8,33 @@
       :color="card.color"
       :title="card.label"
       :readOnly.sync="readOnly"
+      :hideDateTime="isNewEntryCard()"
+      :hideReadOnly="isNewEntryCard()"
       @cancel="updateValues()"
       @submit="saveChanges()"
     >
-      <v-row>
-        <v-col
+      <!-- New entry section -->
+      <v-row
+        v-if="isNewEntryCard()"
+        class="pb-1"
+      >
+        <NewEntry :cards="cards" />
+      </v-row>
+      <!-- Fields section -->
+      <v-row v-else>
+        <BaseField
           v-for="(f, i) in card.fields"
           :key="i"
-          :cols="getColSize(f?.size)"
-        >
-          <p>{{ f.label }}</p>
-
-          <component
-            v-if="!(isProgressField(f) && !readOnly)"
-            :is="f.type"
-            :value="localValues[f.label]"
-            :placeholder="f.placeholder"
-            outlined
-            dense
-            hide-details
-            :disabled="readOnly"
-            :class="getColorClass(f)"
-            v-bind="getComponentProperties(f)"
-            @input="e => localValues[f.label] = e"
-          >
-            <strong
-              v-if="isProgressField(f)"
-              class="white--text"
-            >
-              {{ localValues[f.label] ? Math.ceil(localValues[f.label]) : 0 }}%
-            </strong>
-            <template
-              v-if="isRatingField(f)"
-              v-slot:item="props"
-            >
-              <v-icon
-                :color="props.isFilled ? 'cBlue' : 'grey lighten-1'"
-                large
-                @click="props.click"
-              >
-                {{ props.isFilled ? 'mdi-star-circle' : 'mdi-star-circle-outline' }}
-              </v-icon>
-            </template>
-          </component>
-          <!--
-            Second v-progress-linear to handle
-            weird behaviours when v-model is set
-          -->
-          <v-progress-linear
-            v-if="isProgressField(f) && !readOnly"
-            v-model="localValues[f.label]"
-            height="25"
-          >
-            <strong
-              v-if="isProgressField(f)"
-              class="white--text"
-            >
-              {{ localValues[f.label] ? Math.ceil(localValues[f.label]) : 0 }}%
-            </strong>
-          </v-progress-linear>
-        </v-col>
+          v-model="localValues[f.label]"
+          :field="f"
+          :readOnly="readOnly"
+        />
       </v-row>
     </BaseCard>
   </v-timeline-item>
 </template>
 
 <script>
-import {
-  VTextarea,
-  VCombobox,
-  VProgressLinear,
-  VRating,
-  VCheckbox,
-} from "vuetify/lib";
-
 import {
   defaultCard,
   retroCard,
@@ -92,15 +45,19 @@ import {
   estimationCard,
   taskCard,
   appreciationCard,
+  newEntryCard,
 } from "./timelineCards.js";
 
 import BaseCard from '@/components/BaseCard'
+import NewEntry from '@/components/NewEntry'
+import BaseField from '@/components/BaseField'
 
 export default {
   name: 'TimelineItem',
   components: {
     BaseCard,
-
+    NewEntry,
+    BaseField,
   },
   props: {
     item: {
@@ -112,6 +69,18 @@ export default {
     return {
       readOnly: true,
       localValues: {},
+      selectedNewEntry: undefined,
+      cards: [
+        estimationCard,
+        taskCard,
+        progessCard,
+        codeReviewCard,
+        stretchGoalCard,
+        checkInCard,
+        appreciationCard,
+        retroCard,
+        newEntryCard
+      ]
     }
   },
   watch: {
@@ -125,16 +94,11 @@ export default {
   },
   computed: {
     card () {
-      switch (this.item?.type) {
-        case 'Estimation': return estimationCard
-        case 'Task completed': return taskCard
-        case 'Progress Report': return progessCard
-        case 'Team Check-in': return checkInCard
-        case 'New Stretch Goal': return stretchGoalCard
-        case 'Code Review Completed': return codeReviewCard
-        case 'Retrospective Meeting': return retroCard
-        case 'Appreciation Points': return appreciationCard
+      for (let c of this.cards) {
+        if (c.label === this.item.type) return c
       }
+
+      console.log(this.item.type)
       return defaultCard
     },
   },
@@ -145,43 +109,8 @@ export default {
     saveChanges () {
       // TODO: update values
     },
-    getComponentProperties (field) {
-      switch (field?.type) {
-        case VCombobox: return { items: field.items }
-        case VProgressLinear: return { height: "25" }
-        case VTextarea: return { rows: 2 }
-        case VRating: return { readonly: this.readOnly }
-      }
-    },
-    getColorClass (field) {
-      if ([VProgressLinear, VCheckbox, VRating].includes(field?.type)) {
-        return ''
-      }
-
-      return 'white'
-    },
-    isRatingField (field) {
-      return !!(VRating === field?.type)
-    },
-    isProgressField (field) {
-      return !!(VProgressLinear === field?.type)
-    },
-    getColSize (size) {
-
-      switch (this.$vuetify.breakpoint.name) {
-        case 'xs':
-        case 'sm':
-          break;
-        case 'md':
-          if (size === "s") return 6
-          else break;
-        case 'lg':
-        case 'xl':
-          if (size === "s") return 4
-          else if (size === "m") return 6
-      }
-
-      return 12
+    isNewEntryCard () {
+      return this.card === newEntryCard
     }
   }
 }
@@ -199,21 +128,12 @@ export default {
   top: 25px;
 }
 
-::v-deep .v-timeline-item__dot {
+:deep(.v-timeline-item__dot) {
   position: absolute;
   top: 16px;
 }
 
 .row {
   padding-bottom: 1em;
-
-  .col {
-    padding-top: 1em;
-    padding-bottom: 0;
-
-    p {
-      margin: 0;
-    }
-  }
 }
 </style>

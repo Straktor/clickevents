@@ -17,29 +17,6 @@
             :key="i"
             :item="item"
           />
-          <v-timeline-item
-            color="cRed"
-            icon="mdi-alert-decagram"
-            fill-dot
-          >
-            <div class="testing12">
-              <div class="pa-3">
-                Add a new entry
-                <v-btn
-                  class="ma-2"
-                  color="cPink"
-                  fab
-                >
-                  <v-icon
-                    large
-                    color="cYellow lighten-3"
-                  >
-                    mdi-plus-thick
-                  </v-icon>
-                </v-btn>
-              </div>
-            </div>
-          </v-timeline-item>
         </v-timeline>
       </v-sheet>
     </v-col>
@@ -77,6 +54,7 @@ export default {
     return {
       selectedTeam: undefined,
       items: [
+        { type: "Add a new entry", values: {} },
         { type: "Estimation", values: { '# of points': 'This works!', 'Confidence level': 3 } },
         { type: "Appreciation Points", values: {} },
         { type: "Task completed", values: {} },

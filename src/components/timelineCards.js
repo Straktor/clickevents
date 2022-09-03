@@ -82,7 +82,7 @@ let taskCard = TimelineCard.create({
 });
 
 let appreciationCard = TimelineCard.create({
-  label: "Appreciation Points Given",
+  label: "Appreciation Points",
   color: "cPink",
   icon: "mdi-star-face",
   fields: [
@@ -205,6 +205,13 @@ let retroCard = TimelineCard.create({
   }),
 });
 
+let newEntryCard = TimelineCard.create({
+  label: "Add a new entry",
+  color: "cRed",
+  icon: "mdi-alert-decagram",
+  fields: [],
+});
+
 export {
   defaultCard,
   appreciationCard,
@@ -215,4 +222,5 @@ export {
   progessCard,
   estimationCard,
   taskCard,
+  newEntryCard,
 };
