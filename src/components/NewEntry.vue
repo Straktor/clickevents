@@ -3,13 +3,13 @@
     <div v-if="!plusBtnPressed">
       <v-btn
         class="ma-2"
-        color="cPink"
+        :color="color"
         fab
         @click="plusBtnPressed = true"
       >
         <v-icon
           large
-          color="cYellow lighten-3"
+          color="white"
         >
           mdi-plus-thick
         </v-icon>
@@ -93,6 +93,10 @@ import BaseField from '@/components/BaseField'
 export default {
   components: { BaseField },
   props: {
+    color: {
+      type: String,
+      default: 'cRed'
+    },
     cards: {
       type: Array,
       default: () => { return [] }

@@ -18,7 +18,10 @@
         v-if="isNewEntryCard()"
         class="pb-1"
       >
-        <NewEntry :cards="cards" />
+        <NewEntry
+          :cards="cards"
+          :color="card.color"
+        />
       </v-row>
       <!-- Fields section -->
       <v-row v-else>
