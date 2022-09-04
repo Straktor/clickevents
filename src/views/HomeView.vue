@@ -13,7 +13,7 @@
           class="pt-0"
         >
           <TimelineItem
-            v-for="(item, i) in selectedTeam?.events"
+            v-for="(item, i) in events"
             :key="i"
             :item="item"
           />
@@ -60,7 +60,10 @@ export default {
   computed: {
     teams () {
       return Team.query().withAllRecursive().all()
-    }
+    },
+    events () {
+      return [...this.selectedTeam?.events, { type: "Add a new entry", values: {} }]
+    },
   },
   watch: {
     '$route': {

@@ -47,7 +47,6 @@ let mockTeams = [
       { id: 6, type: "New Stretch Goal", values: {} },
       { id: 7, type: "Code Review Completed", values: {} },
       { id: 8, type: "Retrospective Meeting", values: {} },
-      { id: 9, type: "Add a new entry", values: {} },
     ],
   },
   {
@@ -85,7 +84,7 @@ let mockTeams = [
         name: "Ava",
       },
     ],
-    events: [{ id: 10, type: "Add a new entry", values: {} }],
+    events: [],
   },
   {
     id: 3,
@@ -124,7 +123,6 @@ let mockTeams = [
         type: "Estimation",
         values: { "# of points": "This works!", "Confidence level": 3 },
       },
-      { id: 13, type: "Add a new entry", values: {} },
     ],
   },
   {
@@ -157,7 +155,6 @@ let mockTeams = [
         values: { "# of points": "This works!", "Confidence level": 3 },
       },
       { id: 15, type: "Appreciation Points", values: {} },
-      { id: 16, type: "Add a new entry", values: {} },
     ],
   },
 ];
