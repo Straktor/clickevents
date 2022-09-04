@@ -132,6 +132,7 @@ export default {
     border-style: dashed;
     border-width: 2px;
     border-radius: 0.5em;
+    background-color: #eee;
   }
 
   .newEntryFields {
