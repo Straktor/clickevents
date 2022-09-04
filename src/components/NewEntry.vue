@@ -100,7 +100,7 @@ export default {
   },
   data: () => {
     return {
-      plusBtnPressed: true,
+      plusBtnPressed: false,
       selectedNewEntry: undefined,
       localValues: {},
     }

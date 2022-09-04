@@ -104,7 +104,7 @@ export default {
   },
   methods: {
     updateValues () {
-      this.localValues = JSON.parse(JSON.stringify(this.item.values))
+      if (this.item?.values) this.localValues = JSON.parse(JSON.stringify(this.item.values))
     },
     saveChanges () {
       // TODO: update values
