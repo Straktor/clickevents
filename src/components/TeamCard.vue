@@ -117,7 +117,7 @@ export default {
 
         &.scoreCard--text-2 {
           font-family: "Bristol";
-          font-size: 70px;
+          font-size: 65px;
         }
 
         &.scoreCard--text-3 {
