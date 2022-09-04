@@ -23,20 +23,27 @@
 
       <v-spacer />
 
-      <v-btn
-        icon
-        color="cYellow"
-        @click="routeEgg()"
-      >
-        <v-icon>mdi-egg-easter</v-icon>
-      </v-btn>
-      <v-btn
-        icon
-        color="cYellow"
-        @click="routeAbout()"
-      >
-        <v-icon>mdi-information</v-icon>
-      </v-btn>
+      <v-hover v-slot="{ hover }">
+        <v-btn
+          icon
+          :color="hover ? 'cYellow': 'white'"
+          @click="routeEgg()"
+        >
+          <v-icon>mdi-egg-easter</v-icon>
+        </v-btn>
+      </v-hover>
+
+      <v-hover v-slot="{ hover }">
+        <v-btn
+          icon
+          :color="hover ? 'cYellow': 'white'"
+          @click="routeAbout()"
+        >
+          <v-icon>mdi-information</v-icon>
+        </v-btn>
+      </v-hover>
+
+      <AuthNav class="ml-3" />
     </v-app-bar>
     <v-main>
       <v-container :fluid="!$vuetify.breakpoint.xlOnly">
@@ -47,7 +54,22 @@
 </template>
 
 <script>
+import AuthNav from '@/components/AuthNav'
+
+import { initFirebase } from '@/helpers/firebaseInit.js'
+
 export default {
+  components: {
+    AuthNav
+  },
+  data: () => {
+    return {
+
+    }
+  },
+  created () {
+    initFirebase()
+  },
   methods: {
     routeHome () {
       if (this.$route?.name !== 'home') {

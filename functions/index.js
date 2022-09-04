@@ -7,3 +7,12 @@ const functions = require("firebase-functions");
 //   functions.logger.info("Hello logs!", {structuredData: true});
 //   response.send("Hello from Firebase!");
 // });
+
+// exports.createEvent = functions.https.onCall(async (data, context) => {
+//   if (!context.auth) {
+//     throw new functions.https.HttpsError(
+//       "failed-precondition",
+//       "Not logged in."
+//     );
+//   }
+// });

@@ -1,6 +1,5 @@
 let mockTeams = [
   {
-    id: 1,
     name: "Team 1",
     points: 27,
     numItems: 5,
@@ -50,7 +49,6 @@ let mockTeams = [
     ],
   },
   {
-    id: 2,
     name: "Team 2",
     points: 85,
     numItems: 10,
@@ -87,7 +85,6 @@ let mockTeams = [
     events: [],
   },
   {
-    id: 3,
     name: "Team 3",
     points: 13,
     numItems: 6,
@@ -126,7 +123,6 @@ let mockTeams = [
     ],
   },
   {
-    id: 4,
     name: "Team 4",
     points: 10,
     numItems: 7,

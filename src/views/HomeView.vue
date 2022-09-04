@@ -44,17 +44,22 @@
 import TeamCard from '@/components/TeamCard'
 import TimelineItem from '@/components/TimelineItem'
 
-import { mockTeams } from '@/helpers/mockData.js'
+// import { mockTeams } from '@/helpers/mockData.js'
 
-import { Team } from '@/models/teamModel'
+import { Team, Member } from '@/models/teamModel'
 import RulesCard from '@/components/RulesCard.vue';
+
+import { db } from '@/helpers/firebaseInit.js'
+import { collection, onSnapshot, query } from "firebase/firestore";
 
 export default {
   name: "HomeView",
   components: { TeamCard, TimelineItem, RulesCard },
   data () {
     return {
+      firstLoad: true,
       selectedTeam: undefined,
+      firestoreUnsub: []
     };
   },
   computed: {
@@ -75,12 +80,39 @@ export default {
     }
   },
   mounted () {
-    let teams = mockTeams
+    // Load data from Firebase and listen for changes
 
-    Team.insert({ data: teams })
+    // Teams
+    let teamUnsub = onSnapshot(query(collection(db, "teams")), (docs) => {
+      let teams = [];
+      docs.forEach((doc) => {
+        // Set firebase id as vuex orm id
+        teams.push({ id: doc.id, ...doc.data() });
+      });
+      Team.insert({ data: teams })
+      if (this.firstLoad) {
+        // Set selected Team
+        this.selectTeam(this.getTeamFromName(this.$route.params?.name))
+        this.firstLoad = false
+      }
+    });
 
-    // Set selected Team
-    this.selectTeam(this.getTeamFromName(this.$route.params?.name))
+    // Users
+    let userUnsub = onSnapshot(query(collection(db, "users")), (docs) => {
+      let users = [];
+      docs.forEach((doc) => {
+        // Set firebase id as vuex orm id
+        users.push({ id: doc.id, ...doc.data() });
+      });
+      Member.insert({ data: users })
+    });
+
+    this.firestoreUnsub = [teamUnsub, userUnsub]
+  },
+  destroyed () {
+    for (const unsub of this.firestoreUnsub) {
+      unsub()
+    }
   },
   methods: {
     getTeamFromName (teamName) {

@@ -100,7 +100,6 @@ export default {
         if (c.label === this.item.type) return c
       }
 
-      console.log(this.item.type)
       return defaultCard
     },
   },
