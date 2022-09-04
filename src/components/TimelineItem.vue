@@ -82,7 +82,6 @@ export default {
         checkInCard,
         appreciationCard,
         retroCard,
-        newEntryCard
       ]
     }
   },
@@ -97,7 +96,7 @@ export default {
   },
   computed: {
     card () {
-      for (let c of this.cards) {
+      for (let c of [...this.cards, newEntryCard]) {
         if (c.label === this.item.type) return c
       }
 
