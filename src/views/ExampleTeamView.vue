@@ -5,7 +5,8 @@
         rounded="lg"
         class="timelineContainer"
       >
-        <h1 class="mainTitle ma-0 pa-0 ml-8">Planning of the Dream Team</h1>
+        <h1 class="mainTitle ma-0 pa-0 ml-8">Planning of The Dream Team</h1>
+        <h3>This is an example page to show what each team's timeline should look like</h3>
         <v-timeline
           dense
           class="pt-0"
@@ -14,6 +15,7 @@
             v-for="(item, i) in items"
             :key="i"
             :item="item"
+            :editEnabled="false"
           />
         </v-timeline>
       </v-sheet>
@@ -49,10 +51,10 @@ export default {
       items: [
         {
           type: "Estimation",
-          createdAt: 1662382878000,
+          createdAt: 1662393562000,
           values: {
             "# of points": "27",
-            "Confidence level": "5",
+            "Confidence level": "4",
             "List of tasks":
               "AUTO-111, AUTO-112, AUTO-113, AUTO-114, AUTO-115, AUTO-116, AUTO-117",
             Risks:
@@ -62,7 +64,7 @@ export default {
         },
         {
           type: "Task completed",
-          createdAt: 1662382878000,
+          createdAt: 1662399000000,
           values: {
             "# of points": "5",
             Task: "AUTO-112",
@@ -71,6 +73,7 @@ export default {
         },
         {
           type: "Team Check-in",
+          createdAt: 1662400800000,
           values: {
             "Format of check in": "Group huddle",
             Details:
@@ -79,6 +82,7 @@ export default {
         },
         {
           type: "Appreciation Points",
+          createdAt: 1662401700000,
           values: {
             "# of points": "10",
             From: "Babette",
@@ -88,6 +92,7 @@ export default {
         },
         {
           type: "Task completed",
+          createdAt: 1662402640000,
           values: {
             "# of points": "15",
             Task: "AUTO-111",
@@ -96,17 +101,57 @@ export default {
         },
         {
           type: "Code Review Completed",
+          createdAt: 1662402910000,
           values: {
             Task: "AUTO-1190",
             "Team completed for": "Bob the Builder",
           },
         },
         {
-          type: "Progress Report",
+          type: "Task completed",
+          createdAt: 1662406030000,
           values: {
-            "# of points Completed": "20",
-            "# of items completed": "2",
-            "Confidence level": "4",
+            "# of points": "15",
+            Task: "AUTO-117",
+            "In production": true,
+          },
+        },
+        {
+          type: "Progress Report",
+          createdAt: 1662409846000,
+          values: {
+            "# of points Completed": "35",
+            "# of items completed": "3",
+            "Confidence level": "5",
+            "Estimation Percentage completed": "70"
+          },
+        },
+        {
+          type: "Team Check-in",
+          createdAt: 1662470100000,
+          values: {
+            "Format of check in": "Slack call",
+            Details:
+              "Team has completed 3 out of 7 items and 3 more are in testing. The team is swarming to get the testing and the last story done but is confident that they can take a stretch goal. We will have another check in at 11:30 to plan for this.",
+          },
+        },
+        {
+          type: "Task completed",
+          createdAt: 1662470400000,
+          values: {
+            "# of points": "5",
+            Task: "AUTO-116",
+            "In production": true,
+          },
+        },
+        {
+          type: "Progress Report",
+          createdAt: 1662409846000,
+          values: {
+            "# of points Completed": "35",
+            "# of items completed": "3",
+            "Confidence level": "5",
+            "Estimation Percentage completed": "70"
           },
         },
         { type: "New Stretch Goal", values: {} },
@@ -128,7 +173,7 @@ export default {
     this.fakeTeams = [
       {
         id: 1,
-        name: "The Dream Team",
+        name: "Dream Team",
         points: 55,
         numItems: 7,
         numItemsCompleted: 8,
@@ -186,6 +231,13 @@ export default {
     text-align: center;
     font-family: pricedown;
   }
+}
+
+h3 {
+  font-size: 30px;
+  color: var(--v-cYellow-base);
+  text-align: center;
+  font-family: pricedown;
 }
 
 .v-timeline::before {
