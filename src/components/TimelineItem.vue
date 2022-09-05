@@ -10,6 +10,8 @@
       :readOnly.sync="readOnly"
       :hideDateTime="isNewEntryCard()"
       :hideReadOnly="isNewEntryCard()"
+      :dateTimeStamp="item.createdAt"
+      :submitLoading="submitLoading"
       @cancel="updateValues()"
       @submit="saveChanges()"
     >
@@ -75,6 +77,7 @@ export default {
       readOnly: true,
       localValues: {},
       selectedNewEntry: undefined,
+      submitLoading: false,
       cards: [
         estimationCard,
         taskCard,
@@ -112,8 +115,12 @@ export default {
     },
     saveChanges () {
       let eventUpdate = { id: this.item.id, type: this.card.label, values: this.localValues }
-      this.updateEvent(eventUpdate)
-      // TODO: handle promise
+
+      // TODO: Handle error messages
+      this.submitLoading = true
+      this.updateEvent(eventUpdate).finally(() => {
+        this.submitLoading = false, this.readOnly = true
+      })
     },
     isNewEntryCard () {
       return this.card === newEntryCard

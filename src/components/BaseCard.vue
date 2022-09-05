@@ -6,15 +6,11 @@
   >
     <v-card-title class="pr-2">
       {{ title }}
-      <!--
-        TODO: Get date from Props
-        TODO: Proper Date to string (Remove seconds and 24h format)
-      -->
       <div
         v-if="!hideDateTime"
         class="dateTimeStamp"
       >
-        - 2022-08-27 14:08
+        - {{ new Date(dateTimeStamp).toLocaleString([], {hour12: false}) }}
       </div>
       <v-spacer />
 
@@ -24,6 +20,7 @@
         :color="color"
         dark
         elevation="0"
+        :disabled="submitLoading"
         @click="editIconClicked()"
       >
         <v-icon>{{ readOnly ? 'mdi-pencil' : 'mdi-close-circle' }}</v-icon>
@@ -45,6 +42,7 @@
         <v-btn
           class="white--text pa-4"
           plain
+          :disabled="submitLoading"
           @click="cancel()"
         >
           Cancel
@@ -52,6 +50,7 @@
         <v-btn
           class="white--text pa-4"
           outlined
+          :loading="submitLoading"
           @click="submit()"
         >
           Submit
@@ -86,6 +85,13 @@ export default {
       type: String,
       default: ''
     },
+    dateTimeStamp: {
+      type: Number
+    },
+    submitLoading: {
+      type: Boolean,
+      default: false
+    },
   },
   data: () => {
     return {
@@ -105,7 +111,6 @@ export default {
       this.$emit('cancel')
     },
     submit () {
-      this.setReadOnly(true)
       this.$emit('submit')
     },
   }
