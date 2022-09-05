@@ -9,7 +9,7 @@
       :title="card.label"
       :readOnly.sync="readOnly"
       :hideDateTime="isNewEntryCard()"
-      :hideReadOnly="isNewEntryCard()"
+      :hideReadOnly="isNewEntryCard() || !editEnabled"
       :dateTimeStamp="item.createdAt"
       :submitLoading="submitLoading"
       @cancel="updateValues()"
@@ -70,6 +70,10 @@ export default {
     item: {
       type: Object,
       default: () => { }
+    },
+    editEnabled: {
+      type: Boolean,
+      default: true
     }
   },
   data: () => {
