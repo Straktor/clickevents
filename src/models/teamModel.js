@@ -1,13 +1,14 @@
 import { Model } from "@vuex-orm/core";
 
 class Event extends Model {
-  static entity = "members";
+  static entity = "events";
 
   static fields() {
     return {
       id: this.attr(null),
       type: this.attr(""),
       values: this.attr({}),
+      createdAt: this.attr(null),
 
       // FK
       teamId: this.attr(null),

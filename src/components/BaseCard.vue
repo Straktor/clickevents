@@ -6,17 +6,20 @@
   >
     <v-card-title class="pr-2">
       {{ title }}
-      -
       <!--
         TODO: Get date from Props
         TODO: Proper Date to string (Remove seconds and 24h format)
       -->
-      <div class="dateTimeStamp">
-        2022-08-27 14:08
+      <div
+        v-if="!hideDateTime"
+        class="dateTimeStamp"
+      >
+        - 2022-08-27 14:08
       </div>
       <v-spacer />
 
       <v-btn
+        v-if="!hideReadOnly"
         small
         :color="color"
         dark
@@ -34,7 +37,7 @@
     </v-card-text>
     <v-expand-transition>
       <v-card-actions
-        v-if="!readOnly"
+        v-if="!readOnly && !hideReadOnly"
         class="px-4"
         :class="color"
       >
@@ -63,6 +66,14 @@
 export default {
   name: 'BaseCard',
   props: {
+    hideDateTime: {
+      type: Boolean,
+      default: false
+    },
+    hideReadOnly: {
+      type: Boolean,
+      default: false
+    },
     readOnly: {
       type: Boolean,
       default: false

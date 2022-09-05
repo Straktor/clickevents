@@ -13,12 +13,11 @@
           class="pt-0"
         >
           <TimelineItem
-            v-for="(item, i) in items"
+            v-for="(item, i) in getTeamEvents(selectedTeam.id)"
             :key="i"
             :item="item"
           />
         </v-timeline>
-
       </v-sheet>
     </v-col>
     <v-col cols="4">
@@ -42,182 +41,103 @@
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex'
+
 import TeamCard from '@/components/TeamCard'
 import TimelineItem from '@/components/TimelineItem'
+import RulesCard from '@/components/RulesCard';
 
-import { Team } from '@/models/teamModel'
-import RulesCard from '@/components/RulesCard.vue';
+import { Team, Member, Event } from '@/models/teamModel'
+import { db } from '@/helpers/firebaseInit.js'
+
+import { collection, onSnapshot, query } from "firebase/firestore";
 
 export default {
   name: "HomeView",
   components: { TeamCard, TimelineItem, RulesCard },
   data () {
     return {
-      selectedTeam: undefined,
-      items: [
-        { type: "Estimation", values: { '# of points': 'This works!' } },
-        { type: "Appreciation Points", values: {}},
-        { type: "Task completed", values: {} },
-        { type: "Progress Report", values: {} },
-        { type: "Team Check-in", values: {} },
-        { type: "New Stretch Goal", values: {} },
-        { type: "Code Review Completed", values: {} },
-        { type: "Retrospective Meeting", values: {} },
-      ],
+      firstLoad: true,
+      firestoreUnsub: [],
     };
   },
   computed: {
+    ...mapGetters(['selectedTeam']),
     teams () {
       return Team.query().withAllRecursive().all()
-    }
+    },
+    events () {
+      return Event.query().orderBy('createdAt', 'desc').all()
+    },
   },
   watch: {
     '$route': {
       handler (nv) {
         if (!(nv?.params?.name)) {
-          this.selectedTeam = undefined
+          this.setSelectTeam(undefined)
         }
       },
-    }
+    },
   },
   mounted () {
-    let teams = [
-      {
-        id: 1,
-        name: 'Team 1',
-        points: 27,
-        numItems: 5,
-        numItemsCompleted: 3,
-        CRCompleted: 2,
-        pointsCompleted: 11,
-        percentageCompleted: 33,
-        members: [
-          {
-            id: 1,
-            name: 'Liam'
-          },
-          {
-            id: 2,
-            name: 'Olivia'
-          },
-          {
-            id: 3,
-            name: 'Noah'
-          },
-          {
-            id: 4,
-            name: 'Emma'
-          },
-          {
-            id: 5,
-            name: 'Oliver'
-          },
-          {
-            id: 6,
-            name: 'Charlotte'
-          },
-        ]
-      },
-      {
-        id: 2,
-        name: 'Team 2',
-        points: 85,
-        numItems: 10,
-        numItemsCompleted: 4,
-        CRCompleted: 1,
-        pointsCompleted: 21,
-        percentageCompleted: 42,
-        members: [
-          {
-            id: 7,
-            name: 'Elijah'
-          },
-          {
-            id: 8,
-            name: 'Amelia'
-          },
-          {
-            id: 9,
-            name: 'James'
-          },
-          {
-            id: 10,
-            name: 'William'
-          },
-          {
-            id: 11,
-            name: 'Sophia'
-          },
-          {
-            id: 12,
-            name: 'Ava'
-          },
-        ],
-      },
-      {
-        id: 3,
-        name: 'Team 3',
-        points: 13,
-        numItems: 6,
-        numItemsCompleted: 4,
-        CRCompleted: 5,
-        pointsCompleted: 22,
-        percentageCompleted: 80,
-        members: [
-          {
-            id: 13,
-            name: 'Benjamin'
-          },
-          {
-            id: 14,
-            name: 'Isabella'
-          },
-          {
-            id: 15,
-            name: 'Lucas'
-          },
-          {
-            id: 16,
-            name: 'Mia'
-          },
-          {
-            id: 17,
-            name: 'Henry'
-          },
-        ],
-      },
-      {
-        id: 4,
-        name: 'Team 4',
-        points: 10,
-        numItems: 7,
-        numItemsCompleted: 3,
-        CRCompleted: 1,
-        pointsCompleted: 4,
-        percentageCompleted: 55,
-        members: [
-          {
-            id: 17,
-            name: 'Evelyn'
-          },
-          {
-            id: 18,
-            name: 'Theodore'
-          },
-          {
-            id: 19,
-            name: 'Harper'
-          },
-        ],
+    // Load data from Firebase and listen for changes
+    // Teams
+    let teamUnsub = onSnapshot(query(collection(db, "teams")), (docs) => {
+      let teams = [];
+      docs.forEach((doc) => {
+        // Set firebase id as vuex orm id
+        teams.push({ id: doc.id, ...doc.data() });
+      });
+
+      Team.insert({ data: teams })
+
+      if (this.firstLoad) {
+        // Set selected Team
+        this.selectTeam(this.getTeamFromName(this.$route.params?.name))
+        this.firstLoad = false
       }
-    ]
+    });
 
-    Team.insert({ data: teams })
+    // Users
+    let userUnsub = onSnapshot(query(collection(db, "users")), (docs) => {
+      let users = [];
+      docs.forEach((doc) => {
+        // Set firebase id as vuex orm id
+        users.push({ id: doc.id, ...doc.data() });
+      });
+      Member.insert({ data: users })
+    });
 
-    // Set selected Team
-    this.selectTeam(this.getTeamFromName(this.$route.params?.name))
+    // Events
+    let eventsUnsub = onSnapshot(query(collection(db, "events")), (docs) => {
+      let events = [];
+      docs.forEach((doc) => {
+        // Set firebase id as vuex orm id
+        events.push({ id: doc.id, ...doc.data() });
+      });
+      Event.insert({ data: events })
+    });
+
+    this.firestoreUnsub = [teamUnsub, userUnsub, eventsUnsub]
+  },
+  destroyed () {
+    for (const unsub of this.firestoreUnsub) {
+      unsub()
+    }
   },
   methods: {
+    ...mapActions(['setSelectTeam']),
+    getTeamEvents (teamId) {
+      let teamEvents = this.events.filter(e => e.teamId === teamId)
+
+      let events = [{ type: "Add a new entry", values: {} }]
+
+      if (teamEvents) {
+        events = [...teamEvents, ...events]
+      }
+
+      return events
+    },
     getTeamFromName (teamName) {
       return this.teams.find(t => t.name === teamName)
     },
@@ -229,7 +149,7 @@ export default {
         return
       }
 
-      this.selectedTeam = team
+      this.setSelectTeam(team)
 
       if (this.$route.params?.name !== this.selectedTeam.name) {
         this.$router.push({
@@ -317,5 +237,23 @@ export default {
   .selectedTeam {
     outline: 5px solid var(--v-cYellow-base);
   }
+}
+
+.testing12 {
+  color: var(--v-cYellow-base);
+
+  div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  background-color: var(--v-cBlue-darken1);
+
+  border-radius: 0.5em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 </style>

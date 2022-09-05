@@ -8,28 +8,30 @@
       :color="card.color"
       :title="card.label"
       :readOnly.sync="readOnly"
+      :hideDateTime="isNewEntryCard()"
+      :hideReadOnly="isNewEntryCard()"
       @cancel="updateValues()"
       @submit="saveChanges()"
     >
-      <v-row>
-        <v-col
+      <!-- New entry section -->
+      <v-row
+        v-if="isNewEntryCard()"
+        class="pb-1"
+      >
+        <NewEntry
+          :cards="cards"
+          :color="card.color"
+        />
+      </v-row>
+      <!-- Fields section -->
+      <v-row v-else>
+        <BaseField
           v-for="(f, i) in card.fields"
           :key="i"
-          :cols="getColSize(f?.size)"
-        >
-          <p>{{ f.label }}</p>
-          <component
-            :is="f.type"
-            v-model="localValues[f.label]"
-            :placeholder="f.placeholder"
-            outlined
-            dense
-            hide-details
-            rows="2"
-            :disabled="readOnly"
-            class="white"
-          />
-        </v-col>
+          v-model="localValues[f.label]"
+          :field="f"
+          :readOnly="readOnly"
+        />
       </v-row>
     </BaseCard>
   </v-timeline-item>
@@ -46,15 +48,21 @@ import {
   estimationCard,
   taskCard,
   appreciationCard,
+  newEntryCard,
 } from "./timelineCards.js";
 
 import BaseCard from '@/components/BaseCard'
+import NewEntry from '@/components/NewEntry'
+import BaseField from '@/components/BaseField'
+
+import { mapActions } from 'vuex'
 
 export default {
   name: 'TimelineItem',
   components: {
     BaseCard,
-
+    NewEntry,
+    BaseField,
   },
   props: {
     item: {
@@ -66,6 +74,17 @@ export default {
     return {
       readOnly: true,
       localValues: {},
+      selectedNewEntry: undefined,
+      cards: [
+        estimationCard,
+        taskCard,
+        progessCard,
+        codeReviewCard,
+        stretchGoalCard,
+        checkInCard,
+        appreciationCard,
+        retroCard,
+      ]
     }
   },
   watch: {
@@ -79,42 +98,25 @@ export default {
   },
   computed: {
     card () {
-      switch (this.item?.type) {
-        case 'Estimation': return estimationCard
-        case 'Task completed': return taskCard
-        case 'Progress Report': return progessCard
-        case 'Team Check-in': return checkInCard
-        case 'New Stretch Goal': return stretchGoalCard
-        case 'Code Review Completed': return codeReviewCard
-        case 'Retrospective Meeting': return retroCard
-        case 'Appreciation Points': return appreciationCard
+      for (let c of [...this.cards, newEntryCard]) {
+        if (c.label === this.item.type) return c
       }
+
       return defaultCard
     },
   },
   methods: {
+    ...mapActions(['updateEvent']),
     updateValues () {
-      this.localValues = JSON.parse(JSON.stringify(this.item.values))
+      if (this.item?.values) this.localValues = JSON.parse(JSON.stringify(this.item.values))
     },
     saveChanges () {
-      // TODO: update values
+      let eventUpdate = { id: this.item.id, type: this.card.label, values: this.localValues }
+      this.updateEvent(eventUpdate)
+      // TODO: handle promise
     },
-    getColSize (size) {
-
-      switch (this.$vuetify.breakpoint.name) {
-        case 'xs':
-        case 'sm':
-          break;
-        case 'md':
-          if (size === "s") return 6
-          else break;
-        case 'lg':
-        case 'xl':
-          if (size === "s") return 4
-          else if (size === "m") return 6
-      }
-
-      return 12
+    isNewEntryCard () {
+      return this.card === newEntryCard
     }
   }
 }
@@ -132,21 +134,12 @@ export default {
   top: 25px;
 }
 
-::v-deep .v-timeline-item__dot {
+:deep(.v-timeline-item__dot) {
   position: absolute;
   top: 16px;
 }
 
 .row {
   padding-bottom: 1em;
-
-  .col {
-    padding-top: 1em;
-    padding-bottom: 0;
-
-    p {
-      margin: 0;
-    }
-  }
 }
 </style>

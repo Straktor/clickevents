@@ -1,10 +1,17 @@
 import { Data } from "dataclass";
-import { VTextField, VTextarea, VCheckbox } from "vuetify/lib";
+import {
+  VTextField,
+  VTextarea,
+  VCheckbox,
+  VCombobox,
+  VProgressLinear,
+  VRating,
+} from "vuetify/lib";
 
 class TimelineCard extends Data {
   label = "Unknown Timeline item type";
   color = "black";
-  icon = "mdi-plus";
+  icon = "mdi-plus-thick";
   fields = [];
 }
 
@@ -13,6 +20,7 @@ class Field extends Data {
   type = VTextField;
   size = "m";
   placeholder = "";
+  items = [];
 }
 
 let defaultCard = TimelineCard.create();
@@ -28,6 +36,7 @@ let estimationCard = TimelineCard.create({
     }),
     Field.create({
       label: "Confidence level",
+      type: VRating,
       placeholder: "4",
     }),
     Field.create({
@@ -73,7 +82,7 @@ let taskCard = TimelineCard.create({
 });
 
 let appreciationCard = TimelineCard.create({
-  label: "Appreciation Points Given",
+  label: "Appreciation Points",
   color: "cPink",
   icon: "mdi-star-face",
   fields: [
@@ -112,8 +121,9 @@ let progessCard = TimelineCard.create({
       size: "s",
     }),
     Field.create({
-      label: "Percentage completed",
+      label: "Estimation Percentage completed",
       placeholder: "33",
+      type: VProgressLinear,
       size: "lg",
     }),
   ],
@@ -172,7 +182,8 @@ let codeReviewCard = TimelineCard.create({
     }),
     Field.create({
       label: "Team completed for",
-      placeholder: "Team 2",
+      type: VCombobox,
+      items: ["Team 1", "Team 2", "Team 3", "Team 4"],
     }),
   ],
 });
@@ -194,6 +205,13 @@ let retroCard = TimelineCard.create({
   }),
 });
 
+let newEntryCard = TimelineCard.create({
+  label: "Add a new entry",
+  color: "cRed",
+  icon: "mdi-alert-decagram",
+  fields: [],
+});
+
 export {
   defaultCard,
   appreciationCard,
@@ -204,4 +222,5 @@ export {
   progessCard,
   estimationCard,
   taskCard,
+  newEntryCard,
 };

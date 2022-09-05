@@ -38,14 +38,12 @@
 </template>
 
 <script>
-import { Team } from '@/models/teamsModel.js'
-
 export default {
   name: 'TeamCard',
   props: {
     team: {
       type: Object,
-      default: () => new Team({})
+      default: () => { }
     },
     variant: {
       type: Number,
@@ -119,7 +117,7 @@ export default {
 
         &.scoreCard--text-2 {
           font-family: "Bristol";
-          font-size: 70px;
+          font-size: 65px;
         }
 
         &.scoreCard--text-3 {

@@ -3,6 +3,9 @@ import Vuex from "vuex";
 import VuexORM from "@vuex-orm/core";
 import { Member, Team, Event } from "@/models/teamModel";
 
+import { httpsCallable } from "firebase/functions";
+import { functions } from "@/helpers/firebaseInit.js";
+
 Vue.use(Vuex);
 
 // Create a new instance of Database.
@@ -15,9 +18,51 @@ database.register(Event);
 
 export default new Vuex.Store({
   plugins: [VuexORM.install(database)],
-  state: {},
-  getters: {},
-  mutations: {},
-  actions: {},
+  state: {
+    selectedTeam: undefined,
+  },
+  mutations: {
+    selectTeam(state, team) {
+      state.selectedTeam = team;
+    },
+  },
+  actions: {
+    setSelectTeam({ commit }, team) {
+      commit("selectTeam", team);
+    },
+    newEvent({ state }, eventValues) {
+      if (state.selectedTeam) {
+        // Get cloud function
+        const createEvent = httpsCallable(functions, "createEvent");
+
+        // Add teamId to the event values
+        let eventPayload = {
+          teamId: state.selectedTeam?.id,
+          ...eventValues,
+        };
+
+        return createEvent(eventPayload);
+      }
+    },
+    updateEvent({ state }, eventValues) {
+      if (state.selectedTeam) {
+        // Get cloud function
+        const updateEvent = httpsCallable(functions, "updateEvent");
+
+        // Add teamId to the event values
+        let eventPayload = {
+          teamId: state.selectedTeam?.id,
+          ...eventValues,
+        };
+
+        return updateEvent(eventPayload);
+      }
+    },
+  },
+  getters: {
+    selectedTeam(state) {
+      return state.selectedTeam;
+    },
+  },
   modules: {},
 });
