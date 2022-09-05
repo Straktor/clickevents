@@ -55,6 +55,8 @@ import BaseCard from '@/components/BaseCard'
 import NewEntry from '@/components/NewEntry'
 import BaseField from '@/components/BaseField'
 
+import { mapActions } from 'vuex'
+
 export default {
   name: 'TimelineItem',
   components: {
@@ -104,10 +106,13 @@ export default {
     },
   },
   methods: {
+    ...mapActions(['updateEvent']),
     updateValues () {
       if (this.item?.values) this.localValues = JSON.parse(JSON.stringify(this.item.values))
     },
     saveChanges () {
+      let eventUpdate = { id: this.item.id, type: this.card.label, values: this.localValues }
+      this.updateEvent(eventUpdate)
       // TODO: handle promise
     },
     isNewEntryCard () {

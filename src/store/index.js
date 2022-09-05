@@ -44,6 +44,20 @@ export default new Vuex.Store({
         return createEvent(eventPayload);
       }
     },
+    updateEvent({ state }, eventValues) {
+      if (state.selectedTeam) {
+        // Get cloud function
+        const updateEvent = httpsCallable(functions, "updateEvent");
+
+        // Add teamId to the event values
+        let eventPayload = {
+          teamId: state.selectedTeam?.id,
+          ...eventValues,
+        };
+
+        return updateEvent(eventPayload);
+      }
+    },
   },
   getters: {
     selectedTeam(state) {
