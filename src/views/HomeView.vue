@@ -13,7 +13,7 @@
           class="pt-0"
         >
           <TimelineItem
-            v-for="(item, i) in events"
+            v-for="(item, i) in getTeamEvents(selectedTeam.id)"
             :key="i"
             :item="item"
           />
@@ -41,15 +41,15 @@
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex'
+
 import TeamCard from '@/components/TeamCard'
 import TimelineItem from '@/components/TimelineItem'
+import RulesCard from '@/components/RulesCard';
 
-// import { mockTeams } from '@/helpers/mockData.js'
-
-import { Team, Member } from '@/models/teamModel'
-import RulesCard from '@/components/RulesCard.vue';
-
+import { Team, Member, Event } from '@/models/teamModel'
 import { db } from '@/helpers/firebaseInit.js'
+
 import { collection, onSnapshot, query } from "firebase/firestore";
 
 export default {
@@ -58,30 +58,29 @@ export default {
   data () {
     return {
       firstLoad: true,
-      selectedTeam: undefined,
-      firestoreUnsub: []
+      firestoreUnsub: [],
     };
   },
   computed: {
+    ...mapGetters(['selectedTeam']),
     teams () {
       return Team.query().withAllRecursive().all()
     },
     events () {
-      return [...this.selectedTeam?.events, { type: "Add a new entry", values: {} }]
+      return Event.query().orderBy('createdAt', 'desc').all()
     },
   },
   watch: {
     '$route': {
       handler (nv) {
         if (!(nv?.params?.name)) {
-          this.selectedTeam = undefined
+          this.setSelectTeam(undefined)
         }
       },
-    }
+    },
   },
   mounted () {
     // Load data from Firebase and listen for changes
-
     // Teams
     let teamUnsub = onSnapshot(query(collection(db, "teams")), (docs) => {
       let teams = [];
@@ -89,7 +88,9 @@ export default {
         // Set firebase id as vuex orm id
         teams.push({ id: doc.id, ...doc.data() });
       });
+
       Team.insert({ data: teams })
+
       if (this.firstLoad) {
         // Set selected Team
         this.selectTeam(this.getTeamFromName(this.$route.params?.name))
@@ -107,7 +108,17 @@ export default {
       Member.insert({ data: users })
     });
 
-    this.firestoreUnsub = [teamUnsub, userUnsub]
+    // Events
+    let eventsUnsub = onSnapshot(query(collection(db, "events")), (docs) => {
+      let events = [];
+      docs.forEach((doc) => {
+        // Set firebase id as vuex orm id
+        events.push({ id: doc.id, ...doc.data() });
+      });
+      Event.insert({ data: events })
+    });
+
+    this.firestoreUnsub = [teamUnsub, userUnsub, eventsUnsub]
   },
   destroyed () {
     for (const unsub of this.firestoreUnsub) {
@@ -115,6 +126,18 @@ export default {
     }
   },
   methods: {
+    ...mapActions(['setSelectTeam']),
+    getTeamEvents (teamId) {
+      let teamEvents = this.events.filter(e => e.teamId === teamId)
+
+      let events = [{ type: "Add a new entry", values: {} }]
+
+      if (teamEvents) {
+        events = [...teamEvents, ...events]
+      }
+
+      return events
+    },
     getTeamFromName (teamName) {
       return this.teams.find(t => t.name === teamName)
     },
@@ -126,7 +149,7 @@ export default {
         return
       }
 
-      this.selectedTeam = team
+      this.setSelectTeam(team)
 
       if (this.$route.params?.name !== this.selectedTeam.name) {
         this.$router.push({

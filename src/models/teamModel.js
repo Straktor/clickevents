@@ -8,6 +8,7 @@ class Event extends Model {
       id: this.attr(null),
       type: this.attr(""),
       values: this.attr({}),
+      createdAt: this.attr(null),
 
       // FK
       teamId: this.attr(null),

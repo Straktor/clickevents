@@ -108,7 +108,7 @@ export default {
       if (this.item?.values) this.localValues = JSON.parse(JSON.stringify(this.item.values))
     },
     saveChanges () {
-      // TODO: update values
+      // TODO: handle promise
     },
     isNewEntryCard () {
       return this.card === newEntryCard

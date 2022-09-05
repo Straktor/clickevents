@@ -70,7 +70,7 @@
           class="pa-4"
           plain
           :color="selectedNewEntry.color"
-          @click="cancel()"
+          @click="close()"
         >
           Cancel
         </v-btn>
@@ -88,6 +88,8 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
+
 import BaseField from '@/components/BaseField'
 
 export default {
@@ -111,14 +113,18 @@ export default {
   },
   watch: {},
   computed: {},
+  mounted () { },
   methods: {
-    cancel () {
+    ...mapActions(['newEvent']),
+    close () {
       this.selectedNewEntry = undefined
       this.localValues = {}
       this.plusBtnPressed = false
     },
     submit () {
-      // TODO: Create new entry from selected type and local values
+      let event = { type: this.selectedNewEntry?.label, values: this.localValues }
+      this.newEvent(event).then(() => { this.close() })
+      // TODO: Handle error messages
     },
   }
 }
