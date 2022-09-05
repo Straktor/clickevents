@@ -23,35 +23,23 @@
 
       <v-spacer />
 
-      <v-hover v-slot="{ hover }">
-        <v-btn
-          icon
-          :color="hover ? 'cYellow': 'white'"
-          @click="routeEgg()"
-        >
-          <v-icon>mdi-egg-easter</v-icon>
-        </v-btn>
-      </v-hover>
+      <NavLink
+        routeName="egg"
+        icon="mdi-egg-easter"
+        tooltip="Easter eggs"
+      />
 
-      <v-hover v-slot="{ hover }">
-        <v-btn
-          icon
-          :color="hover ? 'cYellow': 'white'"
-          @click="routeExample()"
-        >
-          <v-icon>mdi-account-box-multiple</v-icon>
-        </v-btn>
-      </v-hover>
+      <NavLink
+        routeName="exampleTeam"
+        icon="mdi-account-box-multiple"
+        tooltip="Planning example"
+      />
 
-      <v-hover v-slot="{ hover }">
-        <v-btn
-          icon
-          :color="hover ? 'cYellow': 'white'"
-          @click="routeAbout()"
-        >
-          <v-icon>mdi-information</v-icon>
-        </v-btn>
-      </v-hover>
+      <NavLink
+        routeName="about"
+        icon="mdi-information"
+        tooltip="About the estimation is right"
+      />
 
       <AuthNav class="ml-3" />
     </v-app-bar>
@@ -64,13 +52,15 @@
 </template>
 
 <script>
+import NavLink from '@/components/NavLink'
 import AuthNav from '@/components/AuthNav'
 
 import { initFirebase } from '@/helpers/firebaseInit.js'
 
 export default {
   components: {
-    AuthNav
+    AuthNav,
+    NavLink
   },
   data: () => {
     return {
@@ -88,27 +78,6 @@ export default {
         })
       }
     },
-    routeAbout () {
-      if (this.$route?.name !== 'about') {
-        this.$router.push({
-          name: "about",
-        })
-      }
-    },
-    routeExample () {
-      if (this.$route?.name !== 'exampleTeam') {
-        this.$router.push({
-          name: "exampleTeam",
-        })
-      }
-    },
-    routeEgg () {
-      if (this.$route?.name !== 'egg') {
-        this.$router.push({
-          name: "egg",
-        })
-      }
-    }
   }
 }
 </script>
