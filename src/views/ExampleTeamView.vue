@@ -2,9 +2,10 @@
   <v-row>
     <v-col>
       <v-sheet rounded="lg" class="timelineContainer">
-        <h1 class="mainTitle ma-0 pa-0 ml-8">Planning of the Dream Team</h1>
+        <h1 class="mainTitle ma-0 pa-0 ml-8">Planning of The Dream Team</h1>
+        <h3>This is an example page to show what each team's timeline should look like</h3>
         <v-timeline dense class="pt-0">
-          <TimelineItem v-for="(item, i) in items" :key="i" :item="item" />
+          <TimelineItem v-for="(item, i) in items" :key="i" :item="item" :editEnabled="false"/>
         </v-timeline>
       </v-sheet>
     </v-col>
@@ -36,7 +37,7 @@ export default {
       items: [
         {
           type: "Estimation",
-          createdAt:1662382878000,
+          createdAt:1662393562000,
           values: {
             "# of points": "27",
             "Confidence level": "5",
@@ -49,7 +50,7 @@ export default {
         },
         {
           type: "Task completed",
-          createdAt:1662382878000,
+          createdAt:1662399000000,
           values: {
             "# of points": "5",
             Task: "AUTO-112",
@@ -58,6 +59,7 @@ export default {
         },
         {
           type: "Team Check-in",
+          createdAt:1662400800000,
           values: {
             "Format of check in": "Group huddle",
             Details:
@@ -66,6 +68,7 @@ export default {
         },
         {
           type: "Appreciation Points",
+          createdAt:1662401700000,
           values: {
             "# of points": "10",
             From: "Babette",
@@ -75,6 +78,7 @@ export default {
         },
         {
           type: "Task completed",
+          createdAt:1662402640000,
           values: {
             "# of points": "15",
             Task: "AUTO-111",
@@ -83,9 +87,19 @@ export default {
         },
         {
           type: "Code Review Completed",
+          createdAt:1662402910000,
           values: {
             Task: "AUTO-1190",
             "Team completed for": "Bob the Builder",
+          },
+        },
+        {
+          type: "Task completed",
+          createdAt:1662406030000,
+          values: {
+            "# of points": "15",
+            Task: "AUTO-117",
+            "In production": true,
           },
         },
         {
@@ -174,6 +188,13 @@ export default {
     font-family: pricedown;
   }
 }
+
+h3{
+    font-size: 30px;
+    color: var(--v-cYellow-base);
+    text-align: center;
+    font-family: pricedown;
+  }
 
 .v-timeline::before {
   height: calc(100% - 90px);
