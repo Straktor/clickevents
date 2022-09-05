@@ -4,7 +4,16 @@
       :color="color"
       rounded="lg"
     >
-      <v-card-title>Welcome to the event</v-card-title>
+      <v-card-title>
+        Welcome to the event
+        <v-icon
+          large
+          color="white"
+          class="pl-3"
+        >
+          mdi-party-popper
+        </v-icon>
+      </v-card-title>
       <v-card-text
         class="aboutTheEvent lighten-5"
         :class="color"
@@ -30,7 +39,16 @@
       :color="color"
       rounded="lg"
     >
-      <v-card-title>Schedule</v-card-title>
+      <v-card-title>
+        <v-icon
+          large
+          color="white"
+          class="pr-3"
+        >
+          mdi-calendar-clock-outline
+        </v-icon>
+        Schedule
+      </v-card-title>
       <v-card-text
         class="schedule lighten-5"
         :class="color"
@@ -51,7 +69,7 @@
               fill-dot
             >
               <div class="timelineText">
-                <span class="time">{{ item.time }}</span>{{ item.label }}<br />
+                <span class="time">{{ item.time }}</span>{{ item.label }}
               </div>
             </v-timeline-item>
           </v-timeline>
@@ -64,7 +82,16 @@
       :color="color"
       rounded="lg"
     >
-      <v-card-title>Rules of the game</v-card-title>
+      <v-card-title>
+        Rules of the game
+        <v-icon
+          large
+          color="white"
+          class="pl-3"
+        >
+          mdi-gavel
+        </v-icon>
+      </v-card-title>
       <v-card-text
         class="schedule lighten-5"
         :class="color"
@@ -80,7 +107,7 @@
             <v-expansion-panel-header :color="`${ruleColors[i % ruleColors.length]} lighten-3`">
               <div>
                 <v-icon class="pr-1">{{ r.icon }}</v-icon>
-                - {{ r.title }}
+                <span>- {{ r.title }}</span>
               </div>
             </v-expansion-panel-header>
             <v-expansion-panel-content
@@ -176,6 +203,9 @@ export default {
   }
 
   .v-card__text {
+    padding-left: 2em;
+    padding-right: 2em;
+
     font-size: 16px;
 
     h2,
@@ -210,66 +240,10 @@ export default {
       font-size: 20px;
       font-weight: bold;
     }
+
+    .v-expansion-panel-header > div > i {
+      line-height: 15px;
+    }
   }
 }
-
-// .aboutContainer {
-//   text-align: center;
-//   background-color: var(--v-cOrange-base);
-
-//   h1.mainTitle {
-//     font-size: 50px;
-//     color: var(--v-cYellow-base);
-//     text-align: center;
-//     font-family: pricedown;
-//   }
-
-//   .aboutContent {
-//     display: flex;
-//     justify-content: center;
-//     align-items: center;
-//     align-content: center;
-
-//     div.mainText {
-//       font-size: 20px;
-//       color: white;
-//       font-weight: bold;
-//     }
-//   }
-
-//   div.day {
-//     font-size: 30px;
-//     color: var(--v-cPink-base);
-//     font-weight: bold;
-//     text-decoration: underline;
-//   }
-//   .scheduleContent {
-//     display: flex;
-//     justify-content: center;
-//     align-items: center;
-//     align-content: center;
-
-//     div.mainText {
-//       font-size: 20px;
-//       color: white;
-//       font-weight: bold;
-//     }
-//     span.time {
-//       font-size: 20px;
-//       color: var(--v-cPink-base);
-//       font-weight: bold;
-//     }
-//   }
-// }
-// .rulesBanner {
-//   text-align: center;
-//   background-color: var(--v-cYellow-base);
-
-//   h1.mainTitle {
-//     font-size: 50px;
-//     color: var(--v-cOrange-base);
-//     text-align: center;
-//     font-family: pricedown;
-//   }
-// }
 </style>
