@@ -71,12 +71,7 @@ export default {
       todos: [
         "Rules page",
         'Team page for an "example"',
-        'Show only teams "events"',
         "Easter eggs page",
-        "Add firestore",
-        "Add live updates",
-        "Firebase Auth",
-        "Add cloud functions",
         "Slack integration",
         "Work out points for winners"
       ],

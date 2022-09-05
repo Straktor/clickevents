@@ -10,6 +10,7 @@
       :readOnly.sync="readOnly"
       :hideDateTime="isNewEntryCard()"
       :hideReadOnly="isNewEntryCard()"
+      :dateTimeStamp="item.createdAt"
       @cancel="updateValues()"
       @submit="saveChanges()"
     >

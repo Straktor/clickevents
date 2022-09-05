@@ -67,7 +67,7 @@ export default {
       return Team.query().withAllRecursive().all()
     },
     events () {
-      return Event.query().orderBy('createdAt', 'desc').all()
+      return Event.query().orderBy('createdAt').all()
     },
   },
   watch: {
@@ -113,7 +113,9 @@ export default {
       let events = [];
       docs.forEach((doc) => {
         // Set firebase id as vuex orm id
-        events.push({ id: doc.id, ...doc.data() });
+        let modifiedEvent = { id: doc.id, ...doc.data() }
+        modifiedEvent.createdAt = doc.data().createdAt.seconds * 1000
+        events.push(modifiedEvent);
       });
       Event.insert({ data: events })
     });

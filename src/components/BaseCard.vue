@@ -14,7 +14,7 @@
         v-if="!hideDateTime"
         class="dateTimeStamp"
       >
-        - 2022-08-27 14:08
+        - {{ new Date(dateTimeStamp).toLocaleString([], {hour12: false}) }}
       </div>
       <v-spacer />
 
@@ -86,6 +86,9 @@ export default {
       type: String,
       default: ''
     },
+    dateTimeStamp: {
+      type: Number
+    }
   },
   data: () => {
     return {
