@@ -24,6 +24,7 @@
         clearable
         :items="cards"
         item-text="label"
+        :disabled="submitLoading"
         :color="selectedNewEntry?.color"
         :background-color="selectedNewEntry?.color + ' lighten-5'"
         :prepend-inner-icon="selectedNewEntry ? selectedNewEntry.icon : 'mdi-plus'"
@@ -70,6 +71,7 @@
           class="pa-4"
           plain
           :color="selectedNewEntry.color"
+          :disabled="submitLoading"
           @click="close()"
         >
           Cancel
@@ -78,6 +80,7 @@
           class="pa-4"
           outlined
           :color="selectedNewEntry.color"
+          :loading="submitLoading"
           @click="submit()"
         >
           Submit
@@ -109,6 +112,7 @@ export default {
       plusBtnPressed: false,
       selectedNewEntry: undefined,
       localValues: {},
+      submitLoading: false,
     }
   },
   watch: {},
@@ -123,8 +127,16 @@ export default {
     },
     submit () {
       let event = { type: this.selectedNewEntry?.label, values: this.localValues }
-      this.newEvent(event).then(() => { this.close() })
+
       // TODO: Handle error messages
+      this.submitLoading = true
+      this.newEvent(event)
+        .then(() => {
+          this.close()
+        })
+        .finally(() => {
+          this.submitLoading = false
+        })
     },
   }
 }
