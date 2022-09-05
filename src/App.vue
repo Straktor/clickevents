@@ -37,6 +37,16 @@
         <v-btn
           icon
           :color="hover ? 'cYellow': 'white'"
+          @click="routeExample()"
+        >
+          <v-icon>mdi-lightbulb-on</v-icon>
+        </v-btn>
+      </v-hover>
+
+      <v-hover v-slot="{ hover }">
+        <v-btn
+          icon
+          :color="hover ? 'cYellow': 'white'"
           @click="routeAbout()"
         >
           <v-icon>mdi-information</v-icon>
@@ -82,6 +92,13 @@ export default {
       if (this.$route?.name !== 'about') {
         this.$router.push({
           name: "about",
+        })
+      }
+    },
+    routeExample () {
+      if (this.$route?.name !== 'exampleTeam') {
+        this.$router.push({
+          name: "exampleTeam",
         })
       }
     },
