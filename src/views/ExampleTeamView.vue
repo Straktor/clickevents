@@ -1,15 +1,28 @@
 <template>
   <v-row>
     <v-col>
-      <v-sheet rounded="lg" class="timelineContainer">
+      <v-sheet
+        rounded="lg"
+        class="timelineContainer"
+      >
         <h1 class="mainTitle ma-0 pa-0 ml-8">Planning of the Dream Team</h1>
-        <v-timeline dense class="pt-0">
-          <TimelineItem v-for="(item, i) in items" :key="i" :item="item" />
+        <v-timeline
+          dense
+          class="pt-0"
+        >
+          <TimelineItem
+            v-for="(item, i) in items"
+            :key="i"
+            :item="item"
+          />
         </v-timeline>
       </v-sheet>
     </v-col>
     <v-col cols="4">
-      <v-sheet rounded="lg" class="rightPanel pa-2">
+      <v-sheet
+        rounded="lg"
+        class="rightPanel pa-2"
+      >
         <h2 class="rightPanel-title">Teams</h2>
         <TeamCard
           v-for="(t, i) in fakeTeams"
@@ -30,13 +43,13 @@ import TimelineItem from "@/components/TimelineItem";
 export default {
   name: "ExampleTeamView",
   components: { TeamCard, TimelineItem },
-  data() {
+  data () {
     return {
       fakeTeams: undefined,
       items: [
         {
           type: "Estimation",
-          createdAt:1662382878000,
+          createdAt: 1662382878000,
           values: {
             "# of points": "27",
             "Confidence level": "5",
@@ -49,7 +62,7 @@ export default {
         },
         {
           type: "Task completed",
-          createdAt:1662382878000,
+          createdAt: 1662382878000,
           values: {
             "# of points": "5",
             Task: "AUTO-112",
@@ -104,14 +117,14 @@ export default {
   },
   watch: {
     $route: {
-      handler(nv) {
+      handler (nv) {
         if (!nv?.params?.name) {
           this.selectedTeam = undefined;
         }
       },
     },
   },
-  mounted() {
+  mounted () {
     this.fakeTeams = [
       {
         id: 1,
@@ -155,7 +168,7 @@ export default {
     this.selectTeam(this.getTeamFromName(this.$route.params?.name));
   },
   methods: {
-    getTeamFromName(teamName) {
+    getTeamFromName (teamName) {
       return this.fakeTeams.find((t) => t.name === teamName);
     },
   },
