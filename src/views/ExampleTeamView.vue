@@ -40,7 +40,7 @@ export default {
           createdAt:1662393562000,
           values: {
             "# of points": "27",
-            "Confidence level": "5",
+            "Confidence level": "4",
             "List of tasks":
               "AUTO-111, AUTO-112, AUTO-113, AUTO-114, AUTO-115, AUTO-116, AUTO-117",
             Risks:
@@ -104,10 +104,40 @@ export default {
         },
         {
           type: "Progress Report",
+          createdAt:1662409846000,
           values: {
-            "# of points Completed": "20",
-            "# of items completed": "2",
-            "Confidence level": "4",
+            "# of points Completed": "35",
+            "# of items completed": "3",
+            "Confidence level": "5",
+            "Estimation Percentage completed": "70"
+          },
+        },
+        {
+          type: "Team Check-in",
+          createdAt:1662470100000,
+          values: {
+            "Format of check in": "Slack call",
+            Details:
+              "Team has completed 3 out of 7 items and 3 more are in testing. The team is swarming to get the testing and the last story done but is confident that they can take a stretch goal. We will have another check in at 11:30 to plan for this.",
+          },
+        },
+        {
+          type: "Task completed",
+          createdAt:1662470400000,
+          values: {
+            "# of points": "5",
+            Task: "AUTO-116",
+            "In production": true,
+          },
+        },
+        {
+          type: "Progress Report",
+          createdAt:1662409846000,
+          values: {
+            "# of points Completed": "35",
+            "# of items completed": "3",
+            "Confidence level": "5",
+            "Estimation Percentage completed": "70"
           },
         },
         { type: "New Stretch Goal", values: {} },
@@ -129,7 +159,7 @@ export default {
     this.fakeTeams = [
       {
         id: 1,
-        name: "The Dream Team",
+        name: "Dream Team",
         points: 55,
         numItems: 7,
         numItemsCompleted: 8,
