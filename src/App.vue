@@ -39,7 +39,7 @@
           :color="hover ? 'cYellow': 'white'"
           @click="routeExample()"
         >
-          <v-icon>mdi-lightbulb-on</v-icon>
+          <v-icon>mdi-account-box-multiple</v-icon>
         </v-btn>
       </v-hover>
 

@@ -12,13 +12,11 @@
       <v-sheet rounded="lg" class="rightPanel pa-2">
         <h2 class="rightPanel-title">Teams</h2>
         <TeamCard
-          v-for="(t, i) in teams"
+          v-for="(t, i) in fakeTeams"
           :key="i"
           :team="t"
           :variant="i + 1"
-          class="rightPanel--card ma-3 mt-0"
-          :class="selectedTeam?.name === t.name ? 'selectedTeam' : ''"
-          @click.native="selectTeam(t)"
+          class="rightPanel--card ma-3 mt-0 selectedTeam"
         />
       </v-sheet>
     </v-col>
@@ -29,32 +27,80 @@
 import TeamCard from "@/components/TeamCard";
 import TimelineItem from "@/components/TimelineItem";
 
-import { Team } from "@/models/teamModel";
-
 export default {
   name: "ExampleTeamView",
   components: { TeamCard, TimelineItem },
   data() {
     return {
+      fakeTeams: undefined,
       items: [
         {
           type: "Estimation",
-          values: { "# of points": "27", "Confidence level": "5", "List of tasks": "AUTO-111, AUTO-112, AUTO-113, AUTO-114, AUTO-115, AUTO-116, AUTO-117", "Risks":"Liam is on call, Noah has an appointment so won't be availble for 2 hours on day 2.", "Comments": "We anticipate taking on AUTO-119 as a strech goal"},
+          createdAt:1662382878000,
+          values: {
+            "# of points": "27",
+            "Confidence level": "5",
+            "List of tasks":
+              "AUTO-111, AUTO-112, AUTO-113, AUTO-114, AUTO-115, AUTO-116, AUTO-117",
+            Risks:
+              "Liam is on call, Noah has an appointment so won't be availble for 2 hours on day 2.",
+            Comments: "We anticipate taking on AUTO-119 as a strech goal",
+          },
         },
-        { type: "Appreciation Points", values: {} },
-        { type: "Task completed", values: {} },
-        { type: "Progress Report", values: {} },
-        { type: "Team Check-in", values: {} },
+        {
+          type: "Task completed",
+          createdAt:1662382878000,
+          values: {
+            "# of points": "5",
+            Task: "AUTO-112",
+            "In production": true,
+          },
+        },
+        {
+          type: "Team Check-in",
+          values: {
+            "Format of check in": "Group huddle",
+            Details:
+              "We had a quick check in to see where we're at in development. At this point concerns were raised about the feasibility of AUTO-111 and we called in Veronique for clarification. After clarifying details, the devs are good to continue working",
+          },
+        },
+        {
+          type: "Appreciation Points",
+          values: {
+            "# of points": "10",
+            From: "Babette",
+            "Reason for points":
+              "The team saw that an item wasn't feasible as it was written quickly and took steps to address it asap",
+          },
+        },
+        {
+          type: "Task completed",
+          values: {
+            "# of points": "15",
+            Task: "AUTO-111",
+            "In production": "checked",
+          },
+        },
+        {
+          type: "Code Review Completed",
+          values: {
+            Task: "AUTO-1190",
+            "Team completed for": "Bob the Builder",
+          },
+        },
+        {
+          type: "Progress Report",
+          values: {
+            "# of points Completed": "20",
+            "# of items completed": "2",
+            "Confidence level": "4",
+          },
+        },
         { type: "New Stretch Goal", values: {} },
-        { type: "Code Review Completed", values: {} },
+
         { type: "Retrospective Meeting", values: {} },
       ],
     };
-  },
-  computed: {
-    teams() {
-      return Team.query().withAllRecursive().all();
-    },
   },
   watch: {
     $route: {
@@ -66,16 +112,16 @@ export default {
     },
   },
   mounted() {
-    let teams = [
+    this.fakeTeams = [
       {
         id: 1,
         name: "The Dream Team",
-        points: 27,
-        numItems: 5,
-        numItemsCompleted: 3,
-        CRCompleted: 2,
-        pointsCompleted: 11,
-        percentageCompleted: 33,
+        points: 55,
+        numItems: 7,
+        numItemsCompleted: 8,
+        CRCompleted: 5,
+        pointsCompleted: 60,
+        percentageCompleted: 110,
         members: [
           {
             id: 1,
@@ -105,33 +151,12 @@ export default {
       },
     ];
 
-    Team.insert({ data: teams });
-
     // Set selected Team
     this.selectTeam(this.getTeamFromName(this.$route.params?.name));
   },
   methods: {
     getTeamFromName(teamName) {
-      return this.teams.find((t) => t.name === teamName);
-    },
-    selectTeam(team) {
-      if (!team || this.selectedTeam?.name === team.name) {
-        if (this.$route?.name !== "exampleTeam") {
-          this.$router.push({ name: "exampleTeam" });
-        }
-        return;
-      }
-
-      this.selectedTeam = team;
-
-      if (this.$route.params?.name !== this.selectedTeam.name) {
-        this.$router.push({
-          name: "exampleTeam",
-          params: {
-            name: this.selectedTeam.name,
-          },
-        });
-      }
+      return this.fakeTeams.find((t) => t.name === teamName);
     },
   },
 };
