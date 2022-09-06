@@ -44,7 +44,7 @@ export default {
     ...mapActions(['setSelectTeam']),
     selectTeam (team) {
       if (!team || this.selectedTeam?.name === team.name) {
-
+        this.setSelectTeam(undefined)
         if (this.type === 'planning') {
           if (this.$route?.name !== 'home') {
             this.$router.push({ name: "home" })
@@ -54,7 +54,7 @@ export default {
             this.$router.push({ name: "egg" })
           }
         }
-
+        return
       }
 
       this.setSelectTeam(team)
