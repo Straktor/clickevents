@@ -56,6 +56,12 @@ import NavLink from '@/components/NavLink'
 import AuthNav from '@/components/AuthNav'
 
 import { initFirebase } from '@/helpers/firebaseInit.js'
+import { Team, Member, Event } from '@/models/teamModel'
+import { db } from '@/helpers/firebaseInit.js'
+
+import { collection, onSnapshot, query } from "firebase/firestore";
+
+import { mapActions } from 'vuex'
 
 export default {
   components: {
@@ -65,14 +71,74 @@ export default {
   data: () => {
     return {
 
+      firstLoad: true,
+      firestoreUnsub: [],
     }
+  },
+  computed: {
+    teams () {
+      return Team.query().withAllRecursive().all()
+    },
   },
   created () {
     initFirebase()
   },
+  mounted () {
+    // Load data from Firebase and listen for changes
+    // Teams
+    let teamUnsub = onSnapshot(query(collection(db, "teams")), (docs) => {
+      let teams = [];
+      docs.forEach((doc) => {
+        // Set firebase id as vuex orm id
+        teams.push({ id: doc.id, ...doc.data() });
+      });
+
+      Team.insert({ data: teams })
+
+      if (this.firstLoad) {
+        // Set selected Team
+        this.setSelectTeam(this.getTeamFromName(this.$route.params?.name))
+        this.firstLoad = false
+      }
+    });
+
+    // Users
+    let userUnsub = onSnapshot(query(collection(db, "users")), (docs) => {
+      let users = [];
+      docs.forEach((doc) => {
+        // Set firebase id as vuex orm id
+        users.push({ id: doc.id, ...doc.data() });
+      });
+      Member.insert({ data: users })
+    });
+
+    // Events
+    let eventsUnsub = onSnapshot(query(collection(db, "events")), (docs) => {
+      let events = [];
+      docs.forEach((doc) => {
+        // Set firebase id as vuex orm id
+        let modifiedEvent = { id: doc.id, ...doc.data() }
+        modifiedEvent.createdAt = doc.data().createdAt.seconds * 1000
+        events.push(modifiedEvent);
+      });
+      Event.insert({ data: events })
+    });
+
+    this.firestoreUnsub = [teamUnsub, userUnsub, eventsUnsub]
+  },
+  destroyed () {
+    for (const unsub of this.firestoreUnsub) {
+      unsub()
+    }
+  },
   methods: {
+    ...mapActions(['setSelectTeam']),
+    getTeamFromName (teamName) {
+      return this.teams.find(t => t.name === teamName)
+    },
     routeHome () {
       if (this.$route?.name !== 'home') {
+        this.setSelectTeam(undefined)
         this.$router.push({
           name: "home",
         })

@@ -1,94 +1,133 @@
 <template>
-  <div class="egg">
-    <v-card
-      rounded="lg"
-      color="cOrange"
-    >
-      <v-card-title>
-        <v-icon
-          large
-          color="white"
-          class="pr-3"
-        >
-          mdi-flag
-        </v-icon>
-        Flags
-      </v-card-title>
-      <v-card-text class="cOrange lighten-5 pt-3">
-        <div class="flagSubmitContainer">
-          <v-text-field
-            outlined
-            filled
-            dense
-            placeholder="CTF{...}"
-            hide-details
-            append-icon="mdi-incognito"
-            class="shrink px-4"
-          />
-          <v-btn
-            class="cGreen--text pa-4"
-            outlined
+  <v-row class="egg">
+    <v-col v-if="!selectedTeam">
+      <v-card
+        color="cOrange"
+        rounded="lg"
+      >
+        <v-card-title>
+          easter eggs
+          <v-icon
+            large
+            color="white"
+            class="pl-3"
           >
-            Submit
-          </v-btn>
-        </div>
-      </v-card-text>
-    </v-card>
+            mdi-egg-easter
+          </v-icon>
+        </v-card-title>
+        <v-card-text class="cOrange aboutTheEvent lighten-5">
+          <h2>Let the hunt begin!</h2>
+          <p>
+            Lets see how many each team can find
+          </p>
+          <div class="selectTeamSection">
+            <div>To get started please select a team</div>
+            <v-icon right> mdi-arrow-right-bold </v-icon>
+          </div>
+        </v-card-text>
+      </v-card>
+    </v-col>
+    <v-col v-if="selectedTeam">
+      <h1 class="mainTitle ma-0 pa-0 ml-8">Eggs found by {{ selectedTeam.name }}</h1>
 
-    <v-card
-      rounded="lg"
-      color="cOrange"
-    >
-      <v-card-title>
-        List of easter eggs
-        <v-icon
-          large
-          color="white"
-          class="pl-3"
-        >
-          mdi-egg-easter
-        </v-icon>
-      </v-card-title>
-      <v-card-text class="cOrange lighten-5 pt-3">
-        <v-expansion-panels
-          rounded="lg"
-          class="py-4"
-        >
-          <v-expansion-panel
-            v-for="(e, i) in eggs"
-            :key="i"
+      <v-card
+        rounded="lg"
+        color="cOrange"
+      >
+        <v-card-title>
+          <v-icon
+            large
+            color="white"
+            class="pr-3"
           >
-            <v-expansion-panel-header :color="`${colors[e.tags]} lighten-3`">
-              <div class="headerRow">
-                <span class="numbers">{{ i + 1 }}: </span>
-                <v-icon class="px-3">{{ icons[e.tags] }}</v-icon>
-                <span>{{ e.name }}</span>
-                <v-icon
-                  class="checkmarkIcon pr-1"
-                  color="cGreen"
-                  large
-                >
-                  mdi-check-bold
-                </v-icon>
-              </div>
-            </v-expansion-panel-header>
-            <v-expansion-panel-content
-              class="pt-3"
-              :color="`${colors[e.tags]} lighten-5`"
+            mdi-flag
+          </v-icon>
+          Flags
+        </v-card-title>
+        <v-card-text class="cOrange lighten-5 pt-3">
+          <div class="flagSubmitContainer">
+            <v-text-field
+              outlined
+              filled
+              dense
+              placeholder="CTF{...}"
+              hide-details
+              append-icon="mdi-incognito"
+              class="shrink px-4"
+            />
+            <v-btn
+              class="cGreen--text pa-4"
+              outlined
             >
-              <p>
-                {{ e.hint }}
-              </p>
-            </v-expansion-panel-content>
-          </v-expansion-panel>
-        </v-expansion-panels>
-      </v-card-text>
-    </v-card>
-  </div>
+              Submit
+            </v-btn>
+          </div>
+        </v-card-text>
+      </v-card>
+
+      <v-card
+        rounded="lg"
+        color="cOrange"
+      >
+        <v-card-title>
+          List of easter eggs
+          <v-icon
+            large
+            color="white"
+            class="pl-3"
+          >
+            mdi-egg-easter
+          </v-icon>
+        </v-card-title>
+        <v-card-text class="cOrange lighten-5 pt-3">
+          <v-expansion-panels
+            rounded="lg"
+            class="py-4"
+          >
+            <v-expansion-panel
+              v-for="(e, i) in eggs"
+              :key="i"
+            >
+              <v-expansion-panel-header :color="`${colors[e.tags]} lighten-3`">
+                <div class="headerRow">
+                  <span class="numbers">{{ i + 1 }}: </span>
+                  <v-icon class="px-3">{{ icons[e.tags] }}</v-icon>
+                  <span>{{ e.name }}</span>
+                  <v-icon
+                    class="checkmarkIcon pr-1"
+                    color="cGreen"
+                    large
+                  >
+                    mdi-check-bold
+                  </v-icon>
+                </div>
+              </v-expansion-panel-header>
+              <v-expansion-panel-content
+                class="pt-3"
+                :color="`${colors[e.tags]} lighten-5`"
+              >
+                <p>
+                  {{ e.hint }}
+                </p>
+              </v-expansion-panel-content>
+            </v-expansion-panel>
+          </v-expansion-panels>
+        </v-card-text>
+      </v-card>
+    </v-col>
+    <v-col cols="4">
+      <TeamPanel type="eggteams" />
+    </v-col>
+  </v-row>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
+import TeamPanel from '@/components/TeamPanel'
+
 export default {
+  components: { TeamPanel },
   data () {
     return {
       icons: {
@@ -173,7 +212,10 @@ export default {
         },
       ]
     };
-  }
+  },
+  computed: {
+    ...mapGetters(['selectedTeam']),
+  },
 }
 </script>
 
@@ -231,5 +273,19 @@ export default {
       }
     }
   }
+}
+
+h1.mainTitle {
+  font-size: 50px;
+  color: var(--v-cYellow-base);
+  text-align: center;
+  font-family: pricedown;
+}
+
+.selectTeamSection {
+  display: flex;
+  justify-content: center;
+  font-size: 20px;
+  font-weight: bold;
 }
 </style>

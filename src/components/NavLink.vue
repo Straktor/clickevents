@@ -15,6 +15,8 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
+
 export default {
   props: {
     routeName: {
@@ -35,8 +37,10 @@ export default {
     }
   },
   methods: {
+    ...mapActions(['setSelectTeam']),
     goToRoute () {
       if (this.$route?.name !== this.routeName) {
+        this.setSelectTeam(undefined)
         this.$router.push({
           name: this.routeName,
         })

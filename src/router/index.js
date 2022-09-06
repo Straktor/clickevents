@@ -1,7 +1,6 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import HomeView from "../views/HomeView.vue";
-import ExampleTeamView from "../views/ExampleTeamView.vue";
 
 Vue.use(VueRouter);
 
@@ -25,16 +24,18 @@ const routes = [
   {
     path: "/exampleTeam",
     name: "exampleTeam",
-    component: ExampleTeamView,
-  },
-  {
-    path: "/exampleplanning/team/:name",
-    name: "exampleplanning",
-    component: ExampleTeamView,
+    component: () =>
+      import(/* webpackChunkName: "about" */ "../views/ExampleTeamView.vue"),
   },
   {
     path: "/eggs",
     name: "egg",
+    component: () =>
+      import(/* webpackChunkName: "about" */ "../views/EggView.vue"),
+  },
+  {
+    path: "/eggs/team/:name",
+    name: "eggteams",
     component: () =>
       import(/* webpackChunkName: "about" */ "../views/EggView.vue"),
   },
