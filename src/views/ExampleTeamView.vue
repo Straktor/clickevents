@@ -1,16 +1,13 @@
 <template>
   <v-row>
     <v-col>
-      <v-sheet
-        rounded="lg"
-        class="timelineContainer"
-      >
+      <v-sheet rounded="lg" class="timelineContainer">
         <h1 class="mainTitle ma-0 pa-0 ml-8">Planning of The Dream Team</h1>
-        <h3>This is an example page to show what each team's timeline should look like</h3>
-        <v-timeline
-          dense
-          class="pt-0"
-        >
+        <h3>
+          This is an example page to show what each team's timeline should look
+          like
+        </h3>
+        <v-timeline dense class="pt-0">
           <TimelineItem
             v-for="(item, i) in items"
             :key="i"
@@ -21,10 +18,7 @@
       </v-sheet>
     </v-col>
     <v-col cols="4">
-      <v-sheet
-        rounded="lg"
-        class="rightPanel pa-2"
-      >
+      <v-sheet rounded="lg" class="rightPanel pa-2">
         <h2 class="rightPanel-title">Teams</h2>
         <TeamCard
           v-for="(t, i) in fakeTeams"
@@ -45,7 +39,7 @@ import TimelineItem from "@/components/TimelineItem";
 export default {
   name: "ExampleTeamView",
   components: { TeamCard, TimelineItem },
-  data () {
+  data() {
     return {
       fakeTeams: undefined,
       items: [
@@ -123,7 +117,7 @@ export default {
             "# of points Completed": "35",
             "# of items completed": "3",
             "Confidence level": "5",
-            "Estimation Percentage completed": "70"
+            "Estimation Percentage completed": "70",
           },
         },
         {
@@ -146,30 +140,109 @@ export default {
         },
         {
           type: "Progress Report",
-          createdAt: 1662409846000,
+          createdAt: 1662471047000,
           values: {
-            "# of points Completed": "35",
-            "# of items completed": "3",
+            "# of points Completed": "40",
+            "# of items completed": "4",
             "Confidence level": "5",
-            "Estimation Percentage completed": "70"
+            "Estimation Percentage completed": "75",
           },
         },
-        { type: "New Stretch Goal", values: {} },
+        {
+          type: "Task completed",
+          createdAt: 1662471900000,
+          values: {
+            "# of points": "5",
+            Task: "AUTO-113",
+            "In production": true,
+          },
+        },
+        {
+          type: "Task completed",
+          createdAt: 1662472380000,
+          values: {
+            "# of points": "5",
+            Task: "AUTO-114",
+            "In production": true,
+          },
+        },
+        {
+          type: "Code Review Completed",
+          createdAt: 1662474600000,
+          values: {
+            Task: "AUTO-1191",
+            "Team completed for": "Bob the Builder",
+          },
+        },
+        {
+          type: "Task completed",
+          createdAt: 1662475980000,
+          values: {
+            "# of points": "5",
+            Task: "AUTO-115",
+            "In production": true,
+          },
+        },
+        {
+          type: "New Stretch Goal",
+          values: {
+            "Task added": "AUTO-118",
+            "# of points": "5",
+            "Confidence level": "4",
+          },
+        },
+        {
+          type: "Progress Report",
+          createdAt: 1662479700000,
+          values: {
+            "# of points Completed": "55",
+            "# of items completed": "7",
+            "Confidence level": "5",
+            "Estimation Percentage completed": "100",
+          },
+        },
+        {
+          type: "Code Review Completed",
+          createdAt: 1662486900000,
+          values: {
+            Task: "AUTO-1199",
+            "Team completed for": "Bob the Builder",
+          },
+        },
+        {
+          type: "Team Check-in",
+          createdAt: 1662489000000,
+          values: {
+            "Format of check in": "Slack call",
+            Details:
+              "Team has completed all planned items and is swarming to finish stretch goal.",
+          },
+        },
 
-        { type: "Retrospective Meeting", values: {} },
+        {
+          type: "Retrospective Meeting",
+          values: {
+            "Would more/less planning time be better?":
+              "The team felt like they planned well but could have spent a bit more time going into the details of the stories, it would have helped pick up on the lack of clarity in one story. ",
+              "What could the team have done to increase velocity?": "Swarming on issues earlier would have helped.",
+              "What would you change if you did it again?": "We would have taken an extra story in planning instead of taking half points for the one we finished",
+              "How did you handle WIPs? (Limit the number of them, each person has a WIP task, etc.)?": "Initially we had many open at once but after our second check in, we decided to swarm instead of working individually",
+              "What are the other key takeaways?": "We thought the impact of doing code reviews was bigger than we planned"
+          },
+        },
       ],
     };
   },
   watch: {
     $route: {
-      handler (nv) {
+      handler(nv) {
         if (!nv?.params?.name) {
           this.selectedTeam = undefined;
         }
       },
     },
   },
-  mounted () {
+  mounted() {
     this.fakeTeams = [
       {
         id: 1,
@@ -213,7 +286,7 @@ export default {
     this.selectTeam(this.getTeamFromName(this.$route.params?.name));
   },
   methods: {
-    getTeamFromName (teamName) {
+    getTeamFromName(teamName) {
       return this.fakeTeams.find((t) => t.name === teamName);
     },
   },
