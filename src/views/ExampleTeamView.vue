@@ -6,10 +6,12 @@
         class="timelineContainer"
       >
         <h1 class="mainTitle ma-0 pa-0 ml-8">Planning of The Dream Team</h1>
-        <h3>
-          This is an example page to show what each team's timeline should look
-          like
-        </h3>
+        <div class="ma-0 pa-3 ml-8 my-6 warningCard">
+          <h3>
+            * This is an example page to show what each team's timeline should look
+            like
+          </h3>
+        </div>
         <v-timeline
           dense
           class="pt-0"
@@ -33,6 +35,7 @@
           v-for="(t, i) in fakeTeams"
           :key="i"
           :team="t"
+          :teamStats="teamStats"
           :variant="i + 1"
           class="rightPanel--card ma-3 mt-0 selectedTeam"
         />
@@ -50,6 +53,14 @@ export default {
   components: { TeamCard, TimelineItem },
   data () {
     return {
+      teamStats: {
+        points: 55,
+        numItemsCompleted: 8,
+        CRCompleted: 5,
+        pointsCompleted: 60,
+        percentageCompleted: 110,
+        numEggs: 5,
+      },
       fakeTeams: undefined,
       items: [
         {
@@ -256,12 +267,6 @@ export default {
       {
         id: 1,
         name: "Dream Team",
-        points: 55,
-        numItems: 7,
-        numItemsCompleted: 8,
-        CRCompleted: 5,
-        pointsCompleted: 60,
-        percentageCompleted: 110,
         members: [
           {
             id: 1,
@@ -312,11 +317,17 @@ export default {
   }
 }
 
-h3 {
-  font-size: 30px;
-  color: var(--v-cYellow-base);
-  text-align: center;
-  font-family: pricedown;
+.warningCard {
+  border-left: 1em solid var(--v-cOrange-base);
+  border-right: 1em solid var(--v-cOrange-base);
+  border-radius: 0.5em;
+
+  background-color: var(--v-cOrange-lighten5);
+
+  h3 {
+    font-size: 18px;
+    text-align: center;
+  }
 }
 
 .v-timeline::before {
@@ -379,23 +390,5 @@ h3 {
   .selectedTeam {
     outline: 5px solid var(--v-cYellow-base);
   }
-}
-
-.testing12 {
-  color: var(--v-cYellow-base);
-
-  div {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
-
-  background-color: var(--v-cBlue-darken1);
-
-  border-radius: 0.5em;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 </style>

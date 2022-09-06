@@ -56,7 +56,7 @@ import NavLink from '@/components/NavLink'
 import AuthNav from '@/components/AuthNav'
 
 import { initFirebase } from '@/helpers/firebaseInit.js'
-import { Team, Member, Event } from '@/models/teamModel'
+import { Team, Member, Event, Egg } from '@/models/teamModel'
 import { db } from '@/helpers/firebaseInit.js'
 
 import { collection, onSnapshot, query } from "firebase/firestore";
@@ -124,7 +124,19 @@ export default {
       Event.insert({ data: events })
     });
 
-    this.firestoreUnsub = [teamUnsub, userUnsub, eventsUnsub]
+    // Events
+    let eggsUnsub = onSnapshot(query(collection(db, "eggs")), (docs) => {
+      let eggs = [];
+      docs.forEach((doc) => {
+        // Set firebase id as vuex orm id
+        let modifiedEgg = { id: doc.id, ...doc.data() }
+        modifiedEgg.createdAt = doc.data().createdAt.seconds * 1000
+        eggs.push(modifiedEgg);
+      });
+      Egg.insert({ data: eggs })
+    });
+
+    this.firestoreUnsub = [teamUnsub, userUnsub, eventsUnsub, eggsUnsub]
   },
   destroyed () {
     for (const unsub of this.firestoreUnsub) {

@@ -1,7 +1,7 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import VuexORM from "@vuex-orm/core";
-import { Member, Team, Event } from "@/models/teamModel";
+import { Member, Team, Event, Egg } from "@/models/teamModel";
 
 import { httpsCallable } from "firebase/functions";
 import { functions } from "@/helpers/firebaseInit.js";
@@ -15,6 +15,7 @@ const database = new VuexORM.Database();
 database.register(Team);
 database.register(Member);
 database.register(Event);
+database.register(Egg);
 
 export default new Vuex.Store({
   plugins: [VuexORM.install(database)],

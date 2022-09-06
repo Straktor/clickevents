@@ -85,7 +85,7 @@
             class="py-4"
           >
             <v-expansion-panel
-              v-for="(e, i) in eggs"
+              v-for="(e, i) in eggsInfo"
               :key="i"
             >
               <v-expansion-panel-header :color="`${colors[e.tags]} lighten-3`">
@@ -93,13 +93,24 @@
                   <span class="numbers">{{ i + 1 }}: </span>
                   <v-icon class="px-3">{{ icons[e.tags] }}</v-icon>
                   <span>{{ e.name }}</span>
-                  <v-icon
-                    class="checkmarkIcon pr-1"
-                    color="cGreen"
-                    large
+                  <v-tooltip
+                    bottom
+                    v-if="getEggByName(e.name)"
                   >
-                    mdi-check-bold
-                  </v-icon>
+                    <template v-slot:activator="{ on }">
+                      <v-icon
+                        class="checkmarkIcon pr-1"
+                        color="cGreen"
+                        large
+                        v-on="on"
+                      >
+                        mdi-check-bold
+                      </v-icon>
+                    </template>
+                    <span>
+                      {{ new Date(getEggByName(e.name).createdAt).toLocaleString([], {hour12: false}) }}
+                    </span>
+                  </v-tooltip>
                 </div>
               </v-expansion-panel-header>
               <v-expansion-panel-content
@@ -123,8 +134,8 @@
 
 <script>
 import { mapGetters } from 'vuex'
-
 import TeamPanel from '@/components/TeamPanel'
+import { Egg } from '@/models/teamModel'
 
 export default {
   components: { TeamPanel },
@@ -144,7 +155,7 @@ export default {
         javascript: 'cGreen',
         trivia: 'cPink',
       },
-      eggs: [
+      eggsInfo: [
         {
           name: "The best team!",
           hint: 'Do you really need an hint?',
@@ -181,6 +192,11 @@ export default {
           tags: 'javascript'
         },
         {
+          name: "Famous Bob",
+          hint: 'Name a famous Bob... to find him look at the event inspiration.',
+          tags: 'trivia'
+        },
+        {
           name: 'The Blacksmith',
           hint: 'Blacksmiths are great a forging, maybe you should try it.',
           tags: 'network'
@@ -215,7 +231,19 @@ export default {
   },
   computed: {
     ...mapGetters(['selectedTeam']),
+    eggs () {
+      return Egg.query().withAllRecursive().all()
+    },
   },
+  methods: {
+    getTeamEggs (teamId) {
+      let teamEggs = this.eggs.filter(e => e.teamId === teamId)
+      return teamEggs ? teamEggs : []
+    },
+    getEggByName (eggName) {
+      return this.getTeamEggs(this.selectedTeam.id).find(e => e.name === eggName)
+    },
+  }
 }
 </script>
 
@@ -268,8 +296,14 @@ export default {
         font-size: 16px;
       }
 
+      .numbers {
+        display: inline-block;
+        width: 3ch;
+      }
+
       .checkmarkIcon {
         margin-left: auto;
+        margin-right: 0.5em;
       }
     }
   }

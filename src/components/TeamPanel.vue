@@ -8,6 +8,7 @@
       v-for="(t, i) in teams"
       :key="i"
       :team="t"
+      :teamStats="t.teamStats"
       :variant="i + 1"
       class="rightPanel--card ma-3 mt-0"
       :class="selectedTeam?.name === t.name ? 'selectedTeam' : ''"
