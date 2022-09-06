@@ -190,7 +190,7 @@ export default {
             "So if you reach your goal early, congratulations, that's amazing! We want you to be able to continue competing though so you are allowed to add strech goals as a team. However, these stretch goals are only worth half the points of the original story. Seeing as finishing early is a sign you didn't plan accurately for your two days you do have to have a penalty of sorts while you continue!",
           ],
         },
-        { title: "How do merge requests work this time around?", icon: "mdi-file-find", content: [] },
+        { title: "How do code reviews work this time around?", icon: "mdi-file-find", content: ["This time around, code reviews work in a similar way than in our day-to-day work. Once you have something ready to be reviewed, you can send to another team via the event slack channel. They will get a point for completing. Code reviews shouldn't be used a weapon to slow other teams down!"] },
         {
           title: "What are the points categories?",
           icon: "mdi-currency-usd",
@@ -202,9 +202,11 @@ export default {
           ],
         },
         {
-          title: "How do we add events on the timeline?",
+          title: "What is the event timeline and how do we add to it?",
           icon: "mdi-plus-thick",
-          content: [],
+          content: ["The timeline is basically a report on how your team is working, built in real time. You can see an example that we've built for guidance here ADD LINK. Each team's scrum master should take the lead on keeping this up to date for you. There are 8 different event types that can be added:",
+        "1. Estimation: this card should be filled out as soon as your team's planning is done",
+      "2. Task Completed: this card should be filled out each time a task is completed"],
         },
         { title: "What do the winners get?", icon: "mdi-medal", content: [] },
         {
