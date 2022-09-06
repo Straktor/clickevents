@@ -190,7 +190,7 @@ export default {
             "So if you reach your goal early, congratulations, that's amazing! We want you to be able to continue competing though so you are allowed to add strech goals as a team. However, these stretch goals are only worth half the points of the original story. Seeing as finishing early is a sign you didn't plan accurately for your two days you do have to have a penalty of sorts while you continue!",
           ],
         },
-        { title: "Merge requests?", icon: "mdi-file-find", content: [] },
+        { title: "How do merge requests work this time around?", icon: "mdi-file-find", content: [] },
         {
           title: "What are the points categories?",
           icon: "mdi-currency-usd",
