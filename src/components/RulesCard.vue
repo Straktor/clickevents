@@ -1,32 +1,26 @@
 <template>
   <div>
-    <v-card
-      :color="color"
-      rounded="lg"
-    >
+    <v-card :color="color" rounded="lg">
       <v-card-title>
         Welcome to the event
-        <v-icon
-          large
-          color="white"
-          class="pl-3"
-        >
-          mdi-party-popper
-        </v-icon>
+        <v-icon large color="white" class="pl-3"> mdi-party-popper </v-icon>
       </v-card-title>
-      <v-card-text
-        class="aboutTheEvent lighten-5"
-        :class="color"
-      >
+      <v-card-text class="aboutTheEvent lighten-5" :class="color">
         <h2>What is the event about?</h2>
         <p>
           The event is called The Estimation is Right so over the next two days
           we want to put your planning and estimation skills to the test!
         </p>
         <p>
-          You have been broken into teams different from your normal
-          squads, and you'll need to work together to plan and execute a mini
-          sprint in two days.
+          You have been divided into teams different from your normal squads,
+          and you'll need to work together to plan and execute a mini sprint in
+          two days.
+        </p>
+        <p>
+          The catch is, if you don't deliver all the points you've committed to
+          or more, your PO points total will be 0. This is an estimation
+          challenge so if you can't deliver what you've committed to it means
+          you haven't delivered to the user.
         </p>
         <div class="selectTeamSection">
           <div>To get started please select a team</div>
@@ -35,31 +29,18 @@
       </v-card-text>
     </v-card>
 
-    <v-card
-      :color="color"
-      rounded="lg"
-    >
+    <v-card :color="color" rounded="lg">
       <v-card-title>
-        <v-icon
-          large
-          color="white"
-          class="pr-3"
-        >
+        <v-icon large color="white" class="pr-3">
           mdi-calendar-clock-outline
         </v-icon>
         Schedule
       </v-card-title>
-      <v-card-text
-        class="schedule lighten-5"
-        :class="color"
-      >
+      <v-card-text class="schedule lighten-5" :class="color">
         <h2>How will the event work?</h2>
 
-        <div
-          v-for="(s, i) in schedule"
-          :key="i"
-        >
-          <h3> {{ s.name }}</h3>
+        <div v-for="(s, i) in schedule" :key="i">
+          <h3>{{ s.name }}</h3>
           <v-timeline dense>
             <v-timeline-item
               v-for="(item, j) in s.items"
@@ -69,42 +50,26 @@
               fill-dot
             >
               <div class="timelineText">
-                <span class="time">{{ item.time }}</span>{{ item.label }}
+                <span class="time">{{ item.time }}</span
+                >{{ item.label }}
               </div>
             </v-timeline-item>
           </v-timeline>
-
         </div>
       </v-card-text>
     </v-card>
 
-    <v-card
-      :color="color"
-      rounded="lg"
-    >
+    <v-card :color="color" rounded="lg">
       <v-card-title>
         Rules of the game
-        <v-icon
-          large
-          color="white"
-          class="pl-3"
-        >
-          mdi-gavel
-        </v-icon>
+        <v-icon large color="white" class="pl-3"> mdi-gavel </v-icon>
       </v-card-title>
-      <v-card-text
-        class="schedule lighten-5"
-        :class="color"
-      >
-        <v-expansion-panels
-          rounded="lg"
-          class="pt-4"
-        >
-          <v-expansion-panel
-            v-for="(r,i) in rules"
-            :key="i"
-          >
-            <v-expansion-panel-header :color="`${ruleColors[i % ruleColors.length]} lighten-3`">
+      <v-card-text class="schedule lighten-5" :class="color">
+        <v-expansion-panels rounded="lg" class="pt-4">
+          <v-expansion-panel v-for="(r, i) in rules" :key="i">
+            <v-expansion-panel-header
+              :color="`${ruleColors[i % ruleColors.length]} lighten-3`"
+            >
               <div>
                 <v-icon class="pr-1">{{ r.icon }}</v-icon>
                 <span>- {{ r.title }}</span>
@@ -114,16 +79,12 @@
               class="pt-3"
               :color="`${ruleColors[i % ruleColors.length]} lighten-5`"
             >
-              <p
-                v-for="section in r.content"
-                :key="section"
-              >
+              <p v-for="section in r.content" :key="section">
                 {{ section }}
               </p>
             </v-expansion-panel-content>
           </v-expansion-panel>
         </v-expansion-panels>
-
       </v-card-text>
     </v-card>
   </div>
@@ -133,59 +94,136 @@
 export default {
   data: () => {
     return {
-      color: 'cOrange',
+      color: "cOrange",
       schedule: [
         {
-          name: 'Day 1',
+          name: "Day 1",
           items: [
-            { time: '9:00', label: 'Kick off call to reveal teams', icon: 'mdi-air-horn', color: 'cRed', },
-            { time: '9:15', label: 'Teams start their planning', icon: 'mdi-account-hard-hat', color: 'cGreen', },
-            { time: '12:00', label: 'Deadline to sumbit points estimation', icon: 'mdi-account-hard-hat', color: 'cGreen', },
-            { time: '13:00', label: 'Teams start working on their planned work', icon: 'mdi-code-greater-than', color: 'cRed', },
-
-          ]
+            {
+              time: "9:00",
+              label: "Kick off call to reveal teams",
+              icon: "mdi-air-horn",
+              color: "cRed",
+            },
+            {
+              time: "9:15",
+              label: "Teams start their planning",
+              icon: "mdi-account-hard-hat",
+              color: "cGreen",
+            },
+            {
+              time: "12:00",
+              label: "Deadline to sumbit points estimation",
+              icon: "mdi-account-hard-hat",
+              color: "cGreen",
+            },
+            {
+              time: "13:00",
+              label: "Teams start working on their planned work",
+              icon: "mdi-code-greater-than",
+              color: "cRed",
+            },
+          ],
         },
         {
-          name: 'Day 2',
+          name: "Day 2",
           items: [
-            { time: '9:00', label: 'Team check in', icon: 'mdi-check-bold', color: 'cPink', },
-            { time: '9:30', label: 'Teams submit status report', icon: 'mdi-chart-areaspline', color: 'cOrange', },
-            { time: '12:00', label: 'Teams submit status report', icon: 'mdi-chart-areaspline', color: 'cOrange', },
-            { time: '14:30', label: 'Cut off point to send code reviews to team', icon: 'mdi-file-chart-check', color: 'cPink', },
-            { time: '15:00', label: 'Teams finish coding and go into review', icon: 'mdi-code-less-than', color: 'cRed', },
-            { time: '16:00', label: 'Teams move into retros', icon: 'mdi-heart-multiple', color: 'cOrange', },
-            { time: '16:30', label: 'We announce winners!', icon: 'mdi-medal', color: 'cRed', },
-          ]
-        }
+            {
+              time: "9:00",
+              label: "Team check in",
+              icon: "mdi-check-bold",
+              color: "cPink",
+            },
+            {
+              time: "9:30",
+              label: "Teams submit status report",
+              icon: "mdi-chart-areaspline",
+              color: "cOrange",
+            },
+            {
+              time: "12:00",
+              label: "Teams submit status report",
+              icon: "mdi-chart-areaspline",
+              color: "cOrange",
+            },
+            {
+              time: "14:30",
+              label: "Cut off point to send code reviews to team",
+              icon: "mdi-file-chart-check",
+              color: "cPink",
+            },
+            {
+              time: "15:00",
+              label: "Teams finish coding and go into review",
+              icon: "mdi-code-less-than",
+              color: "cRed",
+            },
+            {
+              time: "16:00",
+              label: "Teams move into retros",
+              icon: "mdi-heart-multiple",
+              color: "cOrange",
+            },
+            {
+              time: "16:30",
+              label: "We announce winners!",
+              icon: "mdi-medal",
+              color: "cRed",
+            },
+          ],
+        },
       ],
       rules: [
         {
-          title: 'How does the day work?',
-          icon: 'mdi-briefcase',
+          title: "How does the day work?",
+          icon: "mdi-briefcase",
           content: [
-            "section 1",
-            "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
+            "The goal of the next two days is to test your estimation skills. We have provided a backlog of unprioritized tasks, but like the last event, our POs have assigned POs points to them. It's up to you how many of these stories you commit to finishing but by 12PM on day 1, you will need to submit your estimates. After they are submitted, you cannot alter them, however, you can add stretch goals which we explain below.",
+            "While we want you to work on tech debt, the point of this is to accurately estimate the work you can finish. So make sure you take into account any team absences or factors that might influence your delivery.",
+            "As we said above, if you don't reach your committed to goal, you get 0 points!",
           ],
         },
-        { title: 'But what if we reach our goal early?', icon: 'mdi-flag-checkered', content: [], },
-        { title: 'What are the points categories?', icon: 'mdi-currency-usd', content: [], },
-        { title: 'Merge requests?', icon: 'mdi-file-find', content: [], },
-        { title: 'How do we add events on the timeline?', icon: 'mdi-plus-thick', content: [], },
-        { title: 'What do the winners get?', icon: 'mdi-medal', content: [], },
-        { title: 'How long do we have to work each day?', icon: 'mdi-timer-sand', content: [], },
-        { title: 'Easter eggs?', icon: 'mdi-egg-easter', content: [], },
-        { title: 'If you have something that impacts production - alert other teams', icon: 'mdi-alert', content: [], },
+        {
+          title: "But what if we reach our goal early?",
+          icon: "mdi-flag-checkered",
+          content: [
+            "So if you reach your goal early, congratulations, that's amazing! We want you to be able to continue competing though so you are allowed to add strech goals as a team. However, these stretch goals are only worth half the points of the original story. Seeing as finishing early is a sign you didn't plan accurately for your two days you do have to have a penalty of sorts while you continue!",
+          ],
+        },
+        { title: "Merge requests?", icon: "mdi-file-find", content: [] },
+        {
+          title: "What are the points categories?",
+          icon: "mdi-currency-usd",
+          content: [
+            "You can score points in 3 different ways:",
+            "1. # of points completed: these are the annoyance points given by our POs based on how much they want each issue to be solved. When you submit your estimations, the PO points are what you'll be using.",
+            "2. # of items completed: this one is self explanatory but each time you close an item you get another point here",
+            "3. # of code reviews completed: other teams can send you code reviews, for each one you complete you get another point"
+          ],
+        },
+        {
+          title: "How do we add events on the timeline?",
+          icon: "mdi-plus-thick",
+          content: [],
+        },
+        { title: "What do the winners get?", icon: "mdi-medal", content: [] },
+        {
+          title: "How long do we have to work each day?",
+          icon: "mdi-timer-sand",
+          content: [],
+        },
+        { title: "Easter eggs?", icon: "mdi-egg-easter", content: [] },
+        {
+          title:
+            "If you have something that impacts production - alert other teams",
+          icon: "mdi-alert",
+          content: [],
+        },
       ],
-      ruleColors: [
-        'cRed',
-        'cYellow',
-        'cPink',
-        'cGreen',
-        'cBlue',
-      ]
-    }
+      ruleColors: ["cRed", "cYellow", "cPink", "cGreen", "cBlue"],
+    };
   },
-}
+};
 </script>
 
 <style lang="scss" scoped>
