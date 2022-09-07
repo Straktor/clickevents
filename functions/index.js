@@ -112,7 +112,7 @@ exports.solveEggs = functions.https.onCall(async (data, context) => {
   let eggs = [
     { name: "The best team!", flag: "click" },
     { name: "In plain sight", flag: "SiZi3tN" },
-    { name: "The egg-plorer", flag: "9bx6HWen" },
+    { name: "The eggs-plorer", flag: "9bx6HWen" },
     { name: "The obvious one", flag: "wW9S3MVcgzZ7QQ" },
     { name: "Useless loading", flag: "ea73ArBqJ8rcJb" },
     { name: "Hello World!", flag: "hello world!" },

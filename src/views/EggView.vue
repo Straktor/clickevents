@@ -212,7 +212,7 @@ export default {
           tags: 'css'
         },
         {
-          name: 'The egg-plorer',
+          name: 'The eggs-plorer',
           hint: 'Take your time and look around... it is as simple as that',
           tags: 'exploring'
         },
@@ -268,7 +268,7 @@ export default {
         },
         {
           name: "Smart People",
-          hint: 'The age of the assistant to the taskmaster - the season of taskmaster that Noel Fielding won - the age of the taskmaster - the year taskmaster started',
+          hint: 'The age of the assistant to the taskmaster (A) - the season of taskmaster that Noel Fielding won (B) - the age of the taskmaster (C) - the year taskmaster started (D). (Format example: A - B - C - D)',
           tags: 'trivia'
         },
         {
