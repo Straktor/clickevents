@@ -122,7 +122,7 @@ exports.solveEggs = functions.https.onCall(async (data, context) => {
       name: "The Blacksmith",
       flag: "THIS ONE IS DIFFERENT - SET solved flag to true",
     },
-    { name: "Thanks for reading", flag: "" },
+    { name: "Thanks for reading", flag: "Xp3Rbv6H" },
     { name: "On the wire", flag: "CE114E4501D2F4E2DCEA3E17B546F339" },
     { name: "Smart Planning", flag: "6XNiTLjF6jmmHM" },
     { name: "Extra Configuration", flag: "5142ee5" },
