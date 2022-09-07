@@ -96,13 +96,14 @@
 
             <span
               class="toggleLoginSignInText"
-              @click="loginDialogSelected = !loginDialogSelected"
+              @click="loginDialogSelected = !loginDialogSelected; errorMessage = ''"
             >
               {{ loginDialogSelected ? 'Sign Up': 'Log in'}}
             </span>
           </p>
         </v-card-text>
         <v-card-actions>
+          <span class="white--text">{{ errorMessage }}</span>
           <v-spacer />
           <v-btn
             class="white--text pa-4"
@@ -147,6 +148,7 @@ export default {
       dialog: false,
       loginDialogSelected: true,
       showPassword: false,
+      errorMessage: '',
     }
   },
   mounted () {
@@ -169,30 +171,28 @@ export default {
       this.email = ''
       this.password = ''
       this.dialog = false
+      this.errorMessage = ''
     },
     actionBtn () {
       if (this.loginDialogSelected) this.login(this.email, this.password)
       else this.signup(this.email, this.password)
-
-      // TODO: Error handling with sign in
-      this.close()
     },
     signup (email, password) {
       createUserWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
-          console.log(userCredential)
+        .then(() => {
+          this.close()
         })
         .catch((error) => {
-          console.log(error)
+          this.errorMessage = error.message
         });
     },
     login (email, password) {
       signInWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
-          console.log(userCredential)
+        .then(() => {
+          this.close()
         })
         .catch((error) => {
-          console.log(error)
+          this.errorMessage = error.message
         });
     },
     logout () {
