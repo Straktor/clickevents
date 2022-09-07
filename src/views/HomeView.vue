@@ -16,6 +16,7 @@
             v-for="(item, i) in getTeamEvents(selectedTeam.id)"
             :key="i"
             :item="item"
+            :editEnabled="!!loggedInUser && isUserPartOfTeam()"
           />
         </v-timeline>
       </v-sheet>
@@ -44,18 +45,33 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(['selectedTeam']),
-
+    ...mapGetters(['selectedTeam', 'loggedInUser']),
     events () {
       return Event.query().orderBy('createdAt').all()
     },
   },
   mounted () { },
   methods: {
+    isUserPartOfTeam () {
+      if (!this.loggedInUser) {
+        return false
+      }
+
+      for (const m of this.selectedTeam.members) {
+        if (m?.email.toLowerCase() === this.loggedInUser.email.toLowerCase()) {
+          return true
+        }
+      }
+
+      return false
+    },
     getTeamEvents (teamId) {
       let teamEvents = this.events.filter(e => e.teamId === teamId)
 
-      let events = [{ type: "Add a new entry", values: {} }]
+      let events = []
+      if (this.isUserPartOfTeam()) {
+        events.push({ type: "Add a new entry", values: {} })
+      }
 
       if (teamEvents) {
         events = [...teamEvents, ...events]

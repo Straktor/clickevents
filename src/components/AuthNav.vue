@@ -1,7 +1,7 @@
 <template>
   <div class="authNav">
     <div
-      v-if="user"
+      v-if="loggedInUser"
       class="loggedIn"
     >
       <v-menu
@@ -15,13 +15,13 @@
           <v-img
             class="userIcon"
             width="40px"
-            :src="`https://avatars.dicebear.com/api/croodles-neutral/${user.email}.svg`"
+            :src="`https://avatars.dicebear.com/api/croodles-neutral/${loggedInUser.email}.svg`"
             v-on="on"
           />
         </template>
 
         <div class="userMenu">
-          <p class="userInfo">{{ user.email }}</p>
+          <p class="userInfo">{{ loggedInUser.email }}</p>
           <v-divider />
           <p
             class="logoutBtn"
@@ -126,6 +126,8 @@
 </template>
 
 <script>
+import { mapActions, mapGetters } from 'vuex'
+
 import { auth } from '@/helpers/firebaseInit.js'
 import {
   createUserWithEmailAndPassword,
@@ -144,19 +146,25 @@ export default {
       password: '',
       dialog: false,
       loginDialogSelected: true,
-      user: undefined,
       showPassword: false,
     }
   },
   mounted () {
     onAuthStateChanged(auth, (user) => {
-      if (user) this.user = user
-      else this.user = undefined
+      if (user) {
+        this.setLoggedInUser(user)
+      }
+      else {
+        this.setLoggedInUser(undefined)
+      }
     })
   },
   watch: {},
-  computed: {},
+  computed: {
+    ...mapGetters(['loggedInUser']),
+  },
   methods: {
+    ...mapActions(['setLoggedInUser']),
     close () {
       this.email = ''
       this.password = ''

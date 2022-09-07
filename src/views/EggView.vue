@@ -27,13 +27,16 @@
         </v-card-text>
       </v-card>
     </v-col>
+    <div class="parityLayer">
+      SiZi3tN
+    </div>
     <v-col v-if="selectedTeam">
       <h1 class="mainTitle ma-0 pa-0 ml-8">Eggs found by {{ selectedTeam.name }}</h1>
-
       <v-card
         rounded="lg"
         color="cOrange"
       >
+
         <v-card-title>
           <v-icon
             large
@@ -47,20 +50,58 @@
         <v-card-text class="cOrange lighten-5 pt-3">
           <div class="flagSubmitContainer">
             <v-text-field
+              v-model="flag"
               outlined
               filled
               dense
-              placeholder="CTF{...}"
+              placeholder="Flag"
               hide-details
               append-icon="mdi-incognito"
               class="shrink px-4"
+              :disabled="!isUserPartOfTeam() || submitLoading"
             />
             <v-btn
               class="cGreen--text pa-4"
               outlined
+              :disabled="!isUserPartOfTeam()"
+              :loading="submitLoading"
+              @click="submit()"
             >
               Submit
             </v-btn>
+          </div>
+          <div
+            v-if="submitMessage || errorMessage"
+            class="flagSubmitContainer pt-3"
+          >
+            <v-icon
+              v-if="submitMessage"
+              color="cGreen"
+              class="pr-1"
+            >
+              mdi-party-popper
+            </v-icon>
+            <span
+              v-if="submitMessage"
+              class="cGreen--text"
+            >
+              {{submitMessage}}
+            </span>
+
+            <v-icon
+              v-if="errorMessage"
+              color="cRed"
+              class="pr-1"
+            >
+              mdi-close-thick
+            </v-icon>
+            <span
+              v-if="errorMessage"
+              class="cRed--text"
+            >
+              {{errorMessage}}
+            </span>
+
           </div>
         </v-card-text>
       </v-card>
@@ -133,7 +174,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 import TeamPanel from '@/components/TeamPanel'
 import { Egg } from '@/models/teamModel'
 
@@ -141,6 +182,10 @@ export default {
   components: { TeamPanel },
   data () {
     return {
+      flag: '',
+      submitLoading: false,
+      submitMessage: '',
+      errorMessage: '',
       icons: {
         css: 'mdi-language-css3',
         exploring: 'mdi-compass',
@@ -163,7 +208,7 @@ export default {
         },
         {
           name: 'In plain sight',
-          hint: '',
+          hint: "CSS is tricky... you have to make sure that you have a good contrast.",
           tags: 'css'
         },
         {
@@ -208,13 +253,18 @@ export default {
         },
         {
           name: 'On the wire',
-          hint: 'It pays off to watch the traffic.',
+          hint: 'It pays off to watch the network traffic.',
           tags: 'network'
         },
         {
           name: 'Smart Planning',
           hint: 'Some tools are great for planning. Explore them, I am sure that you will find what you are looking for.',
           tags: 'exploring'
+        },
+        {
+          name: 'Extra Configuration',
+          hint: 'Javascript is pretty loose and allows you to pass in extra keys when initializing objects.',
+          tags: 'javascript'
         },
         {
           name: "Smart People",
@@ -230,17 +280,51 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(['selectedTeam']),
+    ...mapGetters(['selectedTeam', 'loggedInUser']),
     eggs () {
       return Egg.query().withAllRecursive().all()
     },
   },
   methods: {
+    ...mapActions(['solveEgg']),
+    submit () {
+      // TODO: Handle error messages
+      this.submitLoading = true
+      this.solveEgg(this.flag)
+        .then((r) => {
+          if (r.data?.flag) {
+            this.submitMessage = `Good job you solved the "${r.data.flag}" egg! ${r.data?.new ? '' : '(again)'}`
+            this.errorMessage = ''
+
+          } else {
+            this.submitMessage = ''
+            this.errorMessage = 'Nice try... but no...'
+          }
+
+          console.log(r.data.flag)
+        }).finally(() => {
+          this.submitLoading = false
+        })
+    },
+    isUserPartOfTeam () {
+      if (!this.loggedInUser) {
+        return false
+      }
+
+      for (const m of this.selectedTeam.members) {
+        if (m?.email.toLowerCase() === this.loggedInUser.email.toLowerCase()) {
+          return true
+        }
+      }
+
+      return false
+    },
     getTeamEggs (teamId) {
       let teamEggs = this.eggs.filter(e => e.teamId === teamId)
       return teamEggs ? teamEggs : []
     },
     getEggByName (eggName) {
+      // The obvious one - password - flag - egg - easter (wW9S3MVcgzZ7QQ)
       return this.getTeamEggs(this.selectedTeam.id).find(e => e.name === eggName)
     },
   }
@@ -321,5 +405,12 @@ h1.mainTitle {
   justify-content: center;
   font-size: 20px;
   font-weight: bold;
+}
+
+.parityLayer {
+  position: absolute;
+  top: 5px;
+  left: 50%;
+  color: var(--v-cBlue-base);
 }
 </style>
