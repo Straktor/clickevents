@@ -114,7 +114,6 @@ exports.solveEggs = functions.https.onCall(async (data, context) => {
     { name: "In plain sight", flag: "SiZi3tN" },
     { name: "The eggs-plorer", flag: "9bx6HWen" },
     { name: "The obvious one", flag: "wW9S3MVcgzZ7QQ" },
-    { name: "Useless loading", flag: "ea73ArBqJ8rcJb" },
     { name: "Hello World!", flag: "hello world!" },
     { name: "Encoded", flag: "aRjSWh1o2eg6Lb" },
     { name: "Famous Bob", flag: "Bob Barker" },
@@ -127,7 +126,8 @@ exports.solveEggs = functions.https.onCall(async (data, context) => {
     { name: "Smart Planning", flag: "6XNiTLjF6jmmHM" },
     { name: "Extra Configuration", flag: "5142ee5" },
     { name: "Smart People", flag: "43 - 4 - 54 - 2015" },
-    { name: "The PO's favorite", flag: "" },
+    { name: "The PO's favorite", flag: "NTCwUgn2Vj" },
+    { name: "Social Engineering", flag: "" },
   ];
 
   let egg = eggs.find((e) => e.flag.toLowerCase() === data.flag.toLowerCase());

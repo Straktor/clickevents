@@ -276,6 +276,11 @@ export default {
           hint: 'Product owners loves it when you take your time and read the tasks.',
           tags: 'exploring'
         },
+        {
+          name: "Social Engineering",
+          hint: 'Networking is about knowing the right people to ask....',
+          tags: 'trivia'
+        },
       ]
     };
   },
