@@ -222,11 +222,6 @@ export default {
           tags: 'javascript'
         },
         {
-          name: 'Useless loading',
-          hint: 'We have to be careful when requesting information... sometime we ask for too much',
-          tags: 'network'
-        },
-        {
           name: "Hello World!",
           hint: 'You should always start by trying a simple hello world.',
           tags: 'exploring'
