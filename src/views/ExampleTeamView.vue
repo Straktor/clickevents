@@ -241,6 +241,7 @@ export default {
 
         {
           type: "Retrospective Meeting",
+          createdAt: 1662496217000,
           values: {
             "Would more/less planning time be better?":
               "The team felt like they planned well but could have spent a bit more time going into the details of the stories, it would have helped pick up on the lack of clarity in one story. ",
