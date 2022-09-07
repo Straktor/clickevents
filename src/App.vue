@@ -37,12 +37,6 @@
 
       <AuthNav class="ml-3" />
 
-      <v-img
-        :src="require('./assets/backgroudImg.png')"
-        max-height="0"
-        max-width="0"
-        contain
-      />
     </v-app-bar>
     <v-main>
       <v-container :fluid="!$vuetify.breakpoint.xlOnly">
