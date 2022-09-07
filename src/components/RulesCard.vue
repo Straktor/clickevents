@@ -1,11 +1,21 @@
 <template>
   <div>
-    <v-card :color="color" rounded="lg">
+    <v-card
+      :color="color"
+      rounded="lg"
+    >
       <v-card-title>
         Welcome to the event
-        <v-icon large color="white" class="pl-3"> mdi-party-popper </v-icon>
+        <v-icon
+          large
+          color="white"
+          class="pl-3"
+        > mdi-party-popper </v-icon>
       </v-card-title>
-      <v-card-text class="aboutTheEvent lighten-5" :class="color">
+      <v-card-text
+        class="aboutTheEvent lighten-5"
+        :class="color"
+      >
         <h2>What is the event about?</h2>
         <p>
           The event is called The Estimation is Right so over the next two days
@@ -16,12 +26,15 @@
           and you'll need to work together to plan and execute a mini sprint in
           two days.
         </p>
-        <p>
-          The catch is, if you don't deliver all the points you've committed to
-          or more, your PO points total will be 0. This is an estimation
-          challenge so if you can't deliver what you've committed to it means
-          you haven't delivered to the user.
-        </p>
+        <div class="bulletPointsContainer mb-5">
+          <p class="bulletPoints">-> Mini sprint of two days</p>
+          <p class="bulletPoints">-> You will have to plan and estimate the tasks you can deliver</p>
+          <p class="bulletPoints">-> If you don't deliver all the points you get 0</p>
+          <p class="bulletPoints">-> Send code reviews to other teams</p>
+          <p class="bulletPoints">-> Stretch Goals are worth half the points</p>
+          <p class="bulletPoints">-> There are plenty of easter eggs meant to waste your time</p>
+        </div>
+
         <div class="selectTeamSection">
           <div>To get started please select a team</div>
           <v-icon right> mdi-arrow-right-bold </v-icon>
@@ -29,17 +42,30 @@
       </v-card-text>
     </v-card>
 
-    <v-card :color="color" rounded="lg">
+    <v-card
+      :color="color"
+      rounded="lg"
+    >
       <v-card-title>
-        <v-icon large color="white" class="pr-3">
+        <v-icon
+          large
+          color="white"
+          class="pr-3"
+        >
           mdi-calendar-clock-outline
         </v-icon>
         Schedule
       </v-card-title>
-      <v-card-text class="schedule lighten-5" :class="color">
+      <v-card-text
+        class="schedule lighten-5"
+        :class="color"
+      >
         <h2>How will the event work?</h2>
 
-        <div v-for="(s, i) in schedule" :key="i">
+        <div
+          v-for="(s, i) in schedule"
+          :key="i"
+        >
           <h3>{{ s.name }}</h3>
           <v-timeline dense>
             <v-timeline-item
@@ -50,8 +76,7 @@
               fill-dot
             >
               <div class="timelineText">
-                <span class="time">{{ item.time }}</span
-                >{{ item.label }}
+                <span class="time">{{ item.time }}</span>{{ item.label }}
               </div>
             </v-timeline-item>
           </v-timeline>
@@ -59,17 +84,31 @@
       </v-card-text>
     </v-card>
 
-    <v-card :color="color" rounded="lg">
+    <v-card
+      :color="color"
+      rounded="lg"
+    >
       <v-card-title>
         Rules of the game
-        <v-icon large color="white" class="pl-3"> mdi-gavel </v-icon>
+        <v-icon
+          large
+          color="white"
+          class="pl-3"
+        > mdi-gavel </v-icon>
       </v-card-title>
-      <v-card-text class="schedule lighten-5" :class="color">
-        <v-expansion-panels rounded="lg" class="pt-4">
-          <v-expansion-panel v-for="(r, i) in rules" :key="i">
-            <v-expansion-panel-header
-              :color="`${ruleColors[i % ruleColors.length]} lighten-3`"
-            >
+      <v-card-text
+        class="schedule lighten-5"
+        :class="color"
+      >
+        <v-expansion-panels
+          rounded="lg"
+          class="pt-4"
+        >
+          <v-expansion-panel
+            v-for="(r, i) in rules"
+            :key="i"
+          >
+            <v-expansion-panel-header :color="`${ruleColors[i % ruleColors.length]} lighten-3`">
               <div>
                 <v-icon class="pr-1">{{ r.icon }}</v-icon>
                 <span>- {{ r.title }}</span>
@@ -79,7 +118,10 @@
               class="pt-3"
               :color="`${ruleColors[i % ruleColors.length]} lighten-5`"
             >
-              <p v-for="section in r.content" :key="section">
+              <p
+                v-for="section in r.content"
+                :key="section"
+              >
                 {{ section }}
               </p>
             </v-expansion-panel-content>
@@ -245,6 +287,17 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.bulletPointsContainer {
+  border: 3px dashed var(--v-cPink-base);
+  border-radius: 0.5em;
+  padding: 1em;
+
+  .bulletPoints {
+    font-weight: bold;
+    margin-bottom: 0.2em;
+  }
+}
+
 .v-card {
   margin-top: 1.5em;
   text-align: justify;
