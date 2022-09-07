@@ -127,7 +127,7 @@ exports.solveEggs = functions.https.onCall(async (data, context) => {
     { name: "Extra Configuration", flag: "5142ee5" },
     { name: "Smart People", flag: "43 - 4 - 54 - 2015" },
     { name: "The PO's favorite", flag: "NTCwUgn2Vj" },
-    { name: "Social Engineering", flag: "" },
+    { name: "Social Engineering", flag: "1880" },
   ];
 
   let egg = eggs.find((e) => e.flag.toLowerCase() === data.flag.toLowerCase());
