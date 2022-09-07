@@ -222,9 +222,9 @@ export default {
           tags: 'javascript'
         },
         {
-          name: 'Useless loading',
-          hint: 'We have to be careful when requesting information... sometime we ask for too much',
-          tags: 'network'
+          name: "Social Engineering",
+          hint: 'Networking is about knowing the right people to ask....',
+          tags: 'trivia'
         },
         {
           name: "Hello World!",
@@ -275,11 +275,6 @@ export default {
           name: "The PO's favorite",
           hint: 'Product owners loves it when you take your time and read the tasks.',
           tags: 'exploring'
-        },
-        {
-          name: "Social Engineering",
-          hint: 'Networking is about knowing the right people to ask....',
-          tags: 'trivia'
         },
       ]
     };
