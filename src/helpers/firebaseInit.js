@@ -30,7 +30,7 @@ let initFirebase = () => {
   functions = getFunctions(app);
 
   // Activate to test local functions
-  connectFunctionsEmulator(functions, "localhost", 5001);
+  // connectFunctionsEmulator(functions, "localhost", 5001);
 };
 
 export { initFirebase, app, db, auth, functions };
