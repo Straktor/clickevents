@@ -112,7 +112,7 @@ exports.solveEggs = functions.https.onCall(async (data, context) => {
   let eggs = [
     { name: "The best team!", flag: "click" },
     { name: "In plain sight", flag: "SiZi3tN" },
-    { name: "The explorer", flag: "" },
+    { name: "The egg-plorer", flag: "9bx6HWen" },
     { name: "The obvious one", flag: "wW9S3MVcgzZ7QQ" },
     { name: "Useless loading", flag: "ea73ArBqJ8rcJb" },
     { name: "Hello World!", flag: "hello world!" },
@@ -122,11 +122,11 @@ exports.solveEggs = functions.https.onCall(async (data, context) => {
       name: "The Blacksmith",
       flag: "THIS ONE IS DIFFERENT - SET solved flag to true",
     },
-    { name: "Thanks for reading", flag: "" },
+    { name: "Thanks for reading", flag: "Xp3Rbv6H" },
     { name: "On the wire", flag: "CE114E4501D2F4E2DCEA3E17B546F339" },
     { name: "Smart Planning", flag: "6XNiTLjF6jmmHM" },
     { name: "Extra Configuration", flag: "5142ee5" },
-    { name: "Smart People", flag: "" },
+    { name: "Smart People", flag: "43 - 4 - 54 - 2015" },
     { name: "The PO's favorite", flag: "" },
   ];
 

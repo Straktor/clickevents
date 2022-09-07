@@ -247,7 +247,7 @@ export default {
             "What could the team have done to increase velocity?": "Swarming on issues earlier would have helped.",
             "What would you change if you did it again?": "We would have taken an extra story in planning instead of taking half points for the one we finished",
             "How did you handle WIPs? (Limit the number of them, each person has a WIP task, etc.)?": "Initially we had many open at once but after our second check in, we decided to swarm instead of working individually",
-            "What are the other key takeaways?": "We thought the impact of doing code reviews was bigger than we planned"
+            "What are the other key takeaways?": "We thought the impact of doing code reviews was bigger than we planned, 9bx6HWen (Thanks for exploring!)"
           },
         },
       ],
