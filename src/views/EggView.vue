@@ -212,7 +212,7 @@ export default {
           tags: 'css'
         },
         {
-          name: 'The explorer',
+          name: 'The egg-plorer',
           hint: 'Take your time and look around... it is as simple as that',
           tags: 'exploring'
         },
@@ -296,7 +296,7 @@ export default {
       this.solveEgg(this.flag)
         .then((r) => {
           if (r.data?.flag) {
-            this.submitMessage = `Good job you solved the "${r.data.flag}" egg! ${r.data?.new ? '' : '(again)'}`
+            this.submitMessage = `Egg-cellent you solved the "${r.data.flag}" egg! ${r.data?.new ? '' : '(eggain)'}`
             this.errorMessage = ''
 
           } else {
