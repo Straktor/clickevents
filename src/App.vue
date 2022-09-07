@@ -35,12 +35,6 @@
         tooltip="Planning example"
       />
 
-      <NavLink
-        routeName="about"
-        icon="mdi-information"
-        tooltip="About the estimation is right"
-      />
-
       <AuthNav class="ml-3" />
 
       <v-img
