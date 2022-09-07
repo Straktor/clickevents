@@ -268,7 +268,7 @@ export default {
         },
         {
           name: "Smart People",
-          hint: '10001th prime number.',
+          hint: 'The age of the assistant to the taskmaster - the season of taskmaster that Noel Fielding won - the age of the taskmaster - the year taskmaster started',
           tags: 'trivia'
         },
         {

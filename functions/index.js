@@ -126,7 +126,7 @@ exports.solveEggs = functions.https.onCall(async (data, context) => {
     { name: "On the wire", flag: "CE114E4501D2F4E2DCEA3E17B546F339" },
     { name: "Smart Planning", flag: "6XNiTLjF6jmmHM" },
     { name: "Extra Configuration", flag: "5142ee5" },
-    { name: "Smart People", flag: "" },
+    { name: "Smart People", flag: "43 - 4 - 54 - 2015" },
     { name: "The PO's favorite", flag: "" },
   ];
 
