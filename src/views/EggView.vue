@@ -58,12 +58,12 @@
               hide-details
               append-icon="mdi-incognito"
               class="shrink px-4"
-              :disabled="!isUserPartOfTeam() || submitLoading"
+              :disabled="!isUserPartOfTeamOrAdmin() || submitLoading"
             />
             <v-btn
               class="cGreen--text pa-4"
               outlined
-              :disabled="!isUserPartOfTeam()"
+              :disabled="!isUserPartOfTeamOrAdmin()"
               :loading="submitLoading"
               @click="submit()"
             >
@@ -176,7 +176,7 @@
 <script>
 import { mapGetters, mapActions } from 'vuex'
 import TeamPanel from '@/components/TeamPanel'
-import { Egg } from '@/models/teamModel'
+import { Egg, Member } from '@/models/teamModel'
 
 export default {
   components: { TeamPanel },
@@ -284,6 +284,9 @@ export default {
     eggs () {
       return Egg.query().withAllRecursive().all()
     },
+    members () {
+      return Member.query().withAllRecursive().all()
+    },
   },
   methods: {
     ...mapActions(['solveEgg']),
@@ -306,18 +309,21 @@ export default {
           this.submitLoading = false
         })
     },
-    isUserPartOfTeam () {
+    isUserPartOfTeamOrAdmin () {
       if (!this.loggedInUser) {
         return false
       }
 
+      // Check if part of team
       for (const m of this.selectedTeam.members) {
         if (m?.email.toLowerCase() === this.loggedInUser.email.toLowerCase()) {
           return true
         }
       }
 
-      return false
+      // Check if admin
+      let member = this.members.find(m => m?.email.toLowerCase() === this.loggedInUser.email.toLowerCase())
+      return member?.role === 'admin'
     },
     getTeamEggs (teamId) {
       let teamEggs = this.eggs.filter(e => e.teamId === teamId)

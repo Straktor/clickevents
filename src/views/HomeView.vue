@@ -16,7 +16,7 @@
             v-for="(item, i) in getTeamEvents(selectedTeam.id)"
             :key="i"
             :item="item"
-            :editEnabled="!!loggedInUser && isUserPartOfTeam()"
+            :editEnabled="!!loggedInUser && isUserPartOfTeamOrAdmin()"
           />
         </v-timeline>
       </v-sheet>
@@ -35,7 +35,7 @@ import RulesCard from '@/components/RulesCard'
 import TeamPanel from '@/components/TeamPanel'
 
 
-import { Event } from '@/models/teamModel'
+import { Event, Member } from '@/models/teamModel'
 
 export default {
   name: "HomeView",
@@ -49,27 +49,33 @@ export default {
     events () {
       return Event.query().orderBy('createdAt').all()
     },
+    members () {
+      return Member.query().withAllRecursive().all()
+    },
   },
   mounted () { },
   methods: {
-    isUserPartOfTeam () {
+    isUserPartOfTeamOrAdmin () {
       if (!this.loggedInUser) {
         return false
       }
 
+      // Check if part of team
       for (const m of this.selectedTeam.members) {
         if (m?.email.toLowerCase() === this.loggedInUser.email.toLowerCase()) {
           return true
         }
       }
 
-      return false
+      // Check if admin
+      let member = this.members.find(m => m?.email.toLowerCase() === this.loggedInUser.email.toLowerCase())
+      return member?.role === 'admin'
     },
     getTeamEvents (teamId) {
       let teamEvents = this.events.filter(e => e.teamId === teamId)
 
       let events = []
-      if (this.isUserPartOfTeam()) {
+      if (this.isUserPartOfTeamOrAdmin()) {
         events.push({ type: "Add a new entry", values: {} })
       }
 
