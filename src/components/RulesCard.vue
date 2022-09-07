@@ -155,7 +155,7 @@ export default {
             },
             {
               time: "12:00",
-              label: "Deadline to sumbit points estimation",
+              label: "Deadline to submit points estimation",
               icon: "mdi-account-hard-hat",
               color: "cGreen",
             },

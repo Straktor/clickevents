@@ -243,7 +243,7 @@ export default {
         },
         {
           name: 'The Blacksmith',
-          hint: 'Blacksmiths are great a forging, maybe you should try it.',
+          hint: 'Blacksmiths are great at forging, maybe you should try it.',
           tags: 'network'
         },
         {
