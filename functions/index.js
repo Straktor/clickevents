@@ -23,15 +23,43 @@ let checkIfLoggedIn = (context) => {
   }
 };
 
-let checkIfPartOfTeamOrAdmin = (teamId, context) => {
-  // Get user and check if he is admin or part of the teamId
-  // if (!teamId) raise
-  // TODO: Raise an error if user is not part of the team of admin
+let checkIfPartOfTeamOrAdmin = async (teamId, context) => {
+  if (!teamId) {
+    throw new functions.https.HttpsError(
+      "permission-denied",
+      "TeamId not provided"
+    );
+  }
+
+  const email = context.auth.token.email || null;
+
+  const snapshot = await db
+    .collection("users")
+    .where("email", "==", email.toLowerCase())
+    .get();
+
+  if (snapshot.empty) {
+    throw new functions.https.HttpsError(
+      "permission-denied",
+      "User not recognized."
+    );
+  }
+
+  snapshot.forEach((doc) => {
+    let user = doc.data();
+
+    if (user?.role !== "admin" && user.teamId !== teamId) {
+      throw new functions.https.HttpsError(
+        "permission-denied",
+        "User needs to be part of the team or an admin."
+      );
+    }
+  });
 };
 
 exports.createEvent = functions.https.onCall(async (data, context) => {
   checkIfLoggedIn(context);
-  checkIfPartOfTeamOrAdmin(data.teamId, context);
+  await checkIfPartOfTeamOrAdmin(data.teamId, context);
 
   // {
   //  teamId: '869p8tFb1RZaWbjVc8m7',
@@ -50,7 +78,7 @@ exports.createEvent = functions.https.onCall(async (data, context) => {
 
 exports.updateEvent = functions.https.onCall(async (data, context) => {
   checkIfLoggedIn(context);
-  checkIfPartOfTeamOrAdmin(data.teamId, context);
+  await checkIfPartOfTeamOrAdmin(data.teamId, context);
 
   // {
   //   id: 'AKJSDFYH89F3423245',
@@ -73,7 +101,7 @@ exports.updateEvent = functions.https.onCall(async (data, context) => {
 
 exports.solveEggs = functions.https.onCall(async (data, context) => {
   checkIfLoggedIn(context);
-  checkIfPartOfTeamOrAdmin(data.teamId, context);
+  await checkIfPartOfTeamOrAdmin(data.teamId, context);
 
   // {
   //   teamId: "869p8tFb1RZaWbjVc8m7",
