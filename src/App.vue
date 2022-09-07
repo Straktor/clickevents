@@ -23,27 +23,26 @@
 
       <v-spacer />
 
-      <v-hover v-slot="{ hover }">
-        <v-btn
-          icon
-          :color="hover ? 'cYellow': 'white'"
-          @click="routeEgg()"
-        >
-          <v-icon>mdi-egg-easter</v-icon>
-        </v-btn>
-      </v-hover>
+      <NavLink
+        routeName="egg"
+        icon="mdi-egg-easter"
+        tooltip="Easter eggs"
+      />
 
-      <v-hover v-slot="{ hover }">
-        <v-btn
-          icon
-          :color="hover ? 'cYellow': 'white'"
-          @click="routeAbout()"
-        >
-          <v-icon>mdi-information</v-icon>
-        </v-btn>
-      </v-hover>
+      <NavLink
+        routeName="exampleTeam"
+        icon="mdi-account-box-multiple"
+        tooltip="Planning example"
+      />
 
       <AuthNav class="ml-3" />
+
+      <v-img
+        :src="require('./assets/backgroudImg.png')"
+        max-height="0"
+        max-width="0"
+        contain
+      />
     </v-app-bar>
     <v-main>
       <v-container :fluid="!$vuetify.breakpoint.xlOnly">
@@ -54,44 +53,111 @@
 </template>
 
 <script>
+import NavLink from '@/components/NavLink'
 import AuthNav from '@/components/AuthNav'
 
 import { initFirebase } from '@/helpers/firebaseInit.js'
+import { Team, Member, Event, Egg } from '@/models/teamModel'
+import { db } from '@/helpers/firebaseInit.js'
+
+import { collection, onSnapshot, query } from "firebase/firestore";
+
+import { mapActions } from 'vuex'
 
 export default {
   components: {
-    AuthNav
+    AuthNav,
+    NavLink
   },
   data: () => {
     return {
 
+      firstLoad: true,
+      firestoreUnsub: [],
     }
+  },
+  computed: {
+    teams () {
+      return Team.query().withAllRecursive().all()
+    },
   },
   created () {
     initFirebase()
   },
+  mounted () {
+    // Load data from Firebase and listen for changes
+    // Teams
+    let teamUnsub = onSnapshot(query(collection(db, "teams")), (docs) => {
+      let teams = [];
+      docs.forEach((doc) => {
+        // Set firebase id as vuex orm id
+        teams.push({ id: doc.id, ...doc.data() });
+      });
+
+      Team.insert({ data: teams })
+
+      if (this.firstLoad) {
+        // Set selected Team
+        this.setSelectTeam(this.getTeamFromName(this.$route.params?.name))
+        this.firstLoad = false
+      }
+    });
+
+    // Users
+    let userUnsub = onSnapshot(query(collection(db, "users")), (docs) => {
+      let users = [];
+      docs.forEach((doc) => {
+        // Set firebase id as vuex orm id
+        users.push({ id: doc.id, ...doc.data() });
+      });
+      Member.insert({ data: users })
+    });
+
+    // Events
+    let eventsUnsub = onSnapshot(query(collection(db, "events")), (docs) => {
+      let events = [];
+      docs.forEach((doc) => {
+        // Set firebase id as vuex orm id
+        let modifiedEvent = { id: doc.id, ...doc.data() }
+        modifiedEvent.createdAt = doc.data().createdAt.seconds * 1000
+        events.push(modifiedEvent);
+      });
+      Event.insert({ data: events })
+    });
+
+    // Events
+    let eggsUnsub = onSnapshot(query(collection(db, "eggs")), (docs) => {
+      let eggs = [];
+      docs.forEach((doc) => {
+        // Set firebase id as vuex orm id
+        let modifiedEgg = { id: doc.id, ...doc.data() }
+        modifiedEgg.createdAt = doc.data().createdAt.seconds * 1000
+        eggs.push(modifiedEgg);
+      });
+      Egg.insert({ data: eggs })
+    });
+
+    // Base64 YVJqU1doMW8yZWc2TGI=
+    this.firestoreUnsub = [teamUnsub, userUnsub, eventsUnsub, eggsUnsub]
+  },
+  destroyed () {
+    for (const unsub of this.firestoreUnsub) {
+      unsub()
+    }
+  },
   methods: {
+    ...mapActions(['setSelectTeam']),
+    getTeamFromName (teamName) {
+      return this.teams.find(t => t.name === teamName)
+    },
     routeHome () {
       if (this.$route?.name !== 'home') {
+        this.setSelectTeam(undefined)
         this.$router.push({
           name: "home",
         })
       }
     },
-    routeAbout () {
-      if (this.$route?.name !== 'about') {
-        this.$router.push({
-          name: "about",
-        })
-      }
-    },
-    routeEgg () {
-      if (this.$route?.name !== 'egg') {
-        this.$router.push({
-          name: "egg",
-        })
-      }
-    }
   }
 }
 </script>

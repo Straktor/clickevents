@@ -3,7 +3,7 @@
     <p>{{ field.label }}</p>
 
     <component
-      v-if="!(isProgressField && !readOnly)"
+      v-if="!(isProgressField && !readOnly) && !isCheckbox"
       :is="field.type"
       :value="internalValue"
       :placeholder="field.placeholder"
@@ -50,6 +50,13 @@
         {{ internalValue ? Math.ceil(internalValue) : 0 }}%
       </strong>
     </v-progress-linear>
+
+    <v-checkbox
+      v-if="isCheckbox"
+      dense
+      :disabled="readOnly"
+      v-model="internalValue"
+    />
   </v-col>
 </template>
 
@@ -103,6 +110,9 @@ export default {
     },
     isProgressField () {
       return VProgressLinear === this.field.type
+    },
+    isCheckbox () {
+      return VCheckbox === this.field.type
     },
   },
   methods: {

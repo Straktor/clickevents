@@ -16,14 +16,20 @@ const routes = [
     component: HomeView,
   },
   {
-    path: "/about",
-    name: "about",
+    path: "/exampleTeam",
+    name: "exampleTeam",
     component: () =>
-      import(/* webpackChunkName: "about" */ "../views/AboutView.vue"),
+      import(/* webpackChunkName: "about" */ "../views/ExampleTeamView.vue"),
   },
   {
     path: "/eggs",
     name: "egg",
+    component: () =>
+      import(/* webpackChunkName: "about" */ "../views/EggView.vue"),
+  },
+  {
+    path: "/eggs/team/:name",
+    name: "eggteams",
     component: () =>
       import(/* webpackChunkName: "about" */ "../views/EggView.vue"),
   },

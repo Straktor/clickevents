@@ -13,24 +13,25 @@
       </div>
       <div class="scoreCard">
         <img src="../assets/price_is_right_tag.png" />
-        <span :class="`scoreCard--text-${variant}`">{{ team.points }}</span>
+        <span :class="`scoreCard--text-${variant}`">{{ teamStats?.points}}</span>
       </div>
     </v-card-title>
     <v-card-text class="teamCard--content">
       <span class="teamName">{{ team.name }}</span><br>
       {{ team.members.map(m => m.name).join(', ') }}<br><br>
-      # of items completed {{ team.numItemsCompleted }}/{{ team.numItems }}<br>
-      # of points completed {{ team.pointsCompleted }}/{{ team.points }}<br>
-      # of code reviews completed {{ team.CRCompleted }}<br>
+      # of items completed {{ teamStats?.numItemsCompleted }}<br>
+      # of points completed {{ teamStats?.pointsCompleted }}<br>
+      # of code reviews completed {{ teamStats?.CRCompleted }}<br>
+      # of eggs found {{ teamStats?.numEggs }}<br>
 
       <v-progress-linear
         height="25"
-        :value="team.percentageCompleted"
+        :value="teamStats.percentageCompleted"
         color="cBlue darken-2"
         class="mt-2"
       >
         <strong class="white--text">
-          {{ team.percentageCompleted }}%
+          {{ teamStats.percentageCompleted ? Math.ceil(teamStats.percentageCompleted) : 0 }}%
         </strong>
       </v-progress-linear>
     </v-card-text>
@@ -42,6 +43,10 @@ export default {
   name: 'TeamCard',
   props: {
     team: {
+      type: Object,
+      default: () => { }
+    },
+    teamStats: {
       type: Object,
       default: () => { }
     },

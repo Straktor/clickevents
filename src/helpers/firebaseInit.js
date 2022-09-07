@@ -18,11 +18,11 @@ let initFirebase = () => {
     messagingSenderId: "594493136181",
     appId: "1:594493136181:web:0aa185142ee52d65e5c07c",
     measurementId: "G-GTC4NBW08C",
+    flag: "5142ee5",
   };
 
   app = initializeApp(firebaseConfig);
 
-  // TODO: Test analytics
   getAnalytics(app);
   db = getFirestore(app);
   auth = getAuth(app);

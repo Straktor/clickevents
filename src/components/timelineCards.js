@@ -92,6 +92,11 @@ let appreciationCard = TimelineCard.create({
       size: "s",
     }),
     Field.create({
+      label: "From",
+      placeholder: "Babette",
+      size: "s",
+    }),
+    Field.create({
       label: "Reason for points",
       type: VTextarea,
       placeholder: "Points for fixing the bug in production!",
@@ -116,8 +121,9 @@ let progessCard = TimelineCard.create({
       size: "s",
     }),
     Field.create({
-      label: "Confidence check",
-      placeholder: "AUTO-1001",
+      label: "Confidence level",
+      type: VRating,
+      placeholder: "4",
       size: "s",
     }),
     Field.create({
@@ -165,6 +171,7 @@ let stretchGoalCard = TimelineCard.create({
     }),
     Field.create({
       label: "Confidence level",
+      type: VRating,
       placeholder: "4",
       size: "s",
     }),

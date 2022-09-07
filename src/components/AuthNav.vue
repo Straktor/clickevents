@@ -1,7 +1,7 @@
 <template>
   <div class="authNav">
     <div
-      v-if="user"
+      v-if="loggedInUser"
       class="loggedIn"
     >
       <v-menu
@@ -15,13 +15,13 @@
           <v-img
             class="userIcon"
             width="40px"
-            :src="`https://avatars.dicebear.com/api/croodles-neutral/${user.email}.svg`"
+            :src="`https://avatars.dicebear.com/api/croodles-neutral/${loggedInUser.email}.svg`"
             v-on="on"
           />
         </template>
 
         <div class="userMenu">
-          <p class="userInfo">{{ user.email }}</p>
+          <p class="userInfo">{{ loggedInUser.email }}</p>
           <v-divider />
           <p
             class="logoutBtn"
@@ -96,13 +96,14 @@
 
             <span
               class="toggleLoginSignInText"
-              @click="loginDialogSelected = !loginDialogSelected"
+              @click="loginDialogSelected = !loginDialogSelected; errorMessage = ''"
             >
               {{ loginDialogSelected ? 'Sign Up': 'Log in'}}
             </span>
           </p>
         </v-card-text>
         <v-card-actions>
+          <span class="white--text">{{ errorMessage }}</span>
           <v-spacer />
           <v-btn
             class="white--text pa-4"
@@ -126,6 +127,8 @@
 </template>
 
 <script>
+import { mapActions, mapGetters } from 'vuex'
+
 import { auth } from '@/helpers/firebaseInit.js'
 import {
   createUserWithEmailAndPassword,
@@ -144,47 +147,52 @@ export default {
       password: '',
       dialog: false,
       loginDialogSelected: true,
-      user: undefined,
       showPassword: false,
+      errorMessage: '',
     }
   },
   mounted () {
     onAuthStateChanged(auth, (user) => {
-      if (user) this.user = user
-      else this.user = undefined
+      if (user) {
+        this.setLoggedInUser(user)
+      }
+      else {
+        this.setLoggedInUser(undefined)
+      }
     })
   },
   watch: {},
-  computed: {},
+  computed: {
+    ...mapGetters(['loggedInUser']),
+  },
   methods: {
+    ...mapActions(['setLoggedInUser']),
     close () {
       this.email = ''
       this.password = ''
       this.dialog = false
+      this.errorMessage = ''
     },
     actionBtn () {
       if (this.loginDialogSelected) this.login(this.email, this.password)
       else this.signup(this.email, this.password)
-
-      // TODO: Error handling with sign in
-      this.close()
     },
     signup (email, password) {
       createUserWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
-          console.log(userCredential)
+        .then(() => {
+          this.close()
         })
         .catch((error) => {
-          console.log(error)
+          this.errorMessage = error.message
         });
     },
     login (email, password) {
       signInWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
-          console.log(userCredential)
+        .then(() => {
+          this.close()
         })
         .catch((error) => {
-          console.log(error)
+          this.errorMessage = error.message
         });
     },
     logout () {
