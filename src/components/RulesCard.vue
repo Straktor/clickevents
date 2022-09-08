@@ -33,6 +33,7 @@
           <p class="bulletPoints">-> Send code reviews to other teams</p>
           <p class="bulletPoints">-> Stretch Goals are worth half the points</p>
           <p class="bulletPoints">-> There are plenty of easter eggs meant to waste your time</p>
+          <p class="bulletPoints">-> Use the #the-estimation-is-right slack channel</p>
         </div>
 
         <div class="selectTeamSection">

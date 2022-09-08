@@ -1,4 +1,5 @@
 const functions = require("firebase-functions");
+const axios = require("axios").default;
 
 const {
   initializeApp,
@@ -13,6 +14,82 @@ const {
 
 initializeApp();
 const db = getFirestore();
+
+let getDiceBearImg = (str, isTeam) => {
+  return `https://avatars.dicebear.com/api/${
+    isTeam ? "bottts" : "croodles-neutral"
+  }/${str}.png`;
+};
+
+let sendEventSlack = async (teamId, type, values, isNew, context) => {
+  const email = context.auth.token.email || null;
+
+  // Get team info
+  let doc = await db.collection("teams").doc(teamId).get();
+  let teamName = doc.data().name;
+
+  let v = [];
+  for (const k in values) {
+    v.push(`• *${k}*: ${values[k]}`);
+  }
+  let vStr = v.join("\n");
+
+  slackPayload = {
+    type: "section",
+    text: {
+      type: "mrkdwn",
+      text: `*${
+        isNew ? "New" : "Modified"
+      }: ${type}*\n*User: ${email}*\n*Team:* ${teamName}\n*Values:*\n${vStr}`,
+    },
+    accessory: {
+      type: "image",
+      image_url: getDiceBearImg(teamName, true),
+      alt_text: "Team thumbmail",
+    },
+  };
+
+  axios.post(
+    "https://hooks.slack.com/services/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",
+    {
+      blocks: [slackPayload],
+      icon_url: getDiceBearImg(email, false),
+      channel: "#the-estimation-is-right",
+    }
+  );
+};
+
+let sendEggSlack = async (teamId, payload, flag, context) => {
+  const email = context.auth.token.email || null;
+
+  // Get team info
+  let doc = await db.collection("teams").doc(teamId).get();
+  let teamName = doc.data().name;
+
+  slackPayload = {
+    type: "section",
+    text: {
+      type: "mrkdwn",
+      text: `*User: ${email}*\n*Team:* ${teamName}\n*Flag:* ${flag}\n*Payload:* ${JSON.stringify(
+        payload
+      )}`,
+    },
+    accessory: {
+      type: "image",
+      image_url: getDiceBearImg(teamName, true),
+      alt_text: "Team thumbmail",
+    },
+  };
+
+  axios.post(
+    "https://hooks.slack.com/services/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",
+    {
+      blocks: [slackPayload],
+      icon_url: getDiceBearImg(email, false),
+      channel: "#eggAttempts",
+    }
+  );
+};
 
 let checkIfLoggedIn = (context) => {
   if (!context.auth) {
@@ -74,6 +151,8 @@ exports.createEvent = functions.https.onCall(async (data, context) => {
     ...data,
     createdAt: FieldValue.serverTimestamp(),
   });
+
+  await sendEventSlack(data.teamId, data.type, data.values, true, context);
 });
 
 exports.updateEvent = functions.https.onCall(async (data, context) => {
@@ -97,6 +176,8 @@ exports.updateEvent = functions.https.onCall(async (data, context) => {
 
   const eventRef = db.collection("events").doc(docId);
   await eventRef.set(data, { merge: true });
+
+  await sendEventSlack(data.teamId, data.type, data.values, false, context);
 });
 
 exports.solveEggs = functions.https.onCall(async (data, context) => {
@@ -177,6 +258,8 @@ exports.solveEggs = functions.https.onCall(async (data, context) => {
     }
     flagFound = flagName;
   }
+
+  await sendEggSlack(data.teamId, data, data.flag, context);
 
   return {
     flag: flagFound,
