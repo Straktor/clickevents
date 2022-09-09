@@ -19,10 +19,11 @@
     <v-card-text class="teamCard--content">
       <span class="teamName">{{ team.name }}</span><br>
       {{ team.members.map(m => m.name).join(', ') }}<br><br>
-      # of items completed {{ teamStats?.numItemsCompleted }}<br>
-      # of points completed {{ teamStats?.pointsCompleted }}<br>
-      # of code reviews completed {{ teamStats?.CRCompleted }}<br>
-      # of eggs found {{ teamStats?.numEggs }}<br>
+      Items completed {{ teamStats?.numItemsCompleted }}<br>
+      Points completed {{ teamStats?.pointsCompleted }}<br>
+      Code reviews completed {{ teamStats?.CRCompleted }}<br>
+      Eggs found {{ teamStats?.numEggs }}<br>
+      Appreciation Points: {{ teamStats?.appPoints }}<br>
 
       <v-progress-linear
         height="25"

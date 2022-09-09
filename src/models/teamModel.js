@@ -99,6 +99,19 @@ class Team extends Model {
         progressReportEvents[0].values["Estimation Percentage completed"];
     }
 
+    // Get 'Appreciation Points'
+    let appPointsEvents = this.events.filter(
+      (e) => e.type === "Appreciation Points"
+    );
+    let appPoints = 0;
+    if (appPointsEvents) {
+      for (const tc of appPointsEvents) {
+        appPoints += tc?.values["# of points"]
+          ? parseInt(tc?.values["# of points"])
+          : 0;
+      }
+    }
+
     return {
       points: points,
       numItemsCompleted: taskCompletedEvents ? taskCompletedEvents.length : 0,
@@ -106,6 +119,7 @@ class Team extends Model {
       pointsCompleted: completedPoints,
       percentageCompleted: percentageCompleted,
       numEggs: this.eggs ? this.eggs.length : 0,
+      appPoints: appPoints,
     };
   }
 }

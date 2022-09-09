@@ -52,7 +52,7 @@ let estimationCard = TimelineCard.create({
     Field.create({
       label: "Comments",
       type: VTextarea,
-      placeholder: "Testing",
+      placeholder: "Useful comments",
       size: "lg",
     }),
   ],

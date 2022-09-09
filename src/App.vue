@@ -65,7 +65,7 @@ export default {
   },
   data: () => {
     return {
-
+      base64: 'YVJqU1doMW8yZWc2TGI=',
       firstLoad: true,
       firestoreUnsub: [],
     }
@@ -131,7 +131,6 @@ export default {
       Egg.insert({ data: eggs })
     });
 
-    // Base64 YVJqU1doMW8yZWc2TGI=
     this.firestoreUnsub = [teamUnsub, userUnsub, eventsUnsub, eggsUnsub]
   },
   destroyed () {

@@ -7,7 +7,33 @@
         rounded="lg"
         class="timelineContainer"
       >
+        <!-- TODO: Move to its own component -->
+        <div class="ma-0 pa-3 ml-8 my-6 warningCard">
+          <h3>
+            Select the types of card you want to view
+          </h3>
+          <v-row class="pa-3 selectCardTypeRow">
+            <v-col
+              v-for="(s, i) in showCards"
+              :key="i"
+              xl="3"
+              lg="4"
+              md="6"
+              sm="12"
+              class="py-0"
+            >
+              <v-switch
+                v-model="s.show"
+                :color="s.color"
+                :label="s.label"
+                hide-details
+                inset
+              />
+            </v-col>
+          </v-row>
+        </div>
         <h1 class="mainTitle ma-0 pa-0 ml-8">Planning of {{ selectedTeam.name }}</h1>
+
         <v-timeline
           dense
           class="pt-0"
@@ -42,6 +68,50 @@ export default {
   components: { TeamPanel, TimelineItem, RulesCard },
   data () {
     return {
+      // TODO: Move to its own component
+      showCards: [
+        {
+          label: 'Estimation',
+          color: "cGreen",
+          show: true
+        },
+        {
+          label: 'Task completed',
+          color: "cPink",
+          show: true
+        },
+        {
+          label: 'Progress Report',
+          color: "cYellow darken-2",
+          show: true
+        },
+        {
+          label: 'Code Review Completed',
+          color: "cPink",
+          show: true
+        },
+        {
+          label: 'New Stretch Goal',
+          color: "cGreen",
+          show: true
+        },
+
+        {
+          label: 'Team Check-in',
+          color: "cRed",
+          show: true
+        },
+        {
+          label: 'Appreciation Points',
+          color: "cPink",
+          show: true
+        },
+        {
+          label: "Retrospective Meeting",
+          color: "cOrange",
+          show: true
+        },
+      ]
     };
   },
   computed: {
@@ -74,6 +144,10 @@ export default {
     getTeamEvents (teamId) {
       let teamEvents = this.events.filter(e => e.teamId === teamId)
 
+
+      let cardsToShow = this.showCards.filter(c => c.show)
+      teamEvents = teamEvents.filter(e => cardsToShow.map(c => c.label).includes(e.type))
+
       let events = []
       if (this.isUserPartOfTeamOrAdmin()) {
         events.push({ type: "Add a new entry", values: {} })
@@ -90,6 +164,19 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.warningCard {
+  border-left: 1em solid var(--v-cOrange-base);
+  border-right: 1em solid var(--v-cOrange-base);
+  border-radius: 0.5em;
+
+  background-color: var(--v-cOrange-lighten5);
+
+  h3 {
+    font-size: 18px;
+    text-align: center;
+  }
+}
+
 .timelineContainer {
   background-color: transparent;
   text-align: left;
@@ -127,5 +214,9 @@ export default {
 .v-card__title {
   font-size: 25px;
   font-family: pricedown;
+}
+
+.selectCardTypeRow {
+  align-items: center;
 }
 </style>

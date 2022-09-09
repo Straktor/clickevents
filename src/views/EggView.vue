@@ -186,6 +186,7 @@ export default {
       submitLoading: false,
       submitMessage: '',
       errorMessage: '',
+      theObviousOne: 'The obvious one - password - flag - egg - easter (wW9S3MVcgzZ7QQ)',
       icons: {
         css: 'mdi-language-css3',
         exploring: 'mdi-compass',
@@ -330,7 +331,6 @@ export default {
       return teamEggs ? teamEggs : []
     },
     getEggByName (eggName) {
-      // The obvious one - password - flag - egg - easter (wW9S3MVcgzZ7QQ)
       return this.getTeamEggs(this.selectedTeam.id).find(e => e.name === eggName)
     },
   }
